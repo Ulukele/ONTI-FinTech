@@ -6,8 +6,8 @@ from eth_account import Account
 
 def GetPerson():
     with open('person.json') as file:
-    	infor = json.load(file)
-        return infor['id']
+        infor = json.load(file)
+        return (infor['id'])
 
 def HashIt(ident, pin):
     ident = (ident[:8] + ident[9:13] + ident[14:18] + ident[19:23] + ident[24:])
