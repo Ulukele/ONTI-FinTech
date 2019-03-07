@@ -8,7 +8,7 @@ from web3 import Web3, HTTPProvider, IPCProvider, WebsocketProvider
 from py_ecc import secp256k1
 
 def GetPerson():
-    with open('network.json') as file:
+    with open('person.json') as file:
     	infor = json.load(file)
         return infor['id']
 
