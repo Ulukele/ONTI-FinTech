@@ -4,9 +4,35 @@
 #print("Show must go on")
 
 from eth_account import Account
+from web3 import Web3, HTTPProvider, IPCProvider, WebsocketProvider
+from py_ecc import secp256k1
+
+def GetPerson():
+    with open('network.json') as file:
+    	infor = json.load(file)
+        return infor['id']
+
+def HashIt(ident, pin):
+    ident = (ident[:8] + ident[9:13] + ident[14:18] + ident[19:23] + ident[24:])
+
+    pin = str(pin)
+    pin = [('0'+pin[0]), ('0'+pin[1]), ('0'+pin[2]), ('0'+pin[3])]
+
+    #Calculate privateKey
+    data = b''
+    for i in range(4):
+        data = (w3.sha3(data).hex())[2:]
+        data = data + ident + pin[i]
+        #print(i, data)
+        data = bytes.fromhex(data)
+    data = (w3.sha3(data).hex())[2:]
+    privateKey = data
+    return privateKey
 
 def HashCodeWithPinCodeAndPerson(PINcode):
-    emptyness = True# yet
+    personInfo = GetPerson()
+    key = HashIt(GetPerson, PINcode)
+    return key
 
 def BalanceAll(balance):
     currency = ["wei", "kwei", "mwei", "gwei", "szabo", "finney", "poa"]
