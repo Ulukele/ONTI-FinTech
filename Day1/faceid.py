@@ -3,7 +3,8 @@ import sys
 import json
 from eth_account import Account
 from web3 import Web3, HTTPProvider
-from eth_hash.auto import keccak
+import sha3
+
 
 def GetPerson():
     try:
@@ -13,7 +14,7 @@ def GetPerson():
     except:
         return None
 
-def HashIt(ident, pin):
+def HashFunc(ident, pin):
     ident = (ident[:8] + ident[9:13] + ident[14:18] + ident[19:23] + ident[24:])
 
     pin = str(pin)
@@ -22,10 +23,10 @@ def HashIt(ident, pin):
     #Calculate privateKey
     data = b''
     for i in range(4):
-        data = (keccak(data).hex())[2:]
+        data = sha3.keccak_256(data).hexdigest()
         data = data + ident + pin[i]
         data = bytes.fromhex(data)
-    data = (keccak(data).hex())[2:]
+    data = sha3.keccak_256(data).hexdigest()
     privateKey = data
     return privateKey
 
@@ -33,7 +34,7 @@ def HashCodeWithPinCodeAndPerson(PINcode):
     personInfo = GetPerson()
     if personInfo == None:
         return None
-    key = HashIt(personInfo, PINcode)
+    key = HashFunc(personInfo, PINcode)
     return key
 
 def BalanceAll(balance):
@@ -67,8 +68,14 @@ def PrintBalance(privateKey):
 args = (sys.argv)[1:]
 sizeM = len(args)
 
+with open('network.json') as file:
+    infor = json.load(file)
+    privateKey = infor["privKey"]
+    RecURL = infor["rpcUrl"]
+    GasURL = infor["gasPriceUrl"]
+    defGas = infor["defaultGasPrice"]
 
-web3 = Web3(HTTPProvider("https://sokol.poa.network"))
+web3 = Web3(HTTPProvider(RecURL))
 
 if args[0] == "--balance":
     if sizeM == 2:
