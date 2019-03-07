@@ -51,7 +51,7 @@ def GetAdress(privateKey):
 
 def PrintBalance(privateKey):
     adress = GetAdress(privateKey)
-    balance = BalanceAll(web3.eth.getBalance(adress))
+    balance = BalanceAll(web3.eth.getBalance(adress.address))
     print("Your balance is {} {}".format(balance[0], balance[1]))
 
 args = (sys.argv)[1:]
