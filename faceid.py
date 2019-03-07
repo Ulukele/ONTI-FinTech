@@ -5,6 +5,9 @@
 
 from eth_account import Account
 
+def HashCodeWithPinCodeAndPerson(PINcode):
+    emptyness = True# yet
+
 def BalanceAll(balance):
     currency = ["wei", "kwei", "mwei", "gwei", "szabo", "finney", "poa"]
     ind = 0
@@ -33,4 +36,6 @@ sizeM = len(args)
 
 if args[0] == "--balance":
     if sizeM == 2:
-        PrintBalance(args[1])
+        PINcode = arg[1]
+        Key = HashCodeWithPinCodeAndPerson(PINcode)
+        PrintBalance(Key)
