@@ -12,7 +12,7 @@ def GetAdres(privateKey):
     return adress
 
 def GetGas(URL):
-    f = urllib.request.urlopen(URL)
+    f = urllib.request.urlopen(str(URL))
     gasinfo = json.loads(f.read().decode('utf-8'))['fast']
     return int(gasinfo * 1000000000)
 
@@ -43,21 +43,13 @@ with open('Payment_HandlerABI.txt') as file:
     abiPayH = json.loads(abiPayH)
 
 with open('network.json') as file:
-<<<<<<< Updated upstream
     infor = json.load(file)
     privateKey = infor["privKey"]
     RecURL = infor["rpcUrl"]
     GasURL = infor["gasPriceUrl"]
     defGas = infor["defaultGasPrice"]
-=======
-    info = json.load(file)
-    privKey = info['privKey']
-    RecURL = info['rpcUrl']
-    GasURL = info['gasPriceUrl']
-    defGas = info['defaultGasPrices']
->>>>>>> Stashed changes
 
-adres = GetAdres(privKey)
+adres = GetAdres(privateKey)
 
 web3 = Web3(HTTPProvider(RecURL))
 
