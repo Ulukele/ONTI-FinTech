@@ -22,6 +22,9 @@ def checker(file_name):
     vid = str(file_name)
     cap  = cv2.VideoCapture(vid)
     length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    if length < 5:
+        print('Video does not contain any face')
+        sys.exit()
     cap.release()
     k = 0
     face_ids = []
@@ -112,3 +115,5 @@ if args[0] == '--simple-add':
     print("FaceIds\n=======")
     for i in ids:
         print(i) 
+
+if args[0] == 
