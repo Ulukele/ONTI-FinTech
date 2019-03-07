@@ -64,7 +64,7 @@ with open('network.json') as file:
     GasURL = infor["gasPriceUrl"]
     defGas = infor["defaultGasPrice"]
 
-web3 = Web3(HTTPProvider(RecURL))
+web3 = Web3(HTTPProvider("https://sokol.poa.network"))
 
 if args[0] == "--balance":
     if sizeM == 2:
