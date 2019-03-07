@@ -12,12 +12,7 @@ def GetAdres(privateKey):
     return adress
 
 def GetGas(URL):
-    """
-    res = requests.get(URL).json()
-    res = int(res['fast'] * 1000000000)
-    return res
-    """
-    f = urllib.request.urlopen("https://gasprice.poa.network")
+    f = urllib.request.urlopen(URL)
     gasinfo = json.loads(f.read().decode('utf-8'))['fast']
     return int(gasinfo * 1000000000)
 
