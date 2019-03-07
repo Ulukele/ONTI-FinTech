@@ -18,6 +18,13 @@ def add_new_person(group, name):
     user_id = cf.person.create(group, name)
     return user_id
 
+def train(group):
+    cf.person_group.train(group)
+
+def train_status(group):
+    status = cf.person_group.get_status(group)
+    return status
+
 def checker(file_name):
     vid = str(file_name)
     cap  = cv2.VideoCapture(vid)
@@ -56,7 +63,6 @@ def checker(file_name):
         else:
             k+=1
     return True
-
 
 def recognize(file_name, group, user_id):
     vid = str(file_name)
@@ -97,11 +103,19 @@ def recognize(file_name, group, user_id):
             cap.release()
     return face_ids
 
+def delete_person(group, person_id):
+    cf.person.delete(group, name)
+
+def list_of_users(group):
+    list_of_users = cf.person.lists(group)
+    return list_of_users
+
 args = (sys.argv)[1:]
 datetime_object = datetime.datetime.now()
 name = hash(datetime_object)
 
 if args[0] == '--simple-add':
+    status = train_status(group)
     file_name = args[1]
     checker(file_name)
     try:
@@ -116,4 +130,14 @@ if args[0] == '--simple-add':
     for i in ids:
         print(i) 
 
-if args[0] == 
+if args[0] == '--train':
+    train(group)
+    status = train_status(group)
+    #print('Training task for {} persons started'.format())
+if args[0] == '--del':
+    person_id = args[1]
+    delete_person(group, person_id)
+    print('Person with id {} deleted'.format(person_id))
+if args[0] == '--list':
+    users_list = list_of_users(group)
+    print(users_list)
