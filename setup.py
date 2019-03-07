@@ -12,6 +12,10 @@ def GetAdres(privateKey):
 def DeployContract(abi, byte, person):
     emptiness = True# yet
 
+def GetGas(URL):
+    res = requests.get(url).json()
+    return res['fast']
+
 
 args = (sys.argv)[1:]
 
@@ -25,16 +29,20 @@ with open('Payment_HandlerABI.txt') as file:
     abiPayH = file.read()
 
 with open('network.json') as file:
-	info = json.load(file)
-    privKey = info['privKey']
-    RecURL = info['rpcUrl']
-    GasURL = info['gasPriceUrl']
-    defGas = info['defaultGasPrices']
+	infor = json.load(file)
+    privateKey = infor['privKey']
+    RecURL = infor['rpcUrl']
+    GasURL = infor['gasPriceUrl']
+    defGas = infor['defaultGasPrices']
 
 adres = GetAdres(privateKey)
 
-if args[0] =='--deploy':
-    DeployContract(abiKYC, byteKYC)
+web3 = Web3(HTTPProvider(RecURL))
 
+
+if args[0] =='--deploy':
+    DeployContract(abiKYC, byteKYC, adres)
+
+print(GetGas(GasURL))
 ### Put your code below this comment ###
 #print("Show must go on")
