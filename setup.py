@@ -2,7 +2,8 @@
 from web3 import Web3, HTTPProvider
 import json
 import sys
-import requests
+#import requests
+import urllib
 from eth_account import Account
 
 
@@ -11,9 +12,14 @@ def GetAdres(privateKey):
     return adress
 
 def GetGas(URL):
+    """
     res = requests.get(URL).json()
     res = int(res['fast'] * 1000000000)
     return res
+    """
+    f = urllib.request.urlopen("https://gasprice.poa.network")
+    gasinfo = json.loads(f.read().decode('utf-8'))['fast']
+    return int(gasinfo * 1000000000)
 
 def DeployContract(abi, byte, person, GasURL):
     contract = web3.eth.contract(abi=abi, bytecode=byte)
