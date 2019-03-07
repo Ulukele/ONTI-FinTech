@@ -61,7 +61,7 @@ def recognize(fileName, group, name):
             except:
                 pass
             ID = add_new_person(group, name)
-            persisted_face_id = cf.person.add_face(path, group, ID)
+            persisted_face_id = cf.person.add_face(path, group, ID['personId'])
             face_ids.append(persisted_face_id['persistedFaceId'])
             k += 1
             cap.release()

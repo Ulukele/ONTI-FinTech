@@ -42,13 +42,21 @@ with open('Payment_HandlerABI.txt') as file:
     abiPayH = json.loads(abiPayH)
 
 with open('network.json') as file:
+<<<<<<< Updated upstream
     infor = json.load(file)
     privateKey = infor["privKey"]
     RecURL = infor["rpcUrl"]
     GasURL = infor["gasPriceUrl"]
     defGas = infor["defaultGasPrice"]
+=======
+    info = json.load(file)
+    privKey = info['privKey']
+    RecURL = info['rpcUrl']
+    GasURL = info['gasPriceUrl']
+    defGas = info['defaultGasPrices']
+>>>>>>> Stashed changes
 
-adres = GetAdres(privateKey)
+adres = GetAdres(privKey)
 
 web3 = Web3(HTTPProvider(RecURL))
 

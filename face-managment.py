@@ -20,11 +20,17 @@ try:
 except:
     pass
 
-def add_new_person(group, name):
-    user_id = cf.large_person_group_person.create(group, name)
-    return user_id
+def list_persons(group):
+    list_info = cf.person.lists(group)
+    return list_info
 
-def recognize(fileName, group, user_id):
+def add_new_person(group):
+    cf.person_group.create(group)
+
+def train_group(group):
+    cf.person_group.train(group)
+
+def recognize(fileName, group, name):
     vid = str(fileName)
     cap  = cv2.VideoCapture(vid)
     length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -57,7 +63,7 @@ def recognize(fileName, group, user_id):
             print('Video does not contain any face')
             sys.exit()
         else:
-            persisted_face_id = cf.large_person_group_person_face.add(path, group, user_id['personId'])
+            persisted_face_id = cf.person.add_face(path, group, name)
             face_ids.append(persisted_face_id['persistedFaceId'])
             k += 1
             cap.release()
@@ -68,12 +74,15 @@ datetime_object = datetime.datetime.now()
 name = hash(datetime_object)
 
 if args[0] == '--simple-add':
-    user_id = add_new_person(group, name)
+    add_new_person(group)
     file_name = args[1]
-    ids = recognize(file_name, group, user_id)
+    ids = recognize(file_name, group, )
     print("5 frames extracted")
     print("PersonId:", user_id['personId'])
     print("FaceIds\n=======")
     for i in ids:
         print(i)
+if args[0] == "--list":
+    list_info = list_persons(group)
+    print(list_info)
 
