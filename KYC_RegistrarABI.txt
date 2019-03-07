@@ -1,0 +1,20 @@
+[
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_number",
+				"type": "uint256"
+			},
+			{
+				"name": "_person",
+				"type": "address"
+			}
+		],
+		"name": "AddNumber",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
