@@ -2,8 +2,7 @@
 from web3 import Web3, HTTPProvider
 import json
 import sys
-#import requests
-import urllib
+import requests
 from eth_account import Account
 
 
@@ -11,9 +10,12 @@ def GetAdres(privateKey):
     adress = Account.privateKeyToAccount("0x"+privateKey)
     return adress
 
-def GetGas(URL):
-    f = urllib.request.urlopen(str(URL))
-    gasinfo = json.loads(f.read().decode('utf-8'))['fast']
+def GetGas(URL, defGas):
+    try:
+        response = requests.get(URL).text
+        gasinfo = json.loads(response)['fast']
+    except:
+        return defGas
     return int(gasinfo * 1000000000)
 
 def DeployContract(abi, byte, person, GasURL):
@@ -21,7 +23,7 @@ def DeployContract(abi, byte, person, GasURL):
     SignedTX = contract.constructor().buildTransaction({
     'from': person.address,
     'nonce': web3.eth.getTransactionCount(person.address),
-    'gasPrice': GetGas(GasURL)
+    'gasPrice': GetGas(GasURL,defGas)
     })
     SignedTX = person.signTransaction(SignedTX)
     RawTX = web3.eth.sendRawTransaction(SignedTX.rawTransaction)
