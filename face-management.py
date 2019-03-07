@@ -1,4 +1,4 @@
-import cognitive_face as cf 
+import cognitive_face as cf
 import json
 from json import load
 import cv2
@@ -114,6 +114,4 @@ if args[0] == '--simple-add':
     print("PersonId:", user_id['personId'])
     print("FaceIds\n=======")
     for i in ids:
-        print(i) 
-
-if args[0] == 
+        print(i)
