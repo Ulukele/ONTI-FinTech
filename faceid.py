@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-
+import sys
+import json
 from eth_account import Account
 from web3 import Web3, HTTPProvider
 from eth_account import Account
@@ -18,7 +19,7 @@ def HashIt(ident, pin):
     #Calculate privateKey
     data = b''
     for i in range(4):
-        data = (w3.sha3(data).hex())[2:]
+        data = (web3.sha3(data).hex())[2:]
         data = data + ident + pin[i]
         data = bytes.fromhex(data)
     data = (web3.sha3(data).hex())[2:]
@@ -67,6 +68,6 @@ web3 = Web3(HTTPProvider(RecURL))
 
 if args[0] == "--balance":
     if sizeM == 2:
-        PINcode = arg[1]
+        PINcode = args[1]
         Key = HashCodeWithPinCodeAndPerson(PINcode)
         PrintBalance(Key)
