@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 
-### Put your code below this comment ###
-#print("Show must go on")
-
 from eth_account import Account
-from web3 import Web3, HTTPProvider, IPCProvider, WebsocketProvider
+from web3 import Web3, HTTPProvider
 from py_ecc import secp256k1
 
 def GetPerson():
@@ -23,15 +20,14 @@ def HashIt(ident, pin):
     for i in range(4):
         data = (w3.sha3(data).hex())[2:]
         data = data + ident + pin[i]
-        #print(i, data)
         data = bytes.fromhex(data)
-    data = (w3.sha3(data).hex())[2:]
+    data = (web3.sha3(data).hex())[2:]
     privateKey = data
     return privateKey
 
 def HashCodeWithPinCodeAndPerson(PINcode):
     personInfo = GetPerson()
-    key = HashIt(GetPerson, PINcode)
+    key = HashIt(personInfo, PINcode)
     return key
 
 def BalanceAll(balance):
@@ -55,10 +51,19 @@ def IGetAdress(privateKey):
 def PrintBalance(privateKey):
     adress = IGetAdress(privateKey)
     balance = BalanceAll(web3.eth.getBalance(adress))
-    print("Balance on {0} is {1} {2}".format('"'+ adress[2:] +'"', balance[0], balance[1]))
+    print("Your balance is {} {}".format(balance[0], balance[1]))
 
 args = (sys.argv)[1:]
 sizeM = len(args)
+
+with open('network.json') as file:
+    infor = json.load(file)
+    privateKey = infor["privKey"]
+    RecURL = infor["rpcUrl"]
+    GasURL = infor["gasPriceUrl"]
+    defGas = infor["defaultGasPrice"]
+
+web3 = Web3(HTTPProvider(RecURL))
 
 if args[0] == "--balance":
     if sizeM == 2:
