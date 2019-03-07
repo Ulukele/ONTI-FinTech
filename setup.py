@@ -9,9 +9,9 @@ def GetAdres(privateKey):
     adress = Account.privateKeyToAccount("0x"+privateKey)
     return adress
 
-def DeployContract(abi, byte, person){
+def DeployContract(abi, byte, person):
+    emptiness = True# yet
 
-}
 
 args = (sys.argv)[1:]
 
