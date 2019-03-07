@@ -3,7 +3,7 @@ import sys
 import json
 from eth_account import Account
 from web3 import Web3, HTTPProvider
-from eth_account import Account
+from eth_hash.auto import keccak
 
 def GetPerson():
     try:
@@ -22,10 +22,10 @@ def HashIt(ident, pin):
     #Calculate privateKey
     data = b''
     for i in range(4):
-        data = (web3.sha3(data).hex())[2:]
+        data = (keccak(data).hex())[2:]
         data = data + ident + pin[i]
         data = bytes.fromhex(data)
-    data = (web3.sha3(data).hex())[2:]
+    data = (keccak(data).hex())[2:]
     privateKey = data
     return privateKey
 
