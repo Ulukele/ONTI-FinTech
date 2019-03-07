@@ -59,7 +59,7 @@ if args[0] =='--deploy':
     print("KYC Registrar:", TX1['contractAddress'])
     print("Payment Handler:", TX2['contractAddress'])
     with open('registrar.json', 'w') as file:
-        file.write(json.dumps({"registrar": {"address": TX1['contractAddress'], "startBlock": TX1['blockNumber']}, "payment": {"address": TX2['contractAddress'], "startBlock": TX2['blockNumber']}}))
+        file.write(json.dumps({"registrar": {"address": TX1['contractAddress'], "startBlock": TX1['blockNumber']}, "payments": {"address": TX2['contractAddress'], "startBlock": TX2['blockNumber']}}))
 
 
 
