@@ -26,7 +26,7 @@ def DeployContract(abi, byte, person, GasURL):
     RawTX = web3.eth.sendRawTransaction(SignedTX.rawTransaction)
     TX = web3.eth.waitForTransactionReceipt(RawTX)
 
-    return TX['status']
+    return TX
 
 args = (sys.argv)[1:]
 
@@ -36,9 +36,10 @@ with open('KYC_RegistrarABI.txt') as file:
     abiKYC = file.read()
     abiKYC = json.loads(abiKYC)
 with open('Payment_HandlerByte.txt') as file:
-    bytePayH = file.read()
+    bytePayH = str(file.read())[:-1]
 with open('Payment_HandlerABI.txt') as file:
     abiPayH = file.read()
+    abiPayH = json.loads(abiPayH)
 
 with open('network.json') as file:
     infor = json.load(file)
@@ -53,7 +54,12 @@ web3 = Web3(HTTPProvider(RecURL))
 
 
 if args[0] =='--deploy':
-    print(DeployContract(abiKYC, byteKYC, adres, GasURL))
+    TX1 = DeployContract(abiKYC, byteKYC, adres, GasURL)
+    TX2 = DeployContract(abiPayH, bytePayH, adres, GasURL)
+    with open('registrar.json', 'w') as file:
+        file.write(json.dumps({"registrar": {"address": TX1['contractAddress'], "startBlock": TX1['blockNumber']}, "payment": {"address": TX2['contractAddress'], "startBlock": TX2['blockNumber']}}))
+
+
 
 ### Put your code below this comment ###
 #print("Show must go on")
