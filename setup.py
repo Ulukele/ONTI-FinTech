@@ -2,7 +2,8 @@
 from web3 import Web3, HTTPProvider
 import json
 import sys
-import requests
+#import requests
+import urllib
 from eth_account import Account
 
 
@@ -11,9 +12,9 @@ def GetAdres(privateKey):
     return adress
 
 def GetGas(URL):
-    res = requests.get(URL).json()
-    res = int(res['fast'] * 1000000000)
-    return res
+    f = urllib.request.urlopen(URL)
+    gasinfo = json.loads(f.read().decode('utf-8'))['fast']
+    return int(gasinfo * 1000000000)
 
 def DeployContract(abi, byte, person, GasURL):
     contract = web3.eth.contract(abi=abi, bytecode=byte)
@@ -67,7 +68,7 @@ if args[0] =='--deploy':
     print("KYC Registrar:", TX1['contractAddress'])
     print("Payment Handler:", TX2['contractAddress'])
     with open('registrar.json', 'w') as file:
-        file.write(json.dumps({"registrar": {"address": TX1['contractAddress'], "startBlock": TX1['blockNumber']}, "payment": {"address": TX2['contractAddress'], "startBlock": TX2['blockNumber']}}))
+        file.write(json.dumps({"registrar": {"address": TX1['contractAddress'], "startBlock": TX1['blockNumber']}, "payments": {"address": TX2['contractAddress'], "startBlock": TX2['blockNumber']}}))
 
 
 

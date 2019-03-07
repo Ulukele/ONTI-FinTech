@@ -2,12 +2,12 @@
 
 from eth_account import Account
 from web3 import Web3, HTTPProvider
-from py_ecc import secp256k1
+from eth_account import Account
 
 def GetPerson():
     with open('person.json') as file:
-    	infor = json.load(file)
-        return infor['id']
+        infor = json.load(file)
+        return (infor['id'])
 
 def HashIt(ident, pin):
     ident = (ident[:8] + ident[9:13] + ident[14:18] + ident[19:23] + ident[24:])
@@ -44,12 +44,12 @@ def BalanceAll(balance):
         balance = balance[:-2]
     return (balance, currency[ind])
 
-def IGetAdress(privateKey):
+def GetAdress(privateKey):
     adress = Account.privateKeyToAccount("0x"+privateKey)
     return adress
 
 def PrintBalance(privateKey):
-    adress = IGetAdress(privateKey)
+    adress = GetAdress(privateKey)
     balance = BalanceAll(web3.eth.getBalance(adress))
     print("Your balance is {} {}".format(balance[0], balance[1]))
 
