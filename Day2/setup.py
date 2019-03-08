@@ -59,8 +59,10 @@ adres = GetAdres(privateKey)
 
 web3 = Web3(HTTPProvider(RecURL))
 
+def GetOwner():
+    print("w")
 
-if args[0] =='--deploy':
+if args[0] == '--deploy':
     TX1 = DeployContract(abiKYC, byteKYC, adres, GasURL)
     TX2 = DeployContract(abiPayH, bytePayH, adres, GasURL)
     print("KYC Registrar:", TX1['contractAddress'])
@@ -68,6 +70,8 @@ if args[0] =='--deploy':
     with open('registrar.json', 'w') as file:
         file.write(json.dumps({"registrar": {"address": TX1['contractAddress'], "startBlock": TX1['blockNumber']}, "payments": {"address": TX2['contractAddress'], "startBlock": TX2['blockNumber']}}))
 
+if args[0] == '--ownder' and args[1] == 'registrar':
+    print(GetOwner())
 
 
 ### Put your code below this comment ###
