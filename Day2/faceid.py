@@ -216,3 +216,60 @@ if args[0] == '--del':
             print("Unregistration request already sent")
         if TX['status'] == 1:
             print("Unregistration request sent by", TX['transactionHash'].hex())
+
+
+
+# US-017:
+
+def checkNumber(phoneNum):
+    phoneNum = str(phoneNum)
+    if(phoneNum[0] == '+' and len(phoneNum) == 12):
+        for i in range(1, 12):
+            if(phoneNum[i] < '0' and phoneNum[i] > '9'):
+                return False
+        return True
+    else:
+        return False
+    return True
+
+def GetAddressWithPhone(phoneNum):
+        contract_by_address = web3.eth.contract(address = GetContractAddress(), abi = abiKYC)
+        return contract_by_address.functions.GetAddress(phoneNum).call()
+
+def Transaction(privateKey, adres2, val):
+    adres1 = GetAdres(privateKey)
+    adres2 = web3.toChecksumAddress("0x"+adres2)
+
+    nonce = 0
+    nonce = web3.eth.getTransactionCount(adres1)
+
+    transaction = {'to': adres2, 'value': val, 'gas': 8000000, 'gasPrice': GetGas(GasURL, defGas), 'nonce': nonce}
+    signed = web3.eth.account.signTransaction(transaction, "0x"+privateKey)
+
+    TransactionHex = web3.eth.sendRawTransaction(signed.rawTransaction).hex()
+    balance = BalanceAll(val)
+    print("Payment of {0} {1} to {2} scheduled".format(balance[0], balance[1], '"'+web3.toChecksumAddress(adres2NCS)[2:]+'"'))
+    print("Transaction Hash: {0}".format(TransactionHex))
+
+def sendFunds(pinCode, phoneNum, value):
+    addressFrom = GenerateKey(pinCode)
+    if(! web3.eth.getBalance(adress.address) > value):
+        print("No funds to send the payment")
+        return False
+    if(! checkNumber(phoneNum)):
+        print("Incorrect phone number")
+        return False
+    address2 = GetAddressWithPhone(phoneNum)
+    if(len(address2) == 0):
+        print("No account with the phone number", phoneNum)
+        return False
+    Transaction(addressFrom, address2, value)
+
+
+if args[0] == "--send" and len(args) == 4: # <pin code> <phone number> <value>
+    pinCode = str(args[1])
+    phoneNum = str(args[2])
+    value = str(args[3])
+    sendFunds(pinCode, phoneNum, value)
+
+# US-017 END
