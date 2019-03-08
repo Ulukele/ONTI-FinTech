@@ -98,7 +98,7 @@ def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
     except:
         return {'status': -3}
 
-    status = contract_by_address.functions.GetPersonInfo(person.address).call()
+    (status, requestedNum) = contract_by_address.functions.GetPersonInfo(person.address).call()
 
     if status:
         return {'status': -1}
