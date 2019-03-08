@@ -254,10 +254,10 @@ def Transaction(privateKey, adres2, val):
 
 def sendFunds(pinCode, phoneNum, value):
     addressFrom = GenerateKey(pinCode)
-    if(! web3.eth.getBalance(adress.address) > value):
+    if(not web3.eth.getBalance(adress.address) > value):
         print("No funds to send the payment")
         return False
-    if(! checkNumber(phoneNum)):
+    if(not checkNumber(phoneNum)):
         print("Incorrect phone number")
         return False
     address2 = GetAddressWithPhone(phoneNum)
