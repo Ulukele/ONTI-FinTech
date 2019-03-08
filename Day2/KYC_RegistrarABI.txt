@@ -1,20 +1,6 @@
 [
 	{
 		"constant": false,
-		"inputs": [
-			{
-				"name": "_number",
-				"type": "uint256"
-			}
-		],
-		"name": "RequestAddNumber",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
 		"inputs": [],
 		"name": "GetOwner",
 		"outputs": [
@@ -33,6 +19,10 @@
 			{
 				"name": "_person",
 				"type": "address"
+			},
+			{
+				"name": "_sender",
+				"type": "address"
 			}
 		],
 		"name": "RedactOwner",
@@ -42,6 +32,39 @@
 				"type": "bool"
 			}
 		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_person",
+				"type": "address"
+			}
+		],
+		"name": "GetPersonInfo",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_number",
+				"type": "string"
+			}
+		],
+		"name": "RequestAddNumber",
+		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
