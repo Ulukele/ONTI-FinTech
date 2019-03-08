@@ -34,12 +34,16 @@ def DeployContract(abi, byte, person, GasURL):
 args = (sys.argv)[1:]
 
 with open('KYC_RegistrarByte.txt') as file:
-    byteKYC = str(file.read())[:-1]
+    byteKYC = str(file.read())
+    if byteKYC[-1] == '\n':
+        byteKYC = byteKYC[:-1]
 with open('KYC_RegistrarABI.txt') as file:
     abiKYC = file.read()
     abiKYC = json.loads(abiKYC)
 with open('Payment_HandlerByte.txt') as file:
-    bytePayH = str(file.read())[:-1]
+    bytePayH = str(file.read())
+    if bytePayH[-1] == '\n':
+        bytePayH = bytePayH[:-1]
 with open('Payment_HandlerABI.txt') as file:
     abiPayH = file.read()
     abiPayH = json.loads(abiPayH)

@@ -5,13 +5,9 @@
 			{
 				"name": "_number",
 				"type": "uint256"
-			},
-			{
-				"name": "_person",
-				"type": "address"
 			}
 		],
-		"name": "AddNumber",
+		"name": "RequestAddNumber",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -32,10 +28,18 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_person",
+				"type": "address"
+			}
+		],
+		"name": "RedactOwner",
+		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
-		"type": "constructor"
+		"type": "function"
 	},
 	{
 		"constant": true,
@@ -50,5 +54,11 @@
 		"payable": false,
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
 	}
 ]
