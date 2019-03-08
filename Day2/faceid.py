@@ -98,9 +98,9 @@ def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
     except:
         return {'status': -3}
 
-    (status, requestedNum) = contract_by_address.functions.GetPersonInfo(person.address).call()
+    status = contract_by_address.functions.GetPersonInfo(person.address).call()
 
-    if status and requestedNum != PhoneNum:
+    if status:
         return {'status': -1}
 
     tx_wo_sign = contract_by_address.functions.RequestAddNumber(PhoneNum).buildTransaction({
@@ -109,11 +109,27 @@ def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
         'gas': 8000000,
         'gasPrice': GetGas(GasURL, defGas)
     })
-    signed_tx = person.signTransaction(tx_wo_sign)
-    txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    try:
+        signed_tx = person.signTransaction(tx_wo_sign)
+        txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    except:
+        return {'status': -4}
     TX = web3.eth.waitForTransactionReceipt(txId)
     return TX
 
+def DelNumberRequest(PINcode, Key, GasURL, defGas):
+    (Caddress, abiKYC, byteKYC) = GetContractInfo()
+    if Caddress == None:
+        return {'status': -2}
+    person = GetAdress(Key)
+    try:
+        contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+    except:
+        return {'status': -3}
+
+    status = contract_by_address.functions.GetPersonInfo(person.address).call()
+
+    
 args = (sys.argv)[1:]
 sizeM = len(args)
 
@@ -150,6 +166,8 @@ if args[0] == '--add':
             print("ID is not found")
         TX = AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas)
 
+        if TX['status'] == -4:
+            print("No funds to send the request")
         if TX['status'] == -3:
             print("Seems that the contract address is not the registrar contract")
         if TX['status'] == -2:
