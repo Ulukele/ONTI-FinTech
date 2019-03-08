@@ -93,7 +93,10 @@ def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
     if Caddress == None:
         return {'status': -2}
     person = GetAdress(Key)
-    contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+    try:
+        contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+    except:
+        return {'status': -3}
 
     status = contract_by_address.functions.GetPersonInfo(person.address).call()
 
@@ -133,14 +136,22 @@ if args[0] == "--balance":
             PrintBalance(Key)
 
 if args[0] == '--add':
-    if sizeM > 2:
+    if sizeM > 1:
         PINcode = args[1]
-        PhoneNum = str(args[2])
+        if sizeM > 2:
+            PhoneNum = str(args[2])
+        else:
+            PhoneNum = '1'
+        if len(PhoneNum) != 12 or PhoneNum[0] != '+':
+            print("Incorrect phone number")
+            sys.exit()
         Key = GenerateKey(PINcode)
         if Key == None:
             print("ID is not found")
         TX = AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas)
 
+        if TX['status'] == -3:
+            print("Seems that the contract address is not the registrar contract")
         if TX['status'] == -2:
             print("No contract address")
         if TX['status'] == -1:
