@@ -26,12 +26,17 @@
 			{
 				"name": "",
 				"type": "bool"
-			},
-			{
-				"name": "",
-				"type": "string"
 			}
 		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "RequestDelNumber",
+		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -94,6 +99,18 @@
 			}
 		],
 		"name": "RegistrationRequest",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "UnregistrationRequest",
 		"type": "event"
 	}
 ]
