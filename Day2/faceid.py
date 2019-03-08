@@ -117,6 +117,19 @@ def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
     TX = web3.eth.waitForTransactionReceipt(txId)
     return TX
 
+def DelNumberRequest(PINcode, Key, GasURL, defGas):
+    (Caddress, abiKYC, byteKYC) = GetContractInfo()
+    if Caddress == None:
+        return {'status': -2}
+    person = GetAdress(Key)
+    try:
+        contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+    except:
+        return {'status': -3}
+
+    status = contract_by_address.functions.GetPersonInfo(person.address).call()
+
+    
 args = (sys.argv)[1:]
 sizeM = len(args)
 
