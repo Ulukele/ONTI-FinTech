@@ -127,9 +127,25 @@ def DelNumberRequest(PINcode, Key, GasURL, defGas):
     except:
         return {'status': -3}
 
-    status = contract_by_address.functions.GetPersonInfo(person.address).call()
+    status = contract_by_address.functions.GetPersonInfo2(person.address).call()
 
-    
+    if status == False:
+        return {'status': -1}
+    tx_wo_sign = contract_by_address.functions.RequestDelNumber().buildTransaction({
+        'from': person.address,
+        'nonce': web3.eth.getTransactionCount(person.address),
+        'gas': 8000000,
+        'gasPrice': GetGas(GasURL, defGas)
+    })
+
+    try:
+        signed_tx = person.signTransaction(tx_wo_sign)
+        txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    except:
+         {'status': -4}
+    TX = web3.eth.waitForTransactionReceipt(txId)
+    return TX
+
 args = (sys.argv)[1:]
 sizeM = len(args)
 
@@ -177,52 +193,21 @@ if args[0] == '--add':
         if TX['status'] == 1:
             print('Registration request sent by',TX['transactionHash'].hex())
 
-def checkNumber(phoneNum):
-    phoneNum = str(phoneNum)
-    if(phoneNum[0] == '+' and len(phoneNum) == 12):
-        for i in range(1, 12):
-            if(phoneNum[i] < '0' and phoneNum[i] > '9'):
-                return False
+if args[0] == '--del':
+    if sizeM > 1:
+        PINcode = args[1]
+        Key = GenerateKey(PINcode)
+        if Key == None:
+            print("ID is not found")
+        TX = DelNumberRequest(PINcode, Key, GasURL, defGas)
 
-def checkAccountForNumber(phoneNum):
-    print("s")
-
-def Transaction(privateKey, adres2, val):
-    adres1 = GetAdres(privateKey)
-    adres2NCS = adres2
-    adres2 = web3.toChecksumAddress("0x"+adres2)
-
-    if web3.eth.getBalance(adres1) < val:
-        print("No enough funds for payment")
-        return
-
-    nonce = 0
-    nonce = web3.eth.getTransactionCount(adres1)
-
-    transaction = {'to': adres2, 'value': val, 'gas': 21000, 'gasPrice': web3.eth.gasPrice, 'nonce': nonce}
-    signed = web3.eth.account.signTransaction(transaction, "0x"+privateKey)
-
-    TransactionHex = web3.eth.sendRawTransaction(signed.rawTransaction).hex()
-    balance = BalanceAll(val)
-    print("Payment of {0} {1} to {2} scheduled".format(balance[0], balance[1], '"'+web3.toChecksumAddress(adres2NCS)[2:]+'"'))
-    print("Transaction Hash: {0}".format(TransactionHex))
-
-def sendFunds(pinCode, phoneNum, value):
-    addressFrom = GenerateKey(pinCode)
-    if(! web3.eth.getBalance(adress.address) > value):
-        print("No funds to send the payment")
-        return False
-    if(! checkNumber(phoneNum)):
-        print("Incorrect phone number")
-        return False
-    if(! checkAccountForNumber(phoneNum)):
-        print("No account with the phone number", phoneNum)
-        return False
-    Transaction(addressFrom, address, value)
-
-
-if args[0] == "--send" and len(args) == 4: # <pin code> <phone number> <value>
-    pinCode = str(args[1])
-    phoneNum = str(args[2])
-    value = str(args[3])
-    sendFunds(pinCode, phoneNum, value)
+        if TX['status'] == -4:
+            print("No funds to send the request")
+        if TX['status'] == -3:
+            print("Seems that the contract address is not the registrar contract")
+        if TX['status'] == -2:
+            print("No contract address")
+        if TX['status'] == -1:
+            print("Unregistration request already sent")
+        if TX['status'] == 1:
+            print("Unregistration request sent by", TX['transactionHash'].hex())
