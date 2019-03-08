@@ -103,9 +103,6 @@ def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
     if status and requestedNum != PhoneNum:
         return {'status': -1}
 
-    if requestedNum == PhoneNum:
-        PhoneNum = "Error"
-
     tx_wo_sign = contract_by_address.functions.RequestAddNumber(PhoneNum).buildTransaction({
         'from': person.address,
         'nonce': web3.eth.getTransactionCount(person.address),
