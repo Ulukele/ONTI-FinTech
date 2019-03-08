@@ -12,7 +12,12 @@ with open('faceapi.json') as file:
     group = json['groupId']
 
 cf.BaseUrl.set(BASE_URL)
-cf.Key.set(key)
+try:
+    e = cf.Key.set(key)
+except:
+    print( "Incorrect subscription key")
+    sys.exit()
+
 
 def add_new_person(group, name):
     user_id = cf.person.create(group, name)
@@ -77,11 +82,11 @@ def recognize(file_name, group, user_id):
         end = length - 1
         step = length//5
         frame_num = 0
-        if (k == 0):
+        if k == 0:
             frame_num = beg
             cap.set(2, frame_num)
             cap  = cv2.VideoCapture(vid)
-        if (k == 5):
+        if k == 5:
             frame_num = end
             cap.set(2, frame_num)
             cap  = cv2.VideoCapture(vid)
@@ -104,7 +109,8 @@ def recognize(file_name, group, user_id):
     return face_ids
 
 def delete_person(group, person_id):
-    cf.person.delete(group, name)
+    e = cf.person.delete(group, name)
+    return e
 
 def list_of_users(group):
     list_of_users = cf.person.lists(group)
@@ -136,8 +142,26 @@ if args[0] == '--train':
     #print('Training task for {} persons started'.format())
 if args[0] == '--del':
     person_id = args[1]
-    delete_person(group, person_id)
-    print('Person with id {} deleted'.format(person_id))
+    try:
+       cf.person_group.get(group)
+    except cf.CognitiveFaceException as err:
+         if err.code == 'PersonGroupNotFound':
+                print('The group does not exist')
+    try:
+        delete_person(group, person_id)
+        print('Person deleted')
+    except cf.CognitiveFaceException as err:
+        if err.code == 'PersonNotFound':
+            print("The person does not exist")
 if args[0] == '--list':
-    users_list = list_of_users(group)
-    print(users_list)
+    user_list = []
+    try:
+        info_from_group = list_of_users(group)
+        for i in range(len(info_from_group)):
+            user_list.append(info_from_group[i]['personId'])
+        print('Persons IDs:')
+        for i in range(len(user_list)):
+            print(user_list[i])
+    except cf.CognitiveFaceException as err:
+        if err.code == 'PersonGroupNotFound':
+            print('The group does not exist')
