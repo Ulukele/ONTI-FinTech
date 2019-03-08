@@ -80,6 +80,12 @@ def GetAdress(privateKey):
     adress = Account.privateKeyToAccount("0x"+privateKey)
     return adress
 
+def GetContractAddress():
+    with open('registrar.json') as file:
+        infor = json.load(file)
+        return infor["registrar"]["address"]
+
+
 def PrintBalance(privateKey):
     adress = GetAdress(privateKey)
     balance = [0, 0]
@@ -129,7 +135,7 @@ def DelNumberRequest(PINcode, Key, GasURL, defGas):
 
     status = contract_by_address.functions.GetPersonInfo(person.address).call()
 
-    
+
 args = (sys.argv)[1:]
 sizeM = len(args)
 
@@ -183,23 +189,23 @@ def checkNumber(phoneNum):
         for i in range(1, 12):
             if(phoneNum[i] < '0' and phoneNum[i] > '9'):
                 return False
+        return True
+    else:
+        return False
+    return True
 
-def checkAccountForNumber(phoneNum):
-    print("s")
+def GetAddressWithPhone(phoneNum):
+        contract_by_address = web3.eth.contract(address = GetContractAddress(), abi = abiKYC)
+        return contract_by_address.functions.GetAddress(phoneNum).call()
 
 def Transaction(privateKey, adres2, val):
     adres1 = GetAdres(privateKey)
-    adres2NCS = adres2
     adres2 = web3.toChecksumAddress("0x"+adres2)
-
-    if web3.eth.getBalance(adres1) < val:
-        print("No enough funds for payment")
-        return
 
     nonce = 0
     nonce = web3.eth.getTransactionCount(adres1)
 
-    transaction = {'to': adres2, 'value': val, 'gas': 21000, 'gasPrice': web3.eth.gasPrice, 'nonce': nonce}
+    transaction = {'to': adres2, 'value': val, 'gas': 8000000, 'gasPrice': GetGas(GasURL, defGas), 'nonce': nonce}
     signed = web3.eth.account.signTransaction(transaction, "0x"+privateKey)
 
     TransactionHex = web3.eth.sendRawTransaction(signed.rawTransaction).hex()
@@ -215,10 +221,11 @@ def sendFunds(pinCode, phoneNum, value):
     if(! checkNumber(phoneNum)):
         print("Incorrect phone number")
         return False
-    if(! checkAccountForNumber(phoneNum)):
+    address2 = GetAddressWithPhone(phoneNum)
+    if(len(address2) == 0):
         print("No account with the phone number", phoneNum)
         return False
-    Transaction(addressFrom, address, value)
+    Transaction(addressFrom, address2, value)
 
 
 if args[0] == "--send" and len(args) == 4: # <pin code> <phone number> <value>
