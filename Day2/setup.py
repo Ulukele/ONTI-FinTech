@@ -59,8 +59,14 @@ adres = GetAdres(privateKey)
 
 web3 = Web3(HTTPProvider(RecURL))
 
+def GetContractAddress():
+    with open('registrar.json', 'w') as file:
+        infor = json.load(file)
+        return infor["registrar"]["address"]
+
 def GetOwner():
-    print("w")
+    contract_by_address = web3.eth.contract(address = GetContractAddress(), abi = abiKYC)
+    return contract_by_address.functions.GetOwner().call()
 
 if args[0] == '--deploy':
     TX1 = DeployContract(abiKYC, byteKYC, adres, GasURL)
