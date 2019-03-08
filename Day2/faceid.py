@@ -158,3 +158,53 @@ if args[0] == '--add':
             print("Registration request already sent")
         if TX['status'] == 1:
             print('Registration request sent by',TX['transactionHash'].hex())
+
+def checkNumber(phoneNum):
+    phoneNum = str(phoneNum)
+    if(phoneNum[0] == '+' and len(phoneNum) == 12):
+        for i in range(1, 12):
+            if(phoneNum[i] < '0' and phoneNum[i] > '9'):
+                return False
+
+def checkAccountForNumber(phoneNum):
+    print("s")
+
+def Transaction(privateKey, adres2, val):
+    adres1 = GetAdres(privateKey)
+    adres2NCS = adres2
+    adres2 = web3.toChecksumAddress("0x"+adres2)
+
+    if web3.eth.getBalance(adres1) < val:
+        print("No enough funds for payment")
+        return
+
+    nonce = 0
+    nonce = web3.eth.getTransactionCount(adres1)
+
+    transaction = {'to': adres2, 'value': val, 'gas': 21000, 'gasPrice': web3.eth.gasPrice, 'nonce': nonce}
+    signed = web3.eth.account.signTransaction(transaction, "0x"+privateKey)
+
+    TransactionHex = web3.eth.sendRawTransaction(signed.rawTransaction).hex()
+    balance = BalanceAll(val)
+    print("Payment of {0} {1} to {2} scheduled".format(balance[0], balance[1], '"'+web3.toChecksumAddress(adres2NCS)[2:]+'"'))
+    print("Transaction Hash: {0}".format(TransactionHex))
+
+def sendFunds(pinCode, phoneNum, value):
+    addressFrom = GenerateKey(pinCode)
+    if(! web3.eth.getBalance(adress.address) > value):
+        print("No funds to send the payment")
+        return False
+    if(! checkNumber(phoneNum)):
+        print("Incorrect phone number")
+        return False
+    if(! checkAccountForNumber(phoneNum)):
+        print("No account with the phone number", phoneNum)
+        return False
+    Transaction(addressFrom, address, value)
+
+
+if args[0] == "--send" and len(args) == 4: # <pin code> <phone number> <value>
+    pinCode = str(args[1])
+    phoneNum = str(args[2])
+    value = str(args[3])
+    sendFunds(pinCode, phoneNum, value)
