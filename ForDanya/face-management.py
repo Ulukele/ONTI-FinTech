@@ -11,9 +11,7 @@ with open('faceapi.json') as file:
     key = json['key']
     BASE_URL = json['serviceUrl']
     group = json['groupId']
-
 cf.BaseUrl.set(BASE_URL)
-
 try:
     e = cf.Key.set(key)
 except:
@@ -116,7 +114,11 @@ def list_of_users(group):
 
 def train(group):
     cf.person_group.train(group)
-    
+
+def train_status(group):
+    status = cf.person_group.get_status(group)
+    return status
+
 def update_user_data(group, message):
     cf.person_group.update(group, user_data=message)
 
@@ -184,11 +186,14 @@ def identification(file_name, group):
             pass
         sys.exit()
 
+
+
 args = (sys.argv)[1:]
 datetime_object = datetime.datetime.now()
 name = hash(datetime_object)
 
 if args[0] == '--simple-add':
+    status = train_status(group)
     file_name = args[1]
     checker(file_name)
     try:

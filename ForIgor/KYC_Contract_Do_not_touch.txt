@@ -1,0 +1,74 @@
+pragma solidity ^0.5.4;
+
+contract Account_Numbers{
+    
+    event RegistrationRequest(address indexed sender);
+    event UnregistrationRequest(address indexed sender);
+    event RegistrationConfirmed(address indexed sender);
+
+    mapping (string => address) person;
+    mapping (address => bool) est;
+    mapping (address => bool) RequestedA;
+    mapping (address => bool) RequestedR;
+    mapping (address => string) RequestedNum;
+    
+    address public owner;
+    
+    constructor () public {
+        owner = msg.sender;
+    }
+    
+    function GetOwner() public returns(address) {
+        return owner;
+    }
+    
+    function GetAddress(string memory _number) public returns(address){
+        return person[_number];
+    }
+    
+    function RedactOwner(address _person) public {
+        require(msg.sender == owner);
+        owner = _person;
+    }
+    
+    //Get Info:
+    function GetPersonInfoAR(address _person) public returns(bool){
+        return RequestedA[_person];
+    }
+    
+    function GetPersonInfoEST(address _person) public returns(bool){
+        return est[_person];
+    }
+    
+    function GetPersonInfoDR(address _person) public returns(bool){
+        return RequestedR[_person];
+    }
+    
+    //Requests:
+    function RequestAddNumber(string memory _number) public {
+        require(!RequestedA[msg.sender]);
+        RequestedA[msg.sender] = true;
+        RequestedNum[msg.sender] = _number;
+        emit RegistrationRequest(msg.sender);
+    }
+    
+    function RequestDelNumber() public {
+        require(est[msg.sender]);
+        require(!RequestedR[msg.sender]);
+        RequestedA[msg.sender] = true;
+        emit UnregistrationRequest(msg.sender);
+    }
+    
+    function Confirm(address _person) public {
+        require(msg.sender == owner);
+
+        emit RegistrationConfirmed(msg.sender);
+    }
+    
+    
+    
+    
+    
+    
+    
+}
