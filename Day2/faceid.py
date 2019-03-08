@@ -173,7 +173,12 @@ if args[0] == '--add':
         if sizeM > 2:
             PhoneNum = str(args[2])
         else:
-            PhoneNum = '1'
+            PhoneNum = '+1'
+        try:
+            int('1'+PhoneNum[1:])
+        except:
+            print("Incorrect phone number")
+            sys.exit()
         if len(PhoneNum) != 12 or PhoneNum[0] != '+':
             print("Incorrect phone number")
             sys.exit()
