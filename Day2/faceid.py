@@ -100,8 +100,11 @@ def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
 
     (status, requestedNum) = contract_by_address.functions.GetPersonInfo(person.address).call()
 
-    if status:
+    if status and requestedNum != PhoneNum:
         return {'status': -1}
+
+    if requestedNum == PhoneNum:
+        PhoneNum = "Error"
 
     tx_wo_sign = contract_by_address.functions.RequestAddNumber(PhoneNum).buildTransaction({
         'from': person.address,

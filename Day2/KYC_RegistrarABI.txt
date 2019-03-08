@@ -19,29 +19,6 @@
 			{
 				"name": "_person",
 				"type": "address"
-			},
-			{
-				"name": "_sender",
-				"type": "address"
-			}
-		],
-		"name": "RedactOwner",
-		"outputs": [
-			{
-				"name": "_status",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_person",
-				"type": "address"
 			}
 		],
 		"name": "GetPersonInfo",
@@ -68,6 +45,20 @@
 			}
 		],
 		"name": "RequestAddNumber",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_person",
+				"type": "address"
+			}
+		],
+		"name": "RedactOwner",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
