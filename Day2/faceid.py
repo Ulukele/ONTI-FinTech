@@ -80,12 +80,6 @@ def GetAdress(privateKey):
     adress = Account.privateKeyToAccount("0x"+privateKey)
     return adress
 
-def GetContractAddress():
-    with open('registrar.json') as file:
-        infor = json.load(file)
-        return infor["registrar"]["address"]
-
-
 def PrintBalance(privateKey):
     adress = GetAdress(privateKey)
     balance = [0, 0]
@@ -133,8 +127,24 @@ def DelNumberRequest(PINcode, Key, GasURL, defGas):
     except:
         return {'status': -3}
 
-    status = contract_by_address.functions.GetPersonInfo(person.address).call()
+    status = contract_by_address.functions.GetPersonInfo2(person.address).call()
 
+    if status == False:
+        return {'status': -1}
+    tx_wo_sign = contract_by_address.functions.RequestDelNumber().buildTransaction({
+        'from': person.address,
+        'nonce': web3.eth.getTransactionCount(person.address),
+        'gas': 8000000,
+        'gasPrice': GetGas(GasURL, defGas)
+    })
+
+    try:
+        signed_tx = person.signTransaction(tx_wo_sign)
+        txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    except:
+         {'status': -4}
+    TX = web3.eth.waitForTransactionReceipt(txId)
+    return TX
 
 args = (sys.argv)[1:]
 sizeM = len(args)
@@ -163,7 +173,12 @@ if args[0] == '--add':
         if sizeM > 2:
             PhoneNum = str(args[2])
         else:
-            PhoneNum = '1'
+            PhoneNum = '+1'
+        try:
+            int('1'+PhoneNum[1:])
+        except:
+            print("Incorrect phone number")
+            sys.exit()
         if len(PhoneNum) != 12 or PhoneNum[0] != '+':
             print("Incorrect phone number")
             sys.exit()
@@ -183,53 +198,21 @@ if args[0] == '--add':
         if TX['status'] == 1:
             print('Registration request sent by',TX['transactionHash'].hex())
 
-def checkNumber(phoneNum):
-    phoneNum = str(phoneNum)
-    if(phoneNum[0] == '+' and len(phoneNum) == 12):
-        for i in range(1, 12):
-            if(phoneNum[i] < '0' and phoneNum[i] > '9'):
-                return False
-        return True
-    else:
-        return False
-    return True
+if args[0] == '--del':
+    if sizeM > 1:
+        PINcode = args[1]
+        Key = GenerateKey(PINcode)
+        if Key == None:
+            print("ID is not found")
+        TX = DelNumberRequest(PINcode, Key, GasURL, defGas)
 
-def GetAddressWithPhone(phoneNum):
-        contract_by_address = web3.eth.contract(address = GetContractAddress(), abi = abiKYC)
-        return contract_by_address.functions.GetAddress(phoneNum).call()
-
-def Transaction(privateKey, adres2, val):
-    adres1 = GetAdres(privateKey)
-    adres2 = web3.toChecksumAddress("0x"+adres2)
-
-    nonce = 0
-    nonce = web3.eth.getTransactionCount(adres1)
-
-    transaction = {'to': adres2, 'value': val, 'gas': 8000000, 'gasPrice': GetGas(GasURL, defGas), 'nonce': nonce}
-    signed = web3.eth.account.signTransaction(transaction, "0x"+privateKey)
-
-    TransactionHex = web3.eth.sendRawTransaction(signed.rawTransaction).hex()
-    balance = BalanceAll(val)
-    print("Payment of {0} {1} to {2} scheduled".format(balance[0], balance[1], '"'+web3.toChecksumAddress(adres2NCS)[2:]+'"'))
-    print("Transaction Hash: {0}".format(TransactionHex))
-
-def sendFunds(pinCode, phoneNum, value):
-    addressFrom = GenerateKey(pinCode)
-    if(! web3.eth.getBalance(adress.address) > value):
-        print("No funds to send the payment")
-        return False
-    if(! checkNumber(phoneNum)):
-        print("Incorrect phone number")
-        return False
-    address2 = GetAddressWithPhone(phoneNum)
-    if(len(address2) == 0):
-        print("No account with the phone number", phoneNum)
-        return False
-    Transaction(addressFrom, address2, value)
-
-
-if args[0] == "--send" and len(args) == 4: # <pin code> <phone number> <value>
-    pinCode = str(args[1])
-    phoneNum = str(args[2])
-    value = str(args[3])
-    sendFunds(pinCode, phoneNum, value)
+        if TX['status'] == -4:
+            print("No funds to send the request")
+        if TX['status'] == -3:
+            print("Seems that the contract address is not the registrar contract")
+        if TX['status'] == -2:
+            print("No contract address")
+        if TX['status'] == -1:
+            print("Unregistration request already sent")
+        if TX['status'] == 1:
+            print("Unregistration request sent by", TX['transactionHash'].hex())

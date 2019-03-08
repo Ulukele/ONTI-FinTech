@@ -1,0 +1,11 @@
+variables:
+  GIT_DEPTH: "1"
+  GIT_STRATEGY: clone
+
+.run-checker:
+  script:
+    - checker-final2019
+
+test:
+  extends: .run-checker
+  image: akolotov/ftchecker-final2019-001-day
