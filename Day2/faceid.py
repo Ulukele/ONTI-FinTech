@@ -98,7 +98,7 @@ def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
     except:
         return {'status': -3}
 
-    status = contract_by_address.functions.GetPersonInfo(person.address).call()
+    status = contract_by_address.functions.GetPersonInfoAR(person.address).call()
 
     if status:
         return {'status': -1}
@@ -127,9 +127,11 @@ def DelNumberRequest(PINcode, Key, GasURL, defGas):
     except:
         return {'status': -3}
 
-    status = contract_by_address.functions.GetPersonInfo2(person.address).call()
-
+    status = contract_by_address.functions.GetPersonInfoEST(person.address).call()
     if status == False:
+        return {'status': -5}
+    status = contract_by_address.functions.GetPersonInfoDR(person.address).call()
+    if status:
         return {'status': -1}
     tx_wo_sign = contract_by_address.functions.RequestDelNumber().buildTransaction({
         'from': person.address,
@@ -205,7 +207,8 @@ if args[0] == '--del':
         if Key == None:
             print("ID is not found")
         TX = DelNumberRequest(PINcode, Key, GasURL, defGas)
-
+        if TX['status'] == -5:
+            print("Account is not registered yet")
         if TX['status'] == -4:
             print("No funds to send the request")
         if TX['status'] == -3:
@@ -216,8 +219,6 @@ if args[0] == '--del':
             print("Unregistration request already sent")
         if TX['status'] == 1:
             print("Unregistration request sent by", TX['transactionHash'].hex())
-
-
 
 # US-017:
 

@@ -21,7 +21,7 @@
 				"type": "address"
 			}
 		],
-		"name": "GetPersonInfo2",
+		"name": "GetPersonInfoEST",
 		"outputs": [
 			{
 				"name": "",
@@ -40,7 +40,26 @@
 				"type": "address"
 			}
 		],
-		"name": "GetPersonInfo",
+		"name": "GetPersonInfoAR",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_person",
+				"type": "address"
+			}
+		],
+		"name": "GetPersonInfoDR",
 		"outputs": [
 			{
 				"name": "",
