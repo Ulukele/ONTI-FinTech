@@ -613,6 +613,19 @@ _Комментарий_:
 
 Требуемый `personGroupId` существует в _Microsoft Face API_. 
 
+##### Критерий оценивания AC-006-03
+```shell
+$ cat faceapi.json | python -mjson.tool | grep groupId
+    "groupId": "fintech-01",
+$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups" -H "Content-Type: application/json" -H "OcApim-Subscription-Key: 000000000000000000000000000000000" 
+[{"personGroupId":"fintech-01","name":"fintech-01","userData":null}]
+$ face-management.py --list
+No persons found
+```
+_Комментарий_:
+
+Требуемый `personGroupId` существует в _Microsoft Face API_, но в ней нет пользователей.
+
 #### US-007 Удаление пользователя из сервиса идентификации
 
 Администратор сервиса может удалить пользователя сервиса по его идентификатору. 
@@ -629,7 +642,7 @@ $ cat faceapi.json | python -mjson.tool | grep groupId
 $ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups/fintech-01" -H "Content-Type: application/json" -H "Ocp-Apim-Subscription-Key: 000000000000000000000000000000000" 
 {"error":{"code":"PersonGroupNotFound","message":"Person group is not found.\r\nParameter name: personGroupId"}}
 $ face-management.py --del 27dadf08-bc60-4a29-82a7-7d21ea7f40af
-The group doesn't exist
+The group does not exist
 ```
 _Комментарий_:
 
@@ -651,7 +664,7 @@ _Комментарий_:
 ##### Критерий оценивания AC-007-03
 ```shell
 $ face-management.py --del bdaf190a-4805-4e2c-95af-1afa8b2623df
-The person doesn't exist
+The person does not exist
 ```
 _Комментарий_:
 
@@ -765,7 +778,7 @@ _Комментарий_:
 $ face-management.py --train
 Training successfully started
 $ face-management.py --del bdaf190a-4805-4e2c-95af-1afa8b2623df
-The person doesn't exist
+The person does not exist
 $ face-management.py --train
 Already trained
 ```
@@ -911,7 +924,7 @@ _Комментарий_:
 ##### Критерий оценивания AC-010-05
 ```shell
 $ faceid.py --find /path/to/video100.avi
-The video doesn't follow requirements
+The video does not follow requirements
 $ cat person.json
 cat: person.json: No such file or directory
 ```
@@ -1169,6 +1182,17 @@ Registration request sent by 0xa7f3239715ff731a3d6fc477b18e35b9b0a9e1ede84bca5e9
 _Комментарий_:
 
 Если из транзакции с идентификатором `0xa7f3239715ff731a3d6fc477b18e35b9b0a9e1ede84bca5e91517e8e5bf1cc69` извлечь поле `input`, изменить в нем те байты, которые кодируют номер телефона так, чтобы передаваемый номер телефона содержал количество цифр отличное от 11, либо содержал буквы, и отправить получившийся набор байт в новой транзакции с того же аккаунта снова в поле `input` на адрес контракта регистра соответствий, то эта транзакция будет включена в блок, но статус ее исполнения будет - ошибка, поскольку такой номер телефона некорректный. Статус можно подтвердить для данной транзакции в браузере блоков.
+
+##### Критерий оценивания AC-014-12
+```shell
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --add 4590 +79991234567
+Registration request sent by 0x73aad4ff595a8813cc7d440d244545017c77098528f010a7caaa7d74c382f6c5
+```
+_Комментарий_:
+
+Если из транзакции c идентификатором `0x73aad4ff595a8813cc7d440d244545017c77098528f010a7caaa7d74c382f6c5` извлечь поле `input` и отправить его в новой транзакции с аккаунта, отличающегося от `from` в упомянутой выше транзакции, на адрес контракта регистра соответствий, то эта транзакция будет включена в блок, но статус ее исполнения будет - успешно, поскольку такой изначальный запрос регистрации соответствия еще не был подтвержден. Статус транзакции можно подтвердить для данной транзакции в браузере блоков.
 
 #### US-015 Отправка запроса на удаление соответствия
 
@@ -1525,12 +1549,12 @@ $ cat network.json | python -mjson.tool | grep gasPriceUrl
     "gasPriceUrl": "https://gasprice.poa.network/",
 $ cat person.json
 {"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
-$ faceid.py --balance
+$ faceid.py --balance 1234
 Your balance is 500 finney
 $ faceid.py --send 1234 +79873344556 10000000000000000
 Payment of 10 finney to +79873344556 scheduled
 Transaction Hash: 0x27c9181caeb55d37e1105fa1a8648db7fe50f79064b98e56b8e854e3abb43728
-$ faceid.py --balance
+$ faceid.py --balance 1234
 Your balance is 489.860605 finney
 ```
 
@@ -1538,11 +1562,11 @@ Your balance is 489.860605 finney
 ```shell
 $ cat person.json
 {"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
-$ faceid.py --balance
+$ faceid.py --balance 1234
 Your balance is 90 finney
 $ faceid.py --send 1234 +79873344556 10000000000000000
 No funds to send the payment
-$ faceid.py --balance
+$ faceid.py --balance 1234
 Your balance is 90 finney
 ```
 
@@ -2005,6 +2029,14 @@ No KYC registration requests found
 
 Поскольку аккаунт, чей приватный ключ указан в `network.json`, обладает полномочиями на подтверждение запросов на регистрацию соответствий, посланная транзакция включается в блок со статусом успешного исполнения. Статус можно подтвердить для данной транзакции в браузере блоков.
 
+При подтверждении контракт производит событие (`event`) `RegistrationConfirmed`, в с указанием аккаунта, отправившего запрос:
+
+```solidity
+event RegistrationConfirmed(address indexed sender);
+```
+
+Для проведения транзакции выбрана цена из значения `fast`, возвращенного сервисом `https://gasprice.poa.network`.
+
 ##### Критерий оценивания AC-025-02
 
 ```shell
@@ -2038,6 +2070,14 @@ No KYC unregistration requests found
 ```
 
 Поскольку аккаунт, чей приватный ключ указан в `network.json`, обладает полномочиями на подтверждение запросов на удаление соответствий, посланная транзакция включается в блок со статусом успешного исполнения. Статус можно подтвердить для данной транзакции в браузере блоков.
+
+При подтверждении контракт производит событие (`event`) `UnregistrationConfirmed`, в с указанием аккаунта, отправившего запрос:
+
+```solidity
+event UnregistrationConfirmed(address indexed sender);
+```
+
+Для проведения транзакции выбрана цена из значения `fast`, возвращенного сервисом `https://gasprice.poa.network`.
 
 ##### Критерий оценивания AC-025-04
 

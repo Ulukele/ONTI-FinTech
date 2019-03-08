@@ -87,11 +87,11 @@ if args[0] == '--chown' and args[1] == 'registrar' and len(args) == 3:
     if(contract_by_address.functions.RedactOwner(newAddress, senderAddress.address).call()):
         tx_wo_sign = contract_by_address.functions.RedactOwner(newAddress, senderAddress.address).buildTransaction({
     		'from': senderAddress,
-    		'nonce': web3.eth.getTransactionCount(privateKey),
-    		#'gas': 8000000,
-    		'gasPrice': GetGas()
+    		'nonce': web3.eth.getTransactionCount(senderAddress.address),
+    		'gas': 8000000,
+    		'gasPrice': GetGas(GasURL, defGas)
         })
-        signed_tx = person.signTransaction(tx_wo_sign)
+        signed_tx = senderAddress.signTransaction(tx_wo_sign)
         #sending transaction
         TX = {'status': 0, 'transactionHash': 0}
         TX['status'] = int(contract_by_address.functions.RedactOwner(newAddress, senderAddress.address).call())
