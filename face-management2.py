@@ -23,13 +23,6 @@ def add_new_person(group, name):
     user_id = cf.person.create(group, name)
     return user_id
 
-def train(group):
-    cf.person_group.train(group)
-
-def train_status(group):
-    status = cf.person_group.get_status(group)
-    return status
-
 def checker(file_name):
     vid = str(file_name)
     cap  = cv2.VideoCapture(vid)
@@ -116,6 +109,16 @@ def list_of_users(group):
     list_of_users = cf.person.lists(group)
     return list_of_users
 
+def train(group):
+    cf.person_group.train(group)
+
+def train_status(group):
+    status = cf.person_group.get_status(group)
+    return status
+
+def update_user_data(group, message):
+    cf.person_group.update(group, user_data=message)
+
 args = (sys.argv)[1:]
 datetime_object = datetime.datetime.now()
 name = hash(datetime_object)
@@ -130,6 +133,7 @@ if args[0] == '--simple-add':
         pass
     user_id = add_new_person(group, name)
     ids = recognize(file_name, group, user_id['personId'])
+    message = 'group_update'
     print("5 frames extracted")
     print("PersonId:", user_id['personId'])
     print("FaceIds\n=======")
@@ -137,9 +141,26 @@ if args[0] == '--simple-add':
         print(i) 
 
 if args[0] == '--train':
-    train(group)
-    status = train_status(group)
-    #print('Training task for {} persons started'.format())
+    try:
+       cf.person_group.get(group)
+    except cf.CognitiveFaceException as err:
+         if err.code == 'PersonGroupNotFound':
+                print('There is nothing to train')
+                sys.exit()
+    users = list_of_users(group)
+    if len(users) == 0:
+        print('There is nothing to train')
+        sys.exit()
+    data = cf.person_group.get(group)['userData']
+    if data == 'group_update':
+        train(group)
+        print('Training successfully started')
+        message = 'group_train'
+        update_user_data(group, message)
+    elif data == 'group_train':
+        print('Already trained')
+
+
 if args[0] == '--del':
     person_id = args[1]
     try:
@@ -147,21 +168,29 @@ if args[0] == '--del':
     except cf.CognitiveFaceException as err:
          if err.code == 'PersonGroupNotFound':
                 print('The group does not exist')
+                sys.exit()
     try:
         delete_person(group, person_id)
         print('Person deleted')
+        message = 'group_update'
+        update_user_data(group, message)
     except cf.CognitiveFaceException as err:
         if err.code == 'PersonNotFound':
             print("The person does not exist")
+            sys.exit()
 if args[0] == '--list':
     user_list = []
     try:
         info_from_group = list_of_users(group)
         for i in range(len(info_from_group)):
             user_list.append(info_from_group[i]['personId'])
-        print('Persons IDs:')
-        for i in range(len(user_list)):
-            print(user_list[i])
+        if len(user_list) == 0:
+            print('No persons found')
+        else:
+            print('Persons IDs:')
+            for i in range(len(user_list)):
+                print(user_list[i])
     except cf.CognitiveFaceException as err:
         if err.code == 'PersonGroupNotFound':
             print('The group does not exist')
+            sys.exit()
