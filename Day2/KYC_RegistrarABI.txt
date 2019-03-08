@@ -36,7 +36,12 @@
 			}
 		],
 		"name": "RedactOwner",
-		"outputs": [],
+		"outputs": [
+			{
+				"name": "_status",
+				"type": "bool"
+			}
+		],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -60,5 +65,17 @@
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "RegistrationRequest",
+		"type": "event"
 	}
 ]
