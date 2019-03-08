@@ -60,7 +60,7 @@ adres = GetAdres(privateKey)
 web3 = Web3(HTTPProvider(RecURL))
 
 def GetContractAddress():
-    with open('registrar.json', 'w') as file:
+    with open('registrar.json') as file:
         infor = json.load(file)
         return infor["registrar"]["address"]
 
@@ -76,8 +76,18 @@ if args[0] == '--deploy':
     with open('registrar.json', 'w') as file:
         file.write(json.dumps({"registrar": {"address": TX1['contractAddress'], "startBlock": TX1['blockNumber']}, "payments": {"address": TX2['contractAddress'], "startBlock": TX2['blockNumber']}}))
 
-if args[0] == '--ownder' and args[1] == 'registrar':
-    print(GetOwner())
+if args[0] == '--owner' and args[1] == 'registrar':
+    print("Admin account:", GetOwner())
+
+if args[0] == '--chown' and args[1] == 'registrar' and len(args) == 3:
+    newOwner == args[2]
+    contract_by_address = web3.eth.contract(address = GetContractAddress(), abi = abiKYC)
+    if(contract_by_address.functions.RedactOwner(newOwner).call()):
+        contract_by_address.functions.RedactOwner(newOwner).transact()
+        print("New admin account:", newOwner)
+    else:
+        print("Request cannot be executed")
+
 
 
 ### Put your code below this comment ###
