@@ -203,6 +203,7 @@ if args[0] == '--simple-add':
     user_id = add_new_person(group, name)
     ids = recognize(file_name, group, user_id['personId'])
     message = 'group_update'
+    cf.person_group.update(group, user_data=message)
     print("5 frames extracted")
     print("PersonId:", user_id['personId'])
     print("FaceIds\n=======")
