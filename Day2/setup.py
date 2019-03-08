@@ -104,11 +104,14 @@ if args[0] == '--chown' and args[1] == 'registrar' and len(args) == 3:
             print("what")
         """
         try:
-            txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
-            print(senderAddress.address)
-            print("New admin account:", newOwner)
+            if(GetOwner() != senderAddress.address):
+                txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+                print("Request cannot be executed")
+            else:
+                txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+                print("New admin account:", newOwner)
         except:
-            print("Request cannot be executed2")
+            print("Request cannot be executed")
 
         #txReceipt = web3.eth.waitForTransactionReceipt(txId)
         #TX['transactionHash'] = txReceipt['transactionHash']
