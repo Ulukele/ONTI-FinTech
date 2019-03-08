@@ -80,13 +80,33 @@ if args[0] == '--owner' and args[1] == 'registrar':
     print("Admin account:", GetOwner())
 
 if args[0] == '--chown' and args[1] == 'registrar' and len(args) == 3:
-    newOwner == args[2]
+    newOwner = args[2]
     contract_by_address = web3.eth.contract(address = GetContractAddress(), abi = abiKYC)
-    if(contract_by_address.functions.RedactOwner(newOwner).call()):
-        contract_by_address.functions.RedactOwner(newOwner).transact()
-        print("New admin account:", newOwner)
+    newAddress = web3.toChecksumAddress(newOwner[2:])
+    senderAddress = GetAdres(privateKey)
+    if(contract_by_address.functions.RedactOwner(newAddress, senderAddress.address).call()):
+        tx_wo_sign = contract_by_address.functions.RedactOwner(newAddress, senderAddress.address).buildTransaction({
+    		'from': senderAddress,
+    		'nonce': web3.eth.getTransactionCount(senderAddress.address),
+    		'gas': 8000000,
+    		'gasPrice': GetGas(GasURL, defGas)
+        })
+        signed_tx = senderAddress.signTransaction(tx_wo_sign)
+        #sending transaction
+        TX = {'status': 0, 'transactionHash': 0}
+        TX['status'] = int(contract_by_address.functions.RedactOwner(newAddress, senderAddress.address).call())
+        if TX['status'] == 0:
+            print("New admin account:", newOwner)
+        try:
+            txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+        except:
+            print("Request cannot be executed1")
+
+        txReceipt = web3.eth.waitForTransactionReceipt(txId)
+        TX['transactionHash'] = txReceipt['transactionHash']
+
     else:
-        print("Request cannot be executed")
+        print("Request cannot be executed2")
 
 
 

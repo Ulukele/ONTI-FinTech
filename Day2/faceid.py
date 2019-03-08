@@ -14,9 +14,12 @@ def GetGas(URL, defGas):
     return int(gasinfo * 1000000000)
 
 def GetContractInfo():
-    with open('registrar.json') as file:
-        infor = json.load(file)
-        Caddress = infor['registrar']['address']
+    try:
+        with open('registrar.json') as file:
+            infor = json.load(file)
+            Caddress = infor['registrar']['address']
+    except:
+        Caddress = None
     with open('KYC_RegistrarByte.txt') as file:
         byteKYC = str(file.read())
         if byteKYC[-1] == '\n':
@@ -87,8 +90,19 @@ def PrintBalance(privateKey):
 
 def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
     (Caddress, abiKYC, byteKYC) = GetContractInfo()
+    if Caddress == None:
+        return {'status': -2}
     person = GetAdress(Key)
-    contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+    try:
+        contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+    except:
+        return {'status': -3}
+
+    status = contract_by_address.functions.GetPersonInfo(person.address).call()
+
+    if status:
+        return {'status': -1}
+
     tx_wo_sign = contract_by_address.functions.RequestAddNumber(PhoneNum).buildTransaction({
         'from': person.address,
         'nonce': web3.eth.getTransactionCount(person.address),
@@ -98,7 +112,7 @@ def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
     signed_tx = person.signTransaction(tx_wo_sign)
     txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
     TX = web3.eth.waitForTransactionReceipt(txId)
-    return TX['transactionHash'].hex()
+    return TX
 
 args = (sys.argv)[1:]
 sizeM = len(args)
@@ -122,11 +136,25 @@ if args[0] == "--balance":
             PrintBalance(Key)
 
 if args[0] == '--add':
-    if sizeM > 2:
+    if sizeM > 1:
         PINcode = args[1]
-        PhoneNum = int(args[2])
+        if sizeM > 2:
+            PhoneNum = str(args[2])
+        else:
+            PhoneNum = '1'
+        if len(PhoneNum) != 12 or PhoneNum[0] != '+':
+            print("Incorrect phone number")
+            sys.exit()
         Key = GenerateKey(PINcode)
         if Key == None:
-            print("None")
+            print("ID is not found")
         TX = AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas)
-        print(TX)
+
+        if TX['status'] == -3:
+            print("Seems that the contract address is not the registrar contract")
+        if TX['status'] == -2:
+            print("No contract address")
+        if TX['status'] == -1:
+            print("Registration request already sent")
+        if TX['status'] == 1:
+            print('Registration request sent by',TX['transactionHash'].hex())
