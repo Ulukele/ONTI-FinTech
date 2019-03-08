@@ -5,6 +5,14 @@ from eth_account import Account
 from web3 import Web3, HTTPProvider
 import sha3
 
+def GetGas(URL, defGas):
+    try:
+        response = requests.get(URL).text
+        gasinfo = json.loads(response)['fast']
+    except:
+        return defGas
+    return int(gasinfo * 1000000000)
+
 def GetContractInfo():
     with open('registrar.json') as file:
         infor = json.load(file)
@@ -77,21 +85,20 @@ def PrintBalance(privateKey):
         balance[0] = 0
     print("Your balance is {} {}".format(balance[0], balance[1]))
 
-def AddNumberRequest(PINcode, Key, PhoneNum):
+def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
     (Caddress, abiKYC, byteKYC) = GetContractInfo()
     person = GetAdress(Key)
-
-    """
-    contract_by_address =  web3.eth.contract(address = Caddres, abi = abiKYC)
-	tx_wo_sign = contract_by_address.functions.AddName(name).buildTransaction({
-		'from': person.address,
-		'nonce': web3.eth.getTransactionCount(person.address),
-		'gas': 8000000,
-		'gasPrice': GetGas()
+    contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+    tx_wo_sign = contract_by_address.functions.RequestAddNumber(PhoneNum).buildTransaction({
+        'from': person.address,
+        'nonce': web3.eth.getTransactionCount(person.address),
+        'gas': 8000000,
+        'gasPrice': GetGas(GasURL, defGas)
     })
-	signed_tx = person.signTransaction(tx_wo_sign)
-    """
-    return TX
+    signed_tx = person.signTransaction(tx_wo_sign)
+    txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    TX = web3.eth.waitForTransactionReceipt(txId)
+    return TX['transactionHash'].hex()
 
 args = (sys.argv)[1:]
 sizeM = len(args)
@@ -117,6 +124,9 @@ if args[0] == "--balance":
 if args[0] == '--add':
     if sizeM > 2:
         PINcode = args[1]
-        PhoneNum = args[2]
+        PhoneNum = int(args[2])
         Key = GenerateKey(PINcode)
-        TX = AddNumberRequest(PINcode, Key, PhoneNum)
+        if Key == None:
+            print("None")
+        TX = AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas)
+        print(TX)
