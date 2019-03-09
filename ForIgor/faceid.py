@@ -163,11 +163,12 @@ def DelNumberRequest(PINcode, Key, GasURL, defGas):
 
 
 def GetAddressWithPhone(phoneNum):
-        contract_by_address = web3.eth.contract(address = GetContractAddress(), abi = abiKYC)
+        (Caddress, abiKYC, byteKYC) = GetContractInfo()
+        contract_by_address = web3.eth.contract(address = Caddress, abi = abiKYC)
         return contract_by_address.functions.GetAddress(phoneNum).call()
 
-def Transaction(privateKey, adres2, val):
-    adres1 = GetAdres(privateKey)
+def Transaction(privateKey, adres2, val, GasURL, defGas):
+    adres1 = GetAdress(privateKey)
     adres2 = web3.toChecksumAddress("0x"+adres2)
 
     nonce = 0
@@ -181,9 +182,10 @@ def Transaction(privateKey, adres2, val):
     print("Payment of {0} {1} to {2} scheduled".format(balance[0], balance[1], '"'+web3.toChecksumAddress(adres2NCS)[2:]+'"'))
     print("Transaction Hash: {0}".format(TransactionHex))
 
-def sendFunds(pinCode, phoneNum, value):
-    addressFrom = GenerateKey(pinCode)
-    if(web3.eth.getBalance(adress.address) < value):
+def sendFunds(pinCode, phoneNum, value, GasURL, defGas):
+    keyFrom = (GenerateKey(pinCode))
+    addressFrom = GetAdress(keyFrom)
+    if(web3.eth.getBalance(addressFrom.address) < value):
         print("No funds to send the payment")
         return False
     if(not checkNumber(phoneNum)):
@@ -193,7 +195,7 @@ def sendFunds(pinCode, phoneNum, value):
     if(len(address2) == 0):
         print("No account with the phone number", phoneNum)
         return False
-    Transaction(addressFrom, address2, value)
+    Transaction(addressFrom, address2, value, GasURL, defGas)
 
 args = (sys.argv)[1:]
 sizeM = len(args)
@@ -256,6 +258,8 @@ if args[0] == '--add':
             print("No contract address")
         if TX['status'] == -1:
             print("Registration request already sent")
+        if TX['status'] == 0:
+            print("Failed but included in", TX['transactionHash'].hex())
         if TX['status'] == 1:
             print('Registration request sent by',TX['transactionHash'].hex())
 
@@ -283,7 +287,7 @@ if args[0] == "--send" and len(args) == 4: # <pin code> <phone number> <value>
     pinCode = str(args[1])
     phoneNum = str(args[2])
     value = int(args[3])
-    sendFunds(pinCode, phoneNum, value)
+    sendFunds(pinCode, phoneNum, value, GasURL, defGas)
 
 if args[0] == '--find':
     file_name = args[1]
