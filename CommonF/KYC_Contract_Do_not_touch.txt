@@ -1,4 +1,5 @@
 pragma solidity ^0.5.4;
+pragma experimental ABIEncoderV2;
 
 contract Account_Numbers{
 
@@ -86,6 +87,10 @@ contract Account_Numbers{
     function SaveTransaction(address _from, address _to, string memory _TransactionInfoFrom, string memory _TransactionInfoTo) public {
         TransactionsInfo[_from].push(_TransactionInfoFrom);
         TransactionsInfo[_to].push(_TransactionInfoTo);
+    }
+
+    function GetTransactionsInfo(address _person) public returns(string[] memory){
+        return TransactionsInfo[_person];
     }
     //maxim end
 
