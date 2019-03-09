@@ -1,6 +1,53 @@
+import cognitive_face as cf
+import json
+from json import load
+import cv2
+import datetime
+import sys
+import os
+
 def add_new_person(group, name):
     user_id = cf.person.create(group, name)
     return user_id
+
+def checker_for_find(file_name):
+    vid = str(file_name)
+    cap  = cv2.VideoCapture(vid)
+    length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    if length < 5:
+        print('The video does not follow requirements')
+        sys.exit()
+    cap.release()
+    k = 0
+    face_ids = []
+
+    while k < 5:
+        beg = -1
+        end = length - 1
+        step = length//5
+        frame_num = 0
+        if (k == 0):
+            frame_num = beg
+            cap.set(2, frame_num)
+            cap  = cv2.VideoCapture(vid)
+        if (k == 5):
+            frame_num = end
+            cap.set(2, frame_num)
+            cap  = cv2.VideoCapture(vid)
+        else:
+            frame_num = beg + k*step
+            cap.set(2, frame_num)
+            cap  = cv2.VideoCapture(vid)
+        ret, frame = cap.read()
+        path = 'image.jpg'
+        cv2.imwrite(path, frame)
+        face = cf.face.detect(path)
+        if face == []:
+            print('The video does not follow requirements')
+            sys.exit()
+        else:
+            k+=1
+    return True
 
 def checker(file_name):
     vid = str(file_name)
@@ -93,7 +140,7 @@ def list_of_users(group):
 
 def train(group):
     cf.person_group.train(group)
-    
+
 def update_user_data(group, message):
     cf.person_group.update(group, user_data=message)
 
@@ -146,7 +193,7 @@ def identification(file_name, group):
             faceIds.append(face[0]['faceId'])
             k += 1
             cap.release()
-    candidates_info = cf.face.identify(faceIds, person_group_id=group)  
+    candidates_info = cf.face.identify(faceIds, person_group_id=group)
 
     for i in range(5):
         candidates_person_id.append(candidates_info[i]['candidates'][0]['personId'])

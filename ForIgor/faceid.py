@@ -6,7 +6,7 @@ from web3 import Web3, HTTPProvider
 import sha3
 import cognitive_face as cf
 import os
-from face_lib import add_new_person, checker, recognize, delete_person, list_of_users, train, update_user_data, identification
+from face_lib import add_new_person, checker, recognize, delete_person, list_of_users, train, update_user_data, identification, checker_for_find
 
 def GetGas(URL, defGas):
     try:
@@ -287,11 +287,12 @@ if args[0] == "--send" and len(args) == 4: # <pin code> <phone number> <value>
 
 if args[0] == '--find':
     file_name = args[1]
+    checker_for_find(file_name)
     try:
        cf.person_group.get(group)
     except cf.CognitiveFaceException as err:
          if err.code == 'PersonGroupNotFound':
-                print('The group does not exist')
+                print('The service is not ready')
                 sys.exit()
     if cf.person_group.get(group)['userData'] == 'group_train':
         identification(file_name, group)
@@ -312,4 +313,3 @@ if args[0] == '--find':
             except FileNotFoundError:
                 pass
             sys.exit()
-# US-017 END
