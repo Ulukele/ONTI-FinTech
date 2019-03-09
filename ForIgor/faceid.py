@@ -4,7 +4,9 @@ import json
 from eth_account import Account
 from web3 import Web3, HTTPProvider
 import sha3
-import face-management
+import cognitive_face as cf
+import os
+from face_lib import add_new_person, checker, recognize, delete_person, list_of_users, train, update_user_data, identification
 
 def GetGas(URL, defGas):
     try:
@@ -195,6 +197,20 @@ def sendFunds(pinCode, phoneNum, value):
 
 args = (sys.argv)[1:]
 sizeM = len(args)
+
+with open('faceapi.json') as file:
+    json2 = json.load(file)
+    key = json2['key']
+    BASE_URL = json2['serviceUrl']
+    group = json2['groupId']
+
+cf.BaseUrl.set(BASE_URL)
+
+try:
+    e = cf.Key.set(key)
+except:
+    print( "Incorrect subscription key")
+    sys.exit()
 
 with open('network.json') as file:
     infor = json.load(file)
