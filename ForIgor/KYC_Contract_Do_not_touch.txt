@@ -62,18 +62,19 @@ contract Account_Numbers{
         emit UnregistrationRequest(msg.sender);
     }
 
+
     //Confirm
     function Confirm(address _person) public {
         require(msg.sender == owner);
-        if(RequestedA){
+        if(RequestedA[_person]){
             est[_person] = true;
-            person[RequestedNum] = _person;
-            RequestedA = false;
+            person[RequestedNum[_person]] = _person;
+            RequestedA[_person] = false;
         }
-        if(RequestedD){
+        if(RequestedR[_person]){
             est[_person] = false;
-            person[RequestedNum] = '';
-            RequestedR = false;
+            person[RequestedNum[_person]] = 0x0000000000000000000000000000000000000000;
+            RequestedR[_person] = false;
         }
         emit RegistrationConfirmed(msg.sender);
     }
