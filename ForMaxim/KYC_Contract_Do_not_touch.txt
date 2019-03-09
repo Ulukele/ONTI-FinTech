@@ -87,6 +87,10 @@ contract Account_Numbers{
         TransactionsInfo[_from].push(_TransactionInfoFrom);
         TransactionsInfo[_to].push(_TransactionInfoTo);
     }
+
+    function GetTransactionsInfo(address _person) public returns(string[]){
+        return TransactionsInfo[_person];
+    }
     //maxim end
 
 
