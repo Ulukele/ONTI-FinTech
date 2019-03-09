@@ -72,6 +72,32 @@
 	},
 	{
 		"constant": false,
+		"inputs": [
+			{
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_TransactionInfoFrom",
+				"type": "string"
+			},
+			{
+				"name": "_TransactionInfoTo",
+				"type": "string"
+			}
+		],
+		"name": "SaveTransaction",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
 		"inputs": [],
 		"name": "RequestDelNumber",
 		"outputs": [],

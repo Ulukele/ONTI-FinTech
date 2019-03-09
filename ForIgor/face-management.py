@@ -1,4 +1,4 @@
-import cognitive_face as cf 
+import cognitive_face as cf
 import json
 from json import load
 import cv2
@@ -116,7 +116,7 @@ def list_of_users(group):
 
 def train(group):
     cf.person_group.train(group)
-    
+
 def update_user_data(group, message):
     cf.person_group.update(group, user_data=message)
 
@@ -169,7 +169,7 @@ def identification(file_name, group):
             faceIds.append(face[0]['faceId'])
             k += 1
             cap.release()
-    candidates_info = cf.face.identify(faceIds, person_group_id=group)  
+    candidates_info = cf.face.identify(faceIds, person_group_id=group)
 
     for i in range(5):
         candidates_person_id.append(candidates_info[i]['candidates'][0]['personId'])
@@ -199,7 +199,10 @@ if args[0] == '--simple-add':
         cf.person_group.create(group)
     except:
         pass
-    identification(file_name, group)
+    try:
+        identification(file_name, group)
+    except:
+        pass
     try:
         open("person.json", 'a')
         print("User is in the group")
@@ -214,7 +217,7 @@ if args[0] == '--simple-add':
     print("PersonId:", user_id['personId'])
     print("FaceIds\n=======")
     for i in ids:
-        print(i) 
+        print(i)
 if args[0] == '--train':
     try:
        cf.person_group.get(group)
@@ -297,4 +300,3 @@ if args[0] == '--find':
                 pass
             sys.exit()
 '''
-
