@@ -2,9 +2,11 @@ pragma solidity ^0.5.4;
 
 contract Account_Numbers{
 
+    //events
     event RegistrationRequest(address indexed sender);
     event UnregistrationRequest(address indexed sender);
     event RegistrationConfirmed(address indexed sender);
+    event UnregistrationConfirmed(address indexed sender);
 
     //Approved
     mapping (string => address) person;
@@ -53,6 +55,7 @@ contract Account_Numbers{
     //Requests:
     function RequestAddNumber(string memory _number) public {
         require(!RequestedA[msg.sender]);
+        require(person[_number] == 0x0000000000000000000000000000000000000000);
         RequestedA[msg.sender] = true;
         RequestedNum[msg.sender] = _number;
         emit RegistrationRequest(msg.sender);
@@ -74,13 +77,14 @@ contract Account_Numbers{
             est[_person] = true;
             person[RequestedNum[_person]] = _person;
             RequestedA[_person] = false;
+            emit RegistrationConfirmed(msg.sender);
         }
         if(RequestedR[_person]){
             est[_person] = false;
             person[RequestedNum[_person]] = 0x0000000000000000000000000000000000000000;
             RequestedR[_person] = false;
+            emit UnregistrationConfirmed(msg.sender);
         }
-        emit RegistrationConfirmed(msg.sender);
     }
 
     //maxim's:

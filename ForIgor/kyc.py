@@ -40,8 +40,10 @@ def ApproveRequest(person, addres, URL, defGas):
 
     statusA = contract_by_address.functions.GetPersonInfoAR(addres).call()
     statusD = contract_by_address.functions.GetPersonInfoDR(addres).call()
+    """
     if(not (statusA or statusD)):
         return {'status': -1}
+    """
     tx_wo_sign = contract_by_address.functions.Confirm(addres).buildTransaction({
         'from': person.address,
         'nonce': web3.eth.getTransactionCount(person.address),
