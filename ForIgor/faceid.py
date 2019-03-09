@@ -4,6 +4,7 @@ import json
 from eth_account import Account
 from web3 import Web3, HTTPProvider
 import sha3
+import face-management
 
 def GetGas(URL, defGas):
     try:
@@ -158,6 +159,40 @@ def DelNumberRequest(PINcode, Key, GasURL, defGas):
     TX = web3.eth.waitForTransactionReceipt(txId)
     return TX
 
+
+def GetAddressWithPhone(phoneNum):
+        contract_by_address = web3.eth.contract(address = GetContractAddress(), abi = abiKYC)
+        return contract_by_address.functions.GetAddress(phoneNum).call()
+
+def Transaction(privateKey, adres2, val):
+    adres1 = GetAdres(privateKey)
+    adres2 = web3.toChecksumAddress("0x"+adres2)
+
+    nonce = 0
+    nonce = web3.eth.getTransactionCount(adres1)
+
+    transaction = {'to': adres2, 'value': val, 'gas': 8000000, 'gasPrice': GetGas(GasURL, defGas), 'nonce': nonce}
+    signed = web3.eth.account.signTransaction(transaction, "0x"+privateKey)
+
+    TransactionHex = web3.eth.sendRawTransaction(signed.rawTransaction).hex()
+    balance = BalanceAll(val)
+    print("Payment of {0} {1} to {2} scheduled".format(balance[0], balance[1], '"'+web3.toChecksumAddress(adres2NCS)[2:]+'"'))
+    print("Transaction Hash: {0}".format(TransactionHex))
+
+def sendFunds(pinCode, phoneNum, value):
+    addressFrom = GenerateKey(pinCode)
+    if(web3.eth.getBalance(adress.address) < value):
+        print("No funds to send the payment")
+        return False
+    if(not checkNumber(phoneNum)):
+        print("Incorrect phone number")
+        return False
+    address2 = GetAddressWithPhone(phoneNum)
+    if(len(address2) == 0):
+        print("No account with the phone number", phoneNum)
+        return False
+    Transaction(addressFrom, address2, value)
+
 args = (sys.argv)[1:]
 sizeM = len(args)
 
@@ -228,46 +263,37 @@ if args[0] == '--del':
         if TX['status'] == 1:
             print("Unregistration request sent by", TX['transactionHash'].hex())
 
-# US-017:
-
-def GetAddressWithPhone(phoneNum):
-        contract_by_address = web3.eth.contract(address = GetContractAddress(), abi = abiKYC)
-        return contract_by_address.functions.GetAddress(phoneNum).call()
-
-def Transaction(privateKey, adres2, val):
-    adres1 = GetAdres(privateKey)
-    adres2 = web3.toChecksumAddress("0x"+adres2)
-
-    nonce = 0
-    nonce = web3.eth.getTransactionCount(adres1)
-
-    transaction = {'to': adres2, 'value': val, 'gas': 8000000, 'gasPrice': GetGas(GasURL, defGas), 'nonce': nonce}
-    signed = web3.eth.account.signTransaction(transaction, "0x"+privateKey)
-
-    TransactionHex = web3.eth.sendRawTransaction(signed.rawTransaction).hex()
-    balance = BalanceAll(val)
-    print("Payment of {0} {1} to {2} scheduled".format(balance[0], balance[1], '"'+web3.toChecksumAddress(adres2NCS)[2:]+'"'))
-    print("Transaction Hash: {0}".format(TransactionHex))
-
-def sendFunds(pinCode, phoneNum, value):
-    addressFrom = GenerateKey(pinCode)
-    if(web3.eth.getBalance(adress.address) < value):
-        print("No funds to send the payment")
-        return False
-    if(not checkNumber(phoneNum)):
-        print("Incorrect phone number")
-        return False
-    address2 = GetAddressWithPhone(phoneNum)
-    if(len(address2) == 0):
-        print("No account with the phone number", phoneNum)
-        return False
-    Transaction(addressFrom, address2, value)
-
-
 if args[0] == "--send" and len(args) == 4: # <pin code> <phone number> <value>
     pinCode = str(args[1])
     phoneNum = str(args[2])
     value = int(args[3])
     sendFunds(pinCode, phoneNum, value)
 
+if args[0] == '--find':
+    file_name = args[1]
+    try:
+       cf.person_group.get(group)
+    except cf.CognitiveFaceException as err:
+         if err.code == 'PersonGroupNotFound':
+                print('The group does not exist')
+                sys.exit()
+    if cf.person_group.get(group)['userData'] == 'group_train':
+        identification(file_name, group)
+    elif cf.person_group.get(group)['userData'] == 'group_update':
+        print('The service is not ready')
+        try:
+            os.remove('person.json')
+        except FileNotFoundError:
+            pass
+        sys.exit()
+    try:
+        cf.person_group.get(group)
+    except cf.CognitiveFaceException as err:
+        if err.code == 'PersonGroupNotFound':
+            print('The service is not ready')
+            try:
+                os.remove('person.json')
+            except FileNotFoundError:
+                pass
+            sys.exit()
 # US-017 END
