@@ -72,4 +72,7 @@ person = GetAdress(privateKey)
 if args[0] == '--confirm':
     addres = args[1]
     TX = ApproveRequest(person, addres, GasURL, defGas)
-    print(TX)
+    if TX['status'] == 0:
+        print("Failed but included in", TX['transactionHash'].hex())
+    if TX['status'] == 1:
+        print("Confirmed by", TX['transactionHash'].hex())

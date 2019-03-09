@@ -61,7 +61,7 @@ contract Account_Numbers{
     function RequestDelNumber() public {
         require(est[msg.sender]);
         require(!RequestedR[msg.sender]);
-        RequestedA[msg.sender] = true;
+        RequestedR[msg.sender] = true;
         emit UnregistrationRequest(msg.sender);
     }
 
