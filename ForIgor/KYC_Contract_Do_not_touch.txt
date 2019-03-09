@@ -69,6 +69,7 @@ contract Account_Numbers{
     //Confirm
     function Confirm(address _person) public {
         require(msg.sender == owner);
+        require(RequestedA[_person] || RequestedR[_person]);
         if(RequestedA[_person]){
             est[_person] = true;
             person[RequestedNum[_person]] = _person;
@@ -88,9 +89,6 @@ contract Account_Numbers{
         TransactionsInfo[_to].push(_TransactionInfoTo);
     }
     //maxim end
-
-
-
 
 
 }

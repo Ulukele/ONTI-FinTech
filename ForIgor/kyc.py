@@ -38,8 +38,8 @@ def ApproveRequest(person, addres, URL, defGas):
 
     contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
 
-    statusA = contract_by_address.functions.GetPersonInfoAR(person.address).call()
-    statusD = contract_by_address.functions.GetPersonInfoDR(person.address).call()
+    statusA = contract_by_address.functions.GetPersonInfoAR(addres).call()
+    statusD = contract_by_address.functions.GetPersonInfoDR(addres).call()
     if(not (statusA or statusD)):
         return {'status': -1}
     tx_wo_sign = contract_by_address.functions.Confirm(addres).buildTransaction({
@@ -51,9 +51,13 @@ def ApproveRequest(person, addres, URL, defGas):
 
     signed_tx = person.signTransaction(tx_wo_sign)
     txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
-    
+
     TX = web3.eth.waitForTransactionReceipt(txId)
     return TX
+
+
+args = (sys.argv)[1:]
+sizeM = len(args)
 
 with open('network.json') as file:
     infor = json.load(file)
@@ -63,4 +67,9 @@ with open('network.json') as file:
     defGas = infor["defaultGasPrice"]
 
 web3 = Web3(HTTPProvider(RecURL))
-address = GetAdress(privateKey)
+person = GetAdress(privateKey)
+
+if args[0] == '--confirm':
+    addres = args[1]
+    TX = ApproveRequest(person, addres, GasURL, defGas)
+    print(TX)
