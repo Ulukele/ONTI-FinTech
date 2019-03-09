@@ -6,11 +6,14 @@ contract Account_Numbers{
     event UnregistrationRequest(address indexed sender);
     event RegistrationConfirmed(address indexed sender);
 
+    //Approved
     mapping (string => address) person;
     mapping (address => bool) est;
+    //Requested
     mapping (address => bool) RequestedA;
     mapping (address => bool) RequestedR;
     mapping (address => string) RequestedNum;
+
 
     address public owner;
 
@@ -59,9 +62,19 @@ contract Account_Numbers{
         emit UnregistrationRequest(msg.sender);
     }
 
+    //Confirm
     function Confirm(address _person) public {
         require(msg.sender == owner);
-
+        if(RequestedA){
+            est[_person] = true;
+            person[RequestedNum] = _person;
+            RequestedA = false;
+        }
+        if(RequestedD){
+            est[_person] = false;
+            person[RequestedNum] = '';
+            RequestedR = false;
+        }
         emit RegistrationConfirmed(msg.sender);
     }
 
