@@ -6,7 +6,7 @@ from web3 import Web3, HTTPProvider
 import sha3
 import cognitive_face as cf
 import os
-from face_lib import add_new_person, checker, recognize, delete_person, list_of_users, train, update_user_data, identification
+from face_lib import add_new_person, checker, recognize, delete_person, list_of_users, train, update_user_data, identification, checker_for_find
 
 def GetGas(URL, defGas):
     try:
@@ -166,32 +166,6 @@ def GetAddressWithPhone(phoneNum):
         contract_by_address = web3.eth.contract(address = GetContractAddress(), abi = abiKYC)
         return contract_by_address.functions.GetAddress(phoneNum).call()
 
-def SaveTransaction(_from, _to, _TransactionInfoFrom, _TransactionInfoTo):
-    try:
-        contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
-    except:
-        return {'status': -3}
-
-    status = contract_by_address.functions.SaveTransaction(_from, _to, _TransactionInfoFrom, _TransactionInfoTo).call()
-
-    if status:
-        return {'status': -1}
-
-    tx_wo_sign = contract_by_address.functions.SaveTransaction(_from, _to, _TransactionInfoFrom, _TransactionInfoTo).buildTransaction({
-        'from': _from,
-        'nonce': web3.eth.getTransactionCount(_from),
-        'gas': 8000000,
-        'gasPrice': GetGas(GasURL, defGas)
-    })
-    try:
-        signed_tx = person.signTransaction(tx_wo_sign)
-        txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
-    except:
-        return {'status': -4}
-    TX = web3.eth.waitForTransactionReceipt(txId)
-    return TX
-
-
 def Transaction(privateKey, adres2, val):
     adres1 = GetAdres(privateKey)
     adres2 = web3.toChecksumAddress("0x"+adres2)
@@ -201,19 +175,15 @@ def Transaction(privateKey, adres2, val):
 
     transaction = {'to': adres2, 'value': val, 'gas': 8000000, 'gasPrice': GetGas(GasURL, defGas), 'nonce': nonce}
     signed = web3.eth.account.signTransaction(transaction, "0x"+privateKey)
+
     TransactionHex = web3.eth.sendRawTransaction(signed.rawTransaction).hex()
     balance = BalanceAll(val)
     print("Payment of {0} {1} to {2} scheduled".format(balance[0], balance[1], '"'+web3.toChecksumAddress(adres2NCS)[2:]+'"'))
     print("Transaction Hash: {0}".format(TransactionHex))
 
-    _TransactionInfoFrom = GetTime() + " TO: " + phoneNum + " " + balance[0] + " " + balance[1];
-    _TransactionInfoTo = GetTime() + " FROM: " + GetPhoneWithAddress(adres1) + " " + balance[0] + " " + balance[1];
-    SaveTransaction(GetAdres(addressFrom), address2, _TransactionInfoFrom, _TransactionInfoTo);
-
-
 def sendFunds(pinCode, phoneNum, value):
     addressFrom = GenerateKey(pinCode)
-    if(web3.eth.getBalance(adress.address) < value):
+    if(web3.eth.getBalance(addressFrom) < value):
         print("No funds to send the payment")
         return False
     if(not checkNumber(phoneNum)):
@@ -223,10 +193,7 @@ def sendFunds(pinCode, phoneNum, value):
     if(len(address2) == 0):
         print("No account with the phone number", phoneNum)
         return False
-
-
     Transaction(addressFrom, address2, value)
-
 
 args = (sys.argv)[1:]
 sizeM = len(args)
@@ -320,11 +287,12 @@ if args[0] == "--send" and len(args) == 4: # <pin code> <phone number> <value>
 
 if args[0] == '--find':
     file_name = args[1]
+    checker_for_find(file_name)
     try:
        cf.person_group.get(group)
     except cf.CognitiveFaceException as err:
          if err.code == 'PersonGroupNotFound':
-                print('The group does not exist')
+                print('The service is not ready')
                 sys.exit()
     if cf.person_group.get(group)['userData'] == 'group_train':
         identification(file_name, group)
@@ -345,14 +313,3 @@ if args[0] == '--find':
             except FileNotFoundError:
                 pass
             sys.exit()
-# US-017 END
-
-# US-021 START
-if args[0] == '--ops' and len(args) == 2:
-    personAddress = GenerateKey(pinCode)
-    contract_by_address = web3.eth.contract(address = GetTransactionsInfo(personAddress), abi = abiKYC)
-    trInfo = contract_by_address.functions.GetOwner().call()
-    for i in trInfo:
-        print(i)
-
-# US-021 END
