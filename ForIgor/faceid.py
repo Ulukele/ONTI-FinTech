@@ -125,10 +125,10 @@ def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
     person = GetAdress(Key)
     try:
         contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+        status = contract_by_address.functions.GetPersonInfoAR(person.address).call()
     except:
         return {'status': -3}
 
-    status = contract_by_address.functions.GetPersonInfoAR(person.address).call()
 
     if status:
         return {'status': -1}
