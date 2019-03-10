@@ -72,12 +72,25 @@ def AddresByNumber(PhoneNum):
         contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
     except:
         return {'status': -3}
-        
+
     TX = {'status': 1, 'result': ''}
     TX['result'] = contract_by_address.functions.GetAddress(PhoneNum).call()
     if TX['result'] == '0x0000000000000000000000000000000000000000':
         TX['status'] = -1
     return TX
+
+def GetListAdds():
+    (Caddress, abiKYC, byteKYC) = GetContractInfo()
+
+    if Caddress == None:
+        return {'status': -2}
+    try:
+        contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+    except:
+        return {'status': -3}
+    adds = contract_by_address.events.RegistrationRequest().createFilter(fromBlock='latest').get_new_entries()
+
+    return adds
 
 args = (sys.argv)[1:]
 sizeM = len(args)
@@ -117,3 +130,8 @@ if args[0] == '--get':
         print("Correspondence not found")
     if TX['status'] == 1:
         print("Registered correspondence:", TX['result'])
+
+if args[0] == '--list':
+    if args[1] == 'add':
+        adds = GetListAdds()
+        print(adds)

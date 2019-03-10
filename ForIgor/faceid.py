@@ -206,7 +206,7 @@ def Transaction(privateKey, PhoneNum, adres2, val, GasURL, defGas):
 def sendFunds(pinCode, phoneNum, value, GasURL, defGas):
     keyFrom = (GenerateKey(pinCode))
     addressFrom = GetAdress(keyFrom)
-    if(web3.eth.getBalance(addressFrom.address) < (value + 35000000000000000)):
+    if(web3.eth.getBalance(addressFrom.address) < (value + 33600000000000000)):
         print("No funds to send the payment")
         return False
     if(not checkNumber(phoneNum)):

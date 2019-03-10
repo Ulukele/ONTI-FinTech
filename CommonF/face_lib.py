@@ -1,4 +1,4 @@
-import cognitive_face as cf
+import cognitive_face as cf 
 import json
 from json import load
 import cv2
@@ -23,7 +23,7 @@ def head_attrib(file_name):
     roll = face_return[0]['faceAttributes']['headPose']['roll']
     yaw = face_return[0]['faceAttributes']['headPose']['yaw']
     return pupil_left, pupil_right
-
+    
 def add_new_person(group, name):
     user_id = cf.person.create(group, name)
     return user_id
@@ -158,7 +158,7 @@ def list_of_users(group):
 
 def train(group):
     cf.person_group.train(group)
-
+    
 def update_user_data(group, message):
     cf.person_group.update(group, user_data=message)
 
@@ -211,7 +211,7 @@ def identification(file_name, group):
             faceIds.append(face[0]['faceId'])
             k += 1
             cap.release()
-    candidates_info = cf.face.identify(faceIds, person_group_id=group)
+    candidates_info = cf.face.identify(faceIds, person_group_id=group)  
     try:
         for i in range(5):
             candidates_person_id.append(candidates_info[i]['candidates'][0]['personId'])
@@ -285,7 +285,7 @@ def identification_for_simple_add(file_name, group):
             faceIds.append(face[0]['faceId'])
             k += 1
             cap.release()
-    candidates_info = cf.face.identify(faceIds, person_group_id=group)
+    candidates_info = cf.face.identify(faceIds, person_group_id=group)  
     try:
         for i in range(5):
             candidates_person_id.append(candidates_info[i]['candidates'][0]['personId'])
