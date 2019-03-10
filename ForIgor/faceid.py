@@ -119,7 +119,6 @@ def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
     tx_wo_sign = contract_by_address.functions.RequestAddNumber(PhoneNum).buildTransaction({
         'from': person.address,
         'nonce': web3.eth.getTransactionCount(person.address),
-        'gas': 8000000,
         'gasPrice': GetGas(GasURL, defGas)
     })
     try:
@@ -149,7 +148,6 @@ def DelNumberRequest(PINcode, Key, GasURL, defGas):
     tx_wo_sign = contract_by_address.functions.RequestDelNumber().buildTransaction({
         'from': person.address,
         'nonce': web3.eth.getTransactionCount(person.address),
-        'gas': 8000000,
         'gasPrice': GetGas(GasURL, defGas)
     })
 

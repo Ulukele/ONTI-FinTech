@@ -36,7 +36,13 @@ def GetContractInfo():
 def ApproveRequest(person, addres, URL, defGas):
     (Caddress, abiKYC, byteKYC) = GetContractInfo()
 
-    contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+    if Caddress == None:
+        return {'status': -2}
+    try:
+        contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+    except:
+        return {'status': -3}
+
 
     statusA = contract_by_address.functions.GetPersonInfoAR(addres).call()
     statusD = contract_by_address.functions.GetPersonInfoDR(addres).call()
@@ -82,6 +88,11 @@ person = GetAdress(privateKey)
 if args[0] == '--confirm':
     addres = args[1]
     TX = ApproveRequest(person, addres, GasURL, defGas)
+
+    if TX['status'] == -3:
+        print("Seems that the contract address is not the registrar contract")
+    if TX['status'] == -2:
+        print("No contract address")
     if TX['status'] == 0:
         print("Failed but included in", TX['transactionHash'].hex())
     if TX['status'] == 1:
