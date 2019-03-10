@@ -7,7 +7,6 @@ import sha3
 import cognitive_face as cf
 import os
 import requests
-#import datatime
 from face_lib import add_new_person, checker, recognize, delete_person, list_of_users, train, update_user_data, identification, checker_for_find
 
 def GetGas(URL, defGas):
@@ -224,10 +223,6 @@ def CreateGift(PINcode, value, time, GasURL, defGas):
     except:
         return {'status': -3}
 
-    """
-    dataT = datatime.datatime.now()
-    print(dataT)
-    """
     tx_wo_sign = contract_by_address.functions.GiftCreate(time).buildTransaction({
         'from': person.address,
         'nonce': web3.eth.getTransactionCount(person.address),
