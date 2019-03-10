@@ -73,6 +73,15 @@
 	{
 		"constant": false,
 		"inputs": [],
+		"name": "Cancel",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
 		"name": "RequestDelNumber",
 		"outputs": [],
 		"payable": false,
@@ -206,6 +215,30 @@
 			}
 		],
 		"name": "UnregistrationConfirmed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "RegistrationCanceled",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "UnregistrationCanceled",
 		"type": "event"
 	}
 ]

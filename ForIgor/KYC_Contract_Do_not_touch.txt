@@ -7,6 +7,8 @@ contract Account_Numbers{
     event UnregistrationRequest(address indexed sender);
     event RegistrationConfirmed(address indexed sender);
     event UnregistrationConfirmed(address indexed sender);
+    event RegistrationCanceled(address indexed sender);
+    event UnregistrationCanceled(address indexed sender);
 
     //Approved
     mapping (string => address) person;
@@ -66,6 +68,18 @@ contract Account_Numbers{
         require(!RequestedR[msg.sender]);
         RequestedR[msg.sender] = true;
         emit UnregistrationRequest(msg.sender);
+    }
+
+    function Cancel() public{
+        require(RequestedA[msg.sender] || RequestedR[msg.sender]);
+        if(RequestedA[msg.sender]){
+            RequestedA[msg.sender] = false;
+            emit RegistrationCanceled(msg.sender);
+        }
+        if(RequestedR[msg.sender]){
+            RequestedR[msg.sender] = false;
+            emit UnregistrationCanceled(msg.sender);
+        }
     }
 
 

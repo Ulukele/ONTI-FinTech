@@ -110,11 +110,14 @@ def PrintBalance(privateKey):
 
 def checkNumber(phoneNum):
     phoneNum = str(phoneNum)
-    if(phoneNum[0] == '+' and len(phoneNum) == 12):
-        for i in range(1, 12):
-            if(phoneNum[i] < '0' and phoneNum[i] > '9'):
-                return False
-        return True
+    if len(phoneNum) == 12:
+        if(phoneNum[0] == '+' and len(phoneNum) == 12):
+            for i in range(1, 12):
+                if(phoneNum[i] < '0' or phoneNum[i] > '9'):
+                    return False
+            return True
+        else:
+            return False
     else:
         return False
 
@@ -153,10 +156,11 @@ def DelNumberRequest(PINcode, Key, GasURL, defGas):
     person = GetAdress(Key)
     try:
         contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+        status = contract_by_address.functions.GetPersonInfoEST(person.address).call()
     except:
         return {'status': -3}
 
-    status = contract_by_address.functions.GetPersonInfoEST(person.address).call()
+
     if status == False:
         return {'status': -5}
     status = contract_by_address.functions.GetPersonInfoDR(person.address).call()
@@ -237,6 +241,41 @@ def CreateGift(PINcode, value, time, GasURL, defGas):
     TX = web3.eth.waitForTransactionReceipt(txId)
     return TX
 
+def CancelRec(Key, GasURL, defGas):
+    res = ""
+    (Caddress, abiKYC, byteKYC) = GetContractInfo()
+    if Caddress == None:
+        return ({'status': -2}, res)
+    person = GetAdress(Key)
+    try:
+        contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+        status1 = contract_by_address.functions.GetPersonInfoAR(person.address).call()
+        status2 = contract_by_address.functions.GetPersonInfoDR(person.address).call()
+    except:
+        return ({'status': -3}, res)
+
+
+    if not (status1 or status2):
+        return ({'status': -1}, res)
+    if status1:
+        res = "Registration"
+    else:
+        res = "Unregistration"
+
+    tx_wo_sign = contract_by_address.functions.Cancel().buildTransaction({
+        'from': person.address,
+        'nonce': web3.eth.getTransactionCount(person.address),
+        'gasPrice': GetGas(GasURL, defGas)
+    })
+    try:
+        signed_tx = person.signTransaction(tx_wo_sign)
+        txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    except:
+        return ({'status': -4}, res)
+    TX = web3.eth.waitForTransactionReceipt(txId)
+
+    return (TX, res)
+
 
 args = (sys.argv)[1:]
 sizeM = len(args)
@@ -273,11 +312,30 @@ if args[0] == "--balance":
         else:
             PrintBalance(Key)
 
+"""
 if args[0] == '--gift':
     PINcode = args[1]
     value = args[2]
     TX = CreateGift(PINcode, value, GasURL, defGas)
+"""
 
+if args[0] == '--cancel':
+    PINcode = args[1]
+    Key = GenerateKey(PINcode)
+    (TX,res) = CancelRec(Key, GasURL, defGas)
+
+    if Key == None:
+        print("ID is not found")
+    if TX['status'] == -4:
+        print("No funds to send the request")
+    if TX['status'] == -3:
+        print("Seems that the contract address is not the registrar contract")
+    if TX['status'] == -2:
+        print("No contract address")
+    if TX['status'] == -1:
+        print("No requests found")
+    if TX['status'] == 1:
+        print(res, "canceled by", TX['transactionHash'].hex())
 
 if args[0] == '--add':
     if sizeM > 1:
