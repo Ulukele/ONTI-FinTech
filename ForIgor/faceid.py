@@ -166,18 +166,19 @@ def GetAddressWithPhone(phoneNum):
         return contract_by_address.functions.GetAddress(phoneNum).call()
 
 def Transaction(privateKey, adres2, val, GasURL, defGas):
+
     adres1 = GetAdress(privateKey)
-    adres2 = web3.toChecksumAddress("0x"+adres2)
+    adres2 = web3.toChecksumAddress(adres2)
 
     nonce = 0
-    nonce = web3.eth.getTransactionCount(adres1)
+    nonce = web3.eth.getTransactionCount(adres1.address)
 
     transaction = {'to': adres2, 'value': val, 'gas': 8000000, 'gasPrice': GetGas(GasURL, defGas), 'nonce': nonce}
     signed = web3.eth.account.signTransaction(transaction, "0x"+privateKey)
 
     TransactionHex = web3.eth.sendRawTransaction(signed.rawTransaction).hex()
     balance = BalanceAll(val)
-    print("Payment of {0} {1} to {2} scheduled".format(balance[0], balance[1], '"'+web3.toChecksumAddress(adres2NCS)[2:]+'"'))
+    print("Payment of {0} {1} to {2} scheduled".format(balance[0], balance[1], '"'+adres2+'"'))
     print("Transaction Hash: {0}".format(TransactionHex))
 
 def sendFunds(pinCode, phoneNum, value, GasURL, defGas):
@@ -193,7 +194,7 @@ def sendFunds(pinCode, phoneNum, value, GasURL, defGas):
     if(len(address2) == 0):
         print("No account with the phone number", phoneNum)
         return False
-    Transaction(addressFrom.address, address2, value, GasURL, defGas)
+    Transaction(keyFrom, address2, value, GasURL, defGas)
 
 args = (sys.argv)[1:]
 sizeM = len(args)
