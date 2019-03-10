@@ -283,7 +283,7 @@ if args[0] == '--del':
         if TX['status'] == 1:
             print("Unregistration request sent by", TX['transactionHash'].hex())
 
-if args[0] == "--send" and len(args) == 4: # <pin code> <phone number> <value>
+if args[0] == "--send" and len(args) == 4:
     pinCode = str(args[1])
     phoneNum = str(args[2])
     value = int(args[3])
