@@ -4,6 +4,7 @@ import json
 from eth_account import Account
 from web3 import Web3, HTTPProvider
 import sha3
+import requests
 
 def GetAdress(privateKey):
     adress = Account.privateKeyToAccount("0x"+privateKey)

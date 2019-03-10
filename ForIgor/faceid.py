@@ -6,6 +6,7 @@ from web3 import Web3, HTTPProvider
 import sha3
 import cognitive_face as cf
 import os
+import requests
 from face_lib import add_new_person, checker, recognize, delete_person, list_of_users, train, update_user_data, identification, checker_for_find
 
 def GetGas(URL, defGas):
@@ -231,6 +232,11 @@ if args[0] == "--balance":
         else:
             PrintBalance(Key)
 
+if args[0] == '--gift':
+    PINcode = args[1]
+    value = args[2]
+
+
 if args[0] == '--add':
     if sizeM > 1:
         PINcode = args[1]
@@ -247,6 +253,7 @@ if args[0] == '--add':
         Key = GenerateKey(PINcode)
         if Key == None:
             print("ID is not found")
+            sys.exit()
         TX = AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas)
 
         if TX['status'] == -4:
