@@ -193,7 +193,7 @@ def sendFunds(pinCode, phoneNum, value, GasURL, defGas):
     if(len(address2) == 0):
         print("No account with the phone number", phoneNum)
         return False
-    Transaction(addressFrom, address2, value, GasURL, defGas)
+    Transaction(addressFrom.address, address2, value, GasURL, defGas)
 
 args = (sys.argv)[1:]
 sizeM = len(args)

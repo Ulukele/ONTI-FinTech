@@ -206,18 +206,24 @@ def identification(file_name, group):
             k += 1
             cap.release()
     candidates_info = cf.face.identify(faceIds, person_group_id=group)  
-
-    for i in range(5):
-        candidates_person_id.append(candidates_info[i]['candidates'][0]['personId'])
-        candidates_confidence.append(candidates_info[i]['candidates'][0]['confidence'])
-    if (candidates_person_id[0] == candidates_person_id[1] == candidates_person_id[2] == candidates_person_id[3] == candidates_person_id[4]) and (candidates_confidence[0] >= 0.5) and (candidates_confidence[1] >= 0.5) and (candidates_confidence[2] >= 0.5) and (candidates_confidence[3] >= 0.5) and (candidates_confidence[4] >= 0.5):
-        candidate_id = candidates_person_id[0]
-        d = {'id': candidate_id}
-        with open("person.json","w") as f:
-            json.dump(d, f)
-            f.write('\n')
-        print("{} identified".format(candidate_id))
-    else:
+    try:
+        for i in range(5):
+            candidates_person_id.append(candidates_info[i]['candidates'][0]['personId'])
+            candidates_confidence.append(candidates_info[i]['candidates'][0]['confidence'])
+        if (candidates_person_id[0] == candidates_person_id[1] == candidates_person_id[2] == candidates_person_id[3] == candidates_person_id[4]) and (candidates_confidence[0] >= 0.5) and (candidates_confidence[1] >= 0.5) and (candidates_confidence[2] >= 0.5) and (candidates_confidence[3] >= 0.5) and (candidates_confidence[4] >= 0.5):
+            candidate_id = candidates_person_id[0]
+            d = {'id': candidate_id}
+            with open("person.json","w") as f:
+                json.dump(d, f)
+                f.write('\n')
+            print("{} identified".format(candidate_id))
+        else:
+            print('The person was not found')
+            try:
+                os.remove('person.json')
+            except FileNotFoundError:
+                pass
+    except IndexError:
         print('The person was not found')
         try:
             os.remove('person.json')
