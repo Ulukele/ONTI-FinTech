@@ -96,16 +96,9 @@ if args[0] == '--chown' and args[1] == 'registrar' and len(args) == 3:
         })
         signed_tx = senderAddress.signTransaction(tx_wo_sign)
 
-        try:
-            if(GetOwner() != senderAddress.address):
-                txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
-                print("Request cannot be executed")
-            else:
-                txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
-                print("New admin account:", newOwner)
-        except:
-            print("Request cannot be executed")
-
+        txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+        TX = web3.eth.waitForTransactionReceipt(txId)
+        print("New admin account:", newOwner)
 
 ### Put your code below this comment ###
 #print("Show must go on")
