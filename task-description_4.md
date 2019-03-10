@@ -1,4 +1,4 @@
-Материалы для заключительного этапа профиля ФТ ОНТИ 2018/19 
+Материалы для заключительного этапа профиля ФТ ОНТИ 2018/19
 ====
 
 # Финальная задача
@@ -64,7 +64,7 @@
 
 Участники должны использовать язык программирования Python для написания программ, использующих командную строку. Для написания Ethereum контрактов участники могут использовать любой язык программирования.
 
-Для работы с сервисом _Microsoft Face API_ участникам предоставляется один ключ подписки на команду, а также базовый URL для доступа к REST API. При доступе к сервису с помощью данного ключа действует ограничение на 10 запросов в секунду. Участники одной команды должны сами заботиться о том, чтобы держать ключ в тайне от других команд. Ключ не должен передаваться третьим лицам. Если ресурс ключа подписки (примерно 60000 запросов) полностью используется командой, то организаторы вправе не предоставлять команде другой ключ. 
+Для работы с сервисом _Microsoft Face API_ участникам предоставляется один ключ подписки на команду, а также базовый URL для доступа к REST API. При доступе к сервису с помощью данного ключа действует ограничение на 10 запросов в секунду. Участники одной команды должны сами заботиться о том, чтобы держать ключ в тайне от других команд. Ключ не должен передаваться третьим лицам. Если ресурс ключа подписки (примерно 60000 запросов) полностью используется командой, то организаторы вправе не предоставлять команде другой ключ.
 
 Участники не могут использовать помощь тренера, сопровождающего лица или привлекать третьих лиц для решения задачи.
 
@@ -99,7 +99,7 @@
   * После того, как все команды отправили запросы на слияние, жюри одобряет все запросы и приступает к приемочному тестированию, для тех подзадач, которые входят в соответствующую итерацию. Для этого исходный код приложения команды копируется на сервер жюри, и прогоняются автоматические тесты на соответствие решения участников требованиям к приемочным тестам (acceptance criteria).
   * Если все приемочные тесты для данной подзадачи пройдены успешно, команда получает баллы за данную подзадачу. Если хотя бы один тест не проходит, то баллы за данное подзадачу не начисляются.
 
-Приемочные тесты для каждой подзадачи описаны в разделе "Подробное описание подзадач". 
+Приемочные тесты для каждой подзадачи описаны в разделе "Подробное описание подзадач".
 
 Дальше перечислены баллы, которые получает команда за решение подзадач в каждой итерации.
 
@@ -156,7 +156,7 @@
 
 ## Подробное описание подзадач
 
-Решение представляет из себя набор python скриптов (компонент), каждый из который ответственен за определенный функционал. 
+Решение представляет из себя набор python скриптов (компонент), каждый из который ответственен за определенный функционал.
 
 Управление скриптами происходит через параметры командной строки и через конфигурационные файлы. Параметры командной строки описываются отдельно в разделах, где описывается функциональность каждого скрипта. Конфигурационные файлы - файлы в формате JSON, должны читаться из текущей директории, где происходит вызов скрипта и могут быть двух типов
   * конфигурационный файл с настройками для работы с _Microsoft Face API_
@@ -193,9 +193,9 @@
 
 Пример файла:
 ```json
-{"rpcUrl": "https://sokol.poa.network", 
- "privKey": "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470", 
- "gasPriceUrl": "https://gasprice.poa.network/", 
+{"rpcUrl": "https://sokol.poa.network",
+ "privKey": "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+ "gasPriceUrl": "https://gasprice.poa.network/",
  "defaultGasPrice": 2000000000}
 ```
 
@@ -203,9 +203,9 @@
   - для получения настроек для работы с MS Face API,
   - для получения видеопотока, эмулирующего камеру.
   - для получения настроек для работы с Ethereum узлом,
-  - для получения Application Binary Interface контракта или его байткода, 
+  - для получения Application Binary Interface контракта или его байткода,
   - или если это явно указано в описании компоненты,
-в остальных случаях данные должны быть получены из сервиса MS Face API или блокчейн сети. 
+в остальных случаях данные должны быть получены из сервиса MS Face API или блокчейн сети.
 
 Все компоненты, работающие с сервисом _MS Face API_, должны уметь обрабатывать ситуации, когда:
   - недоступно подключение к сервису (сообщение об ошибке "No connection to MS Face API provider");
@@ -218,7 +218,7 @@
 
 При возникновении данных событий в терминал должно выдаваться сообщение понятное пользователю, а не stack trace.
 
-Возможны также другие конфигурационные файлы, необходимые для работы тех или иных подсистем решения. Данные файлы будут отдельно описываться в соответствующих разделах. 
+Возможны также другие конфигурационные файлы, необходимые для работы тех или иных подсистем решения. Данные файлы будут отдельно описываться в соответствующих разделах.
 
 ## Описание компонент
 
@@ -243,7 +243,7 @@ $ setup.py --deploy
 ```
 
 Подключается к узлу Ethereum и регистрирует следующие контракты
-* регистр соответствий аккаунтов и телефонных номеров в сети блокчейн. 
+* регистр соответствий аккаунтов и телефонных номеров в сети блокчейн.
 * обработчик сертификатов на получение средств.
 
 На терминал выводятся адреса зарегистрованных контрактов. В текущей рабочей директории создается JSON файл `registrar.json`, содержащий адреса зарегистрированных контрактов.
@@ -261,7 +261,7 @@ $ cat registrar.json
 _Комментарий_:
 
 В блокчейн сеть отправляются транзакции для регистрации и первичной настройке контрактов. Транзакции успешно включены в один
-или несколько блоков. Для проведения транзакции выбрана цена из значения `fast`, возвращенного сервисом `https://gasprice.poa.network`. Контракты по адресу, выведенным в терминале, созданы одной из отправленных транзакций, и могут быть просмотрены с помощью браузера блоков. 
+или несколько блоков. Для проведения транзакции выбрана цена из значения `fast`, возвращенного сервисом `https://gasprice.poa.network`. Контракты по адресу, выведенным в терминале, созданы одной из отправленных транзакций, и могут быть просмотрены с помощью браузера блоков.
 
 ##### Критерий оценивания AC-001-02
 ```shell
@@ -273,13 +273,13 @@ Payment Handler: 0xE797A1da01eb0F951E0E400f9343De9d17A06bac
 $ cat registrar.json
 {"registrar": {"address": "0x23B40E5bCd06D819ba81A09e0340Ec06460d2b7D", "startBlock": 456123}, "payments": {"address": "0xE797A1da01eb0F951E0E400f9343De9d17A06bac", "startBlock": 456125}}
 ```
-_Комментарий_: 
+_Комментарий_:
 
-Контракты по адресам, выведенным в терминале, созданы одной из отправленных транзакций, и могут быть просмотрены с помощью браузера блоков. 
+Контракты по адресам, выведенным в терминале, созданы одной из отправленных транзакций, и могут быть просмотрены с помощью браузера блоков.
 
 ##### Критерий оценивания AC-001-03
 ```shell
-$ cat network.json | python -mjson.tool | grep gasPriceUrl 
+$ cat network.json | python -mjson.tool | grep gasPriceUrl
     "gasPriceUrl": "https://gasprice.poa.network/",
 $ curl https://gasprice.poa.network/
 curl: (6) Could not resolve host: gasprice.poa.network
@@ -299,13 +299,13 @@ _Комментарий_:
 $ setup.py --owner registrar
 ```
 
-Подключается к узлу Ethereum и получает адрес аккаунта, имеющего полномочия выполнять действия по подверждению запросов на регистрацию и удалению соответствий аккаунтов и телефонных номеров в сети блокчейн. 
+Подключается к узлу Ethereum и получает адрес аккаунта, имеющего полномочия выполнять действия по подверждению запросов на регистрацию и удалению соответствий аккаунтов и телефонных номеров в сети блокчейн.
 
 На терминал выводится адрес аккаунта.
 
 ##### Критерий оценивания AC-002-01
 ```shell
-$ cat network.json | python -mjson.tool | grep privKey 
+$ cat network.json | python -mjson.tool | grep privKey
     "privKey": "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
 $ setup.py --deploy
 KYC Registrar: 0x9FdddF5bf10c65221da0a78ADAFec1D8E9EF0A7D
@@ -315,11 +315,11 @@ Admin account: 0x9cce34F7aB185c7ABA1b7C8140d620B4BDA941d6
 ```
 _Комментарий_:
 
-Транзакции в блокчейн сеть не отправляются. 
+Транзакции в блокчейн сеть не отправляются.
 
 ##### Критерий оценивания AC-002-02
 ```shell
-$ cat network.json | python -mjson.tool | grep privKey 
+$ cat network.json | python -mjson.tool | grep privKey
     "privKey": "64e604787cbf194841e7b68d7cd28786f6c9a0a3ab9f8b0a0e87cb4387ab0107",
 $ cat registrar.json
 {"registrar": {"address": "0x9FdddF5bf10c65221da0a78ADAFec1D8E9EF0A7D", "startBlock": 234156}, "payments": {"address": "0xD79A8FDB771Ea12359270aD7020bcCB328C9f5f7", "startBlock": 451247}}
@@ -343,7 +343,7 @@ $ setup.py --chown registrar <address>
 
 ##### Критерий оценивания AC-003-01
 ```shell
-$ cat network.json | python -mjson.tool | grep privKey 
+$ cat network.json | python -mjson.tool | grep privKey
     "privKey": "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
 $ setup.py --owner registrar
 Admin account: 0x9cce34F7aB185c7ABA1b7C8140d620B4BDA941d6
@@ -358,7 +358,7 @@ _Комментарий_:
 
 ##### Критерий оценивания AC-003-02
 ```shell
-$ cat network.json | python -mjson.tool | grep privKey 
+$ cat network.json | python -mjson.tool | grep privKey
     "privKey": "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
 $ setup.py --owner registrar
 Admin account: 0x6455F1445c72BA9460C6f6AB364d3935a0AD4559
@@ -373,7 +373,7 @@ _Комментарий_:
 
 ##### Критерий оценивания AC-003-03
 ```shell
-$ cat network.json | python -mjson.tool | grep gasPriceUrl 
+$ cat network.json | python -mjson.tool | grep gasPriceUrl
     "gasPriceUrl": "https://gasprice.poa.network/",
 $ curl https://gasprice.poa.network/
 curl: (6) Could not resolve host: gasprice.poa.network
@@ -386,7 +386,7 @@ _Комментарий_:
 
 ##### Критерий оценивания AC-003-04
 ```shell
-$ cat network.json | python -mjson.tool | grep privKey 
+$ cat network.json | python -mjson.tool | grep privKey
     "privKey": "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
 $ setup.py --owner registrar
 Admin account: 0x9cce34F7aB185c7ABA1b7C8140d620B4BDA941d6
@@ -403,7 +403,7 @@ _Комментарий_:
 
 Сервис идентификации человека по лицу перед полноценной работой требует предварительной настройки. Первое, что должно быть сделано - в сервис необходимо добавить лица людей, которых в дальнейшем необходимо идентифицировать. Поскольку система автоматического тестирования не может работать с камерой, то изображения человека будут передаваться через видео-файл, передаваемый в сервис через параметры командной строки.
 
-Администратор свервиса должен иметь возможность просматривать список добавленных пользователей, удалять пользователя (и его изображения) из системы. 
+Администратор свервиса должен иметь возможность просматривать список добавленных пользователей, удалять пользователя (и его изображения) из системы.
 
 Как только необходимое количество лиц зарегистрировано в сервисе, администратор может запустить обучение нейронной сети.
 
@@ -414,22 +414,22 @@ face-management.py <command> [options]
 
 #### US-004 Простое добавление пользователя в сервис индентификации
 
-Сервис должен быть устроен так, что добавление изображений человека в систему происходит анонимно, т.е. имя при добавлении не указывается. 
+Сервис должен быть устроен так, что добавление изображений человека в систему происходит анонимно, т.е. имя при добавлении не указывается.
 
 ##### Использование скрипта
 ```shell
 $ face-management.py --simple-add <path to video file>
 ```
 
-При использовании команды простого добавления пользователя из видео-потока извлекается 5 кадров с изображением лица человека. При этом подразумевается, что все кадры в видео приндалежат одному и тому же человеку. 
+При использовании команды простого добавления пользователя из видео-потока извлекается 5 кадров с изображением лица человека. При этом подразумевается, что все кадры в видео приндалежат одному и тому же человеку.
 
-Если в видео-потоке недостаточно кадров с изображением человека, то обработка такого видео должно приводить к ошибке. 
+Если в видео-потоке недостаточно кадров с изображением человека, то обработка такого видео должно приводить к ошибке.
 
 ##### Критерий оценивания AC-004-01
 ```shell
 $ cat faceapi.json | python -mjson.tool | grep groupId
     "groupId": "fintech-01",
-$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups/fintech-01" -H "Content-Type: application/json" -H "Ocp-Apim-Subscription-Key: 000000000000000000000000000000000" 
+$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups/fintech-01" -H "Content-Type: application/json" -H "Ocp-Apim-Subscription-Key: 000000000000000000000000000000000"
 {"error":{"code":"PersonGroupNotFound","message":"Person group is not found.\r\nParameter name: personGroupId"}}
 $ face-management.py --simple-add /path/to/video.avi
 5 frames extracted
@@ -444,13 +444,13 @@ f945a3be-4b20-4049-b080-4142a55e4f93
 ```
 _Комментарий_:
 
-Требуемый `personGroupId` не существовал до этого в сервисе _Microsoft Face API_. После добавления `personGroupId` добавляется новый `personId`, с которым ассоциируется 5 изображений лица (`persistedFaceId`). 
+Требуемый `personGroupId` не существовал до этого в сервисе _Microsoft Face API_. После добавления `personGroupId` добавляется новый `personId`, с которым ассоциируется 5 изображений лица (`persistedFaceId`).
 
 ##### Критерий оценивания AC-004-02
 ```shell
 $ cat faceapi.json | python -mjson.tool | grep groupId
     "groupId": "fintech-01",
-$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups" -H "Content-Type: application/json" -H "OcApim-Subscription-Key: 000000000000000000000000000000000" 
+$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups" -H "Content-Type: application/json" -H "OcApim-Subscription-Key: 000000000000000000000000000000000"
 [{"personGroupId":"fintech-01","name":"fintech-01","userData":null}]
 $ face-management.py --simple-add /path/to/video1.avi
 5 frames extracted
@@ -465,7 +465,7 @@ ff79486f-15ac-43be-9c6c-b2840f8c8d22
 ```
 _Комментарий_:
 
-Требуемый `personGroupId` существует в _Microsoft Face API_. В данную группу добавляется новый `personId`, с которым ассоциируется 5 изображений лица (`persistedFaceId`). 
+Требуемый `personGroupId` существует в _Microsoft Face API_. В данную группу добавляется новый `personId`, с которым ассоциируется 5 изображений лица (`persistedFaceId`).
 
 ##### Критерий оценивания AC-004-03
 ```shell
@@ -530,9 +530,252 @@ $ face-management.py --add <path to video file 1> [ <path to video file 2> [ <pa
   * В четвертом видеофайле должен быть зафиксирован открытый рот
   * В пятом - должно быть зафиксировано закрытие глаз
 
+##### Критерий оценивания AC-005-01
+```shell
+$ cat faceapi.json | python -mjson.tool | grep groupId
+    "groupId": "fintech-01",
+$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups/fintech-01" -H "Content-Type: application/json" -H "Ocp-Apim-Subscription-Key: 000000000000000000000000000000000"
+{"error":{"code":"PersonGroupNotFound","message":"Person group is not found.\r\nParameter name: personGroupId"}}
+$ face-management.py --add /path/to/video1.avi
+5 frames extracted
+PersonId: ddaa7036-cab0-4d8f-9b36-18f20e294c51
+FaceIds
+=======
+5754a049-0de7-4ee5-99ba-45d0d3398645
+56c0aa34-50c4-4d0b-bcf0-c86e9c9dec52
+f626c3d7-1126-401c-b125-16b6c65e6ed8
+6d617030-941d-4f6c-9d05-b714b4e2b504
+1087c13c-09d7-4053-8bc6-9381c48081e2
+```
+_Комментарий_:
+
+Требуемый `personGroupId` не существовал до этого в сервисе _Microsoft Face API_. После добавления `personGroupId` добавляется новый `personId`, с которым ассоциируется 5 изображений лица (`persistedFaceId`). Изображение лица человека не должно значительно отличаться от кадра к кадру (допускаются повороты до 5 градусов).
+
+##### Критерий оценивания AC-005-02
+```shell
+$ cat faceapi.json | python -mjson.tool | grep groupId
+    "groupId": "fintech-01",
+$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups" -H "Content-Type: application/json" -H "OcApim-Subscription-Key: 000000000000000000000000000000000"
+[{"personGroupId":"fintech-01","name":"fintech-01","userData":null}]
+$ face-management.py --add /path/to/video1.avi
+5 frames extracted
+PersonId: 6dc70d27-3bad-400a-983f-fec6591cff6b
+FaceIds
+=======
+08609f0a-55ee-46ed-899b-5f7d66f62cce
+2bb6d3a9-1c52-4a70-ac62-44881f2aed29
+4309d3b7-5250-47e3-bc7e-f3d1da8badd1
+76b6a516-c378-4d86-b4cc-03b60b5c2d2c
+85f2af43-ca0e-4dd1-a400-9780d7b7a8f5
+```
+_Комментарий_:
+
+В требуемую `personGroupId` добавляется новый `personId`, с которым ассоциируется 5 изображений лица (`persistedFaceId`). Изображение лица человека не должно значительно отличаться от кадра к кадру (допускаются повороты до 5 градусов).
+
+##### Критерий оценивания AC-005-03
+```shell
+$ face-management.py --add /path/to/video2.avi
+Base video does not follow requirements
+```
+_Комментарий_:
+
+Изображение лица человека в видео значительно отличаться от кадра к кадру (повороты больше чем на 5 градусов либо есть открый рот, либо есть закрытые глаза). Группа с `personGroupId` не создается, новый `personId` не добавляется.
+
+##### Критерий оценивания AC-005-04
+```shell
+$ face-management.py --add /path/to/video1.avi /path/to/video2.avi
+10 frames extracted
+PersonId: 8d0b7195-c172-4d1a-8588-063f3e64c0c0
+FaceIds
+=======
+08609f0a-55ee-46ed-899b-5f7d66f62cce
+2bb6d3a9-1c52-4a70-ac62-44881f2aed29
+4309d3b7-5250-47e3-bc7e-f3d1da8badd1
+76b6a516-c378-4d86-b4cc-03b60b5c2d2c
+85f2af43-ca0e-4dd1-a400-9780d7b7a8f5
+300c161f-7154-43c4-80bc-34d1fd9ffb1d
+4f57f616-23ea-4be7-b977-8e9b14a192b4
+52c9b5c4-6cb7-4aae-b9d0-206d6db90510
+8f9a5e7f-c2c4-4d92-908b-6f220b4d3b32
+d45f9324-a845-4db6-abc6-88214726bdcc
+```
+_Комментарий_:
+
+В требуемую `personGroupId` добавляется новый `personId`, с которым ассоциируется 10 изображений лица (`persistedFaceId`). Помимо 5 изображений лиц из первого видео, добавляется 5 - из второго.
+
+Лицо человека во втором видео должно наклонятся из крайнего положения влево к крайнему положению вправо. Зафиксирован максимальный наклон в каждую из сторон не меньше 30 градусов. Из второго видео выбрано 5 кадров с наклонами головы из следующего списка: 30 градусов влево, 15 градусов влево, 0 градусов, 15 градусов вправо, 30 градусов вправо. Допускается отклонение от перечисленных значений +/- 3 градуса.
+
+##### Критерий оценивания AC-005-05
+```shell
+$ face-management.py --add /path/to/video1.avi /path/to/video3.avi
+Roll video does not follow requirements
+```
+_Комментарий_:
+
+Во втором по счету видео лицо человека не доходит до крайних положений. Т.е. нельзя зафиксировать максимальный наклон в каждую из сторон от 30 градусов и более. Группа с `personGroupId` не создается, новый `personId` не добавляется.
+
+##### Критерий оценивания AC-005-06
+```shell
+$ face-management.py --add /path/to/video1.avi /path/to/video2.avi /path/to/video3.avi
+15 frames extracted
+PersonId: a25ddbf2-aabf-41c7-b9a9-d69f1c055761
+FaceIds
+=======
+0ca5925b-55eb-44fd-9624-39fbaa33a5c5
+31091841-2e3c-43c2-a14c-497fd8137d25
+3f46e69d-33d7-4474-97a1-230046dc9cfa
+f1752749-f602-4151-b3bb-7cec627de3df
+f556db9a-55cd-4542-bf0f-a5848376ba66
+08609f0a-55ee-46ed-899b-5f7d66f62cce
+2bb6d3a9-1c52-4a70-ac62-44881f2aed29
+4309d3b7-5250-47e3-bc7e-f3d1da8badd1
+76b6a516-c378-4d86-b4cc-03b60b5c2d2c
+85f2af43-ca0e-4dd1-a400-9780d7b7a8f5
+300c161f-7154-43c4-80bc-34d1fd9ffb1d
+4f57f616-23ea-4be7-b977-8e9b14a192b4
+52c9b5c4-6cb7-4aae-b9d0-206d6db90510
+8f9a5e7f-c2c4-4d92-908b-6f220b4d3b32
+d45f9324-a845-4db6-abc6-88214726bdcc
+```
+_Комментарий_:
+
+В требуемую `personGroupId` добавляется новый `personId`, с которым ассоциируется 15 изображений лица (`persistedFaceId`). Помимо 10 изображений лиц из первого и второго видео, добавляется 5 - из третьего.
+
+Лицо человека в третьем видео должно поворачиваться из крайнего положения влево к крайнему положению вправо. Зафиксирован максимальный поворот в каждую из сторон не меньше 20 градусов. Из третьего видео выбрано 5 кадров с наклонами головы из следующего списка: 20 градусов влево, 10 градусов влево, 0 градусов, 10 градусов вправо, 20 градусов вправо. Допускается отклонение от перечисленных значени +/- 3 градуса.
+
+##### Критерий оценивания AC-005-07
+```shell
+$ face-management.py --add /path/to/video1.avi /path/to/video2.avi /path/to/video4.avi
+Yaw video does not follow requirements
+```
+_Комментарий_:
+
+Во третьем по счету видео лицо человека не доходит до крайних положений. Т.е. нельзя зафиксировать максимальный поворот в каждую из сторон от 20 градусов и более. Группа с `personGroupId` не создается, новый `personId` не добавляется.
+
+##### Критерий оценивания AC-005-08
+```shell
+$ face-management.py --add /path/to/video1.avi /path/to/video2.avi /path/to/video3.avi /path/to/video4.avi
+16 frames extracted
+PersonId: e3152bc7-431c-4215-a19b-d128f2768438
+FaceIds
+=======
+100d7ff0-0e95-4998-a385-d65a69cbbab4
+1ca71243-1370-4c7f-b457-ac53ade0b59a
+25f51952-880c-435e-9afb-3ca8b2b981d4
+cf17ee9e-140b-444b-a87a-35209a631aa1
+f0ae9fd1-81bd-4fcc-853c-107e228be383
+2307cf52-687b-4d51-9861-728b6297aa7d
+34ac19bb-4018-498b-bb13-02098aaac75c
+7e01b585-78b1-42a0-8e48-4b1ef199dde7
+99943bc7-f92e-49fb-91b4-06b123343982
+ae8b5917-ee88-4499-b262-8bfbfda687ca
+8195743c-ae84-48fe-b381-1eb73c82f5c1
+87ad1c82-0ffd-4b39-8b72-fa6323257802
+9cb6fc25-f32e-49d7-b6de-352bf2d911fc
+bff40657-1ea4-4667-b2aa-d8b480f527be
+d4b57970-6390-4c23-a366-0c51fdc17f9b
+1f41144e-eee5-4210-8a7d-ffa4adc3ba21
+```
+_Комментарий_:
+
+В требуемую `personGroupId` добавляется новый `personId`, с которым ассоциируется 16 изображений лица (`persistedFaceId`). Помимо 15 изображений лиц из первого-третьего видео, добавляется 1 изображение - из четвертого.
+
+На серии кадров человека в четвертом видео рот человека должен быть открыт. Один из кадров с открытым ртом отправляется в _Microsoft Face API_.
+
+##### Критерий оценивания AC-005-09
+```shell
+$ face-management.py --add /path/to/video1.avi /path/to/video2.avi /path/to/video3.avi /path/to/video5.avi
+Video to detect open mouth does not follow requirements
+```
+_Комментарий_:
+
+Во четвертом по счету видео не найдены кадры с открытым ртом. Группа с `personGroupId` не создается, новый `personId` не добавляется.
+
+##### Критерий оценивания AC-005-10
+```shell
+$ face-management.py --add /path/to/video1.avi /path/to/video2.avi /path/to/video3.avi /path/to/video4.avi /path/to/video5.avi
+18 frames extracted
+PersonId: 588e76bc-a0ce-4066-94d2-96620d105401
+FaceIds
+=======
+220dd1ea-3392-466b-ab50-fbb465a513ff
+4977b87d-3c36-45d7-b827-8907aa66b918
+29e7d8fd-f065-41b6-9fd0-b191fb3dde78
+d0e269f1-199a-459e-9fbf-1c24e015fdec
+94d0887a-4e0a-4b86-9e6e-8f6fdd45f1ec
+12938747-8530-4bcc-a811-b890aa852175
+2d486b65-ed15-4313-836c-2cd4ca7e02cb
+9a1ab5a7-9e46-4566-8d85-54bbcd021307
+7a6f7afd-a1f6-4d7a-9e6f-c5e0daf1501a
+105dfcaa-a25d-45ff-ba38-48de04a735e6
+090707ff-91b8-4647-afbd-a80f1976c10d
+65f53802-dfa0-46a0-b9e5-c4780f41d580
+8c485998-ea43-439b-a84e-606433232133
+7b0166db-f7a2-477c-b3f6-bbf3833ea770
+191f33fc-501f-4d1a-8b5f-a4f9917f311a
+44c79f24-5f87-48c6-af1f-f85e0fca521e
+cdd4e100-217d-4163-8f51-4c8f82282f46
+e417cb0c-ad18-47eb-8ffa-d850f3aaa8ec
+```
+_Комментарий_:
+
+В требуемую `personGroupId` добавляется новый `personId`, с которым ассоциируется 18 изображений лица (`persistedFaceId`). Помимо 16 изображений лиц из первого-четвертого видео, добавляется два изображения - из пятого.
+
+На серии кадров человека в пятом видео был закрыт сначала левый глаз, потом правый. По одному кадру с каждым из закрытых глаз отправляется в _Microsoft Face API_.
+
+##### Критерий оценивания AC-005-11
+```shell
+$ face-management.py --add /path/to/video1.avi /path/to/video2.avi /path/to/video3.avi /path/to/video4.avi /path/to/video6.avi
+18 frames extracted
+PersonId: 5d5d6e92-f8f0-47cf-8e9b-b4455092603e
+FaceIds
+=======
+0e5edd8e-7756-470e-a26c-f54ab70a5524
+73b4caea-c85c-4594-9153-198351937d94
+2ae3c850-190a-4cd0-afd2-8efa341767ba
+adb7744e-b2fb-4a58-b3a8-f22c3143a8cd
+7e0f87d6-14ad-4ec6-971f-e4c2771cc267
+47c8c307-1f90-473c-b48c-792d5b5a1241
+33e35a22-358a-4847-bcdd-4a5bdfd5eb69
+2c7b951b-126a-4eec-9e22-1d9d65ece9e3
+bcaf7f6a-1c44-476e-a51f-9dde2744ade0
+1c9c0134-ada0-47c2-848c-d4424b232f04
+b79945e1-de47-4011-98f2-e7e8f0d9f3ef
+f972b6ac-078b-4e3d-a779-4cde8ea28f36
+fbeb7aa1-f66e-4412-ad07-b61103e8af0b
+9c762e64-075b-4fa4-8e39-0d83df86428b
+9794e349-e4e4-44ad-951c-610b4890b16e
+2e93da04-8f31-4a27-bd9e-5768335447a5
+b9227512-dfa8-4a17-94e2-be520b8975a9
+b67c1f86-2e3d-45a2-a7fb-57bbbff9cd8c
+```
+_Комментарий_:
+
+В требуемую `personGroupId` добавляется новый `personId`, с которым ассоциируется 18 изображений лица (`persistedFaceId`). Помимо 16 изображений лиц из первого-четвертого видео, добавляется два изображения - из пятого.
+
+На серии кадров человека в пятом видео был закрыт сначала правый глаз потом левый. По одному кадру с каждым из закрытых глаз отправляется в _Microsoft Face API_.
+
+##### Критерий оценивания AC-005-12
+```shell
+$ face-management.py --add /path/to/video1.avi /path/to/video2.avi /path/to/video3.avi /path/to/video4.avi /path/to/video7.avi
+Video to detect closed eyes does not follow requirements
+```
+_Комментарий_:
+
+Во пятом по счету видео не найдены кадры с закрытыми глазами. Причем видео считается не удовлетворяющим требованиям, если только один глаз был закрыт. Группа с `personGroupId` не создается, новый `personId` не добавляется.
+
+##### Критерий оценивания AC-005-13
+```shell
+$ face-management.py --add /path/to/video11.avi /path/to/video12.avi /path/to/video13.avi /path/to/video14.avi /path/to/video15.avi
+Roll video does not follow requirements
+```
+_Комментарий_:
+
+В каком-то видео не найдены кадры, удовлетворяющие требованиям. Группа с `personGroupId` не создается, новый `personId` не добавляется.
+
 #### US-006 Получение всех пользователей из сервиса идентификации
 
-Администратор сервиса может получить список всех добавленных пользователей. 
+Администратор сервиса может получить список всех добавленных пользователей.
 
 ##### Использование скрипта
 ```shell
@@ -543,20 +786,20 @@ $ face-management.py --list
 ```shell
 $ cat faceapi.json | python -mjson.tool | grep groupId
     "groupId": "fintech-01",
-$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups/fintech-01" -H "Content-Type: application/json" -H "Ocp-Apim-Subscription-Key: 000000000000000000000000000000000" 
+$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups/fintech-01" -H "Content-Type: application/json" -H "Ocp-Apim-Subscription-Key: 000000000000000000000000000000000"
 {"error":{"code":"PersonGroupNotFound","message":"Person group is not found.\r\nParameter name: personGroupId"}}
 $ face-management.py --list
 The group does not exist
 ```
 _Комментарий_:
 
-Требуемый `personGroupId` не существовует в сервисе _Microsoft Face API_ ни до, ни после выполнения команды. 
+Требуемый `personGroupId` не существовует в сервисе _Microsoft Face API_ ни до, ни после выполнения команды.
 
 ##### Критерий оценивания AC-006-02
 ```shell
 $ cat faceapi.json | python -mjson.tool | grep groupId
     "groupId": "fintech-01",
-$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups" -H "Content-Type: application/json" -H "OcApim-Subscription-Key: 000000000000000000000000000000000" 
+$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups" -H "Content-Type: application/json" -H "OcApim-Subscription-Key: 000000000000000000000000000000000"
 [{"personGroupId":"fintech-01","name":"fintech-01","userData":null}]
 $ face-management.py --list
 Persons IDs:
@@ -567,13 +810,13 @@ ff79486f-15ac-43be-9c6c-b2840f8c8d22
 ```
 _Комментарий_:
 
-Требуемый `personGroupId` существует в _Microsoft Face API_. 
+Требуемый `personGroupId` существует в _Microsoft Face API_.
 
 ##### Критерий оценивания AC-006-03
 ```shell
 $ cat faceapi.json | python -mjson.tool | grep groupId
     "groupId": "fintech-01",
-$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups" -H "Content-Type: application/json" -H "OcApim-Subscription-Key: 000000000000000000000000000000000" 
+$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups" -H "Content-Type: application/json" -H "OcApim-Subscription-Key: 000000000000000000000000000000000"
 [{"personGroupId":"fintech-01","name":"fintech-01","userData":null}]
 $ face-management.py --list
 No persons found
@@ -584,7 +827,7 @@ _Комментарий_:
 
 #### US-007 Удаление пользователя из сервиса идентификации
 
-Администратор сервиса может удалить пользователя сервиса по его идентификатору. 
+Администратор сервиса может удалить пользователя сервиса по его идентификатору.
 
 ##### Использование скрипта
 ```shell
@@ -595,27 +838,27 @@ $ face-management.py --del <person id>
 ```shell
 $ cat faceapi.json | python -mjson.tool | grep groupId
     "groupId": "fintech-01",
-$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups/fintech-01" -H "Content-Type: application/json" -H "Ocp-Apim-Subscription-Key: 000000000000000000000000000000000" 
+$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups/fintech-01" -H "Content-Type: application/json" -H "Ocp-Apim-Subscription-Key: 000000000000000000000000000000000"
 {"error":{"code":"PersonGroupNotFound","message":"Person group is not found.\r\nParameter name: personGroupId"}}
 $ face-management.py --del 27dadf08-bc60-4a29-82a7-7d21ea7f40af
 The group does not exist
 ```
 _Комментарий_:
 
-Требуемый `personGroupId` не существовует в сервисе _Microsoft Face API_ ни до, ни после выполнения команды. 
+Требуемый `personGroupId` не существовует в сервисе _Microsoft Face API_ ни до, ни после выполнения команды.
 
 ##### Критерий оценивания AC-007-02
 ```shell
 $ cat faceapi.json | python -mjson.tool | grep groupId
     "groupId": "fintech-01",
-$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups" -H "Content-Type: application/json" -H "OcApim-Subscription-Key: 000000000000000000000000000000000" 
+$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups" -H "Content-Type: application/json" -H "OcApim-Subscription-Key: 000000000000000000000000000000000"
 [{"personGroupId":"fintech-01","name":"fintech-01","userData":null}]
 $ face-management.py --del 27dadf08-bc60-4a29-82a7-7d21ea7f40af
 Person deleted
 ```
 _Комментарий_:
 
-Требуемый `personGroupId` существует в _Microsoft Face API_. Пользователь с заданным ID удаляется из сервиса. 
+Требуемый `personGroupId` существует в _Microsoft Face API_. Пользователь с заданным ID удаляется из сервиса.
 
 ##### Критерий оценивания AC-007-03
 ```shell
@@ -626,7 +869,7 @@ _Комментарий_:
 
 Пользователь с данным ID не существет в требуемой `personGroupId`.
 
-#### US-008 Запуск обучения сервиса индентификации 
+#### US-008 Запуск обучения сервиса индентификации
 
 Администратор сервиса может запустить обучение нейронной сети сервиса _Microsoft Face API_ для возможности дальнейшего распознавания человека по лицу.
 
@@ -641,7 +884,7 @@ $ face-management.py --train
 ```shell
 $ cat faceapi.json | python -mjson.tool | grep groupId
     "groupId": "fintech-01",
-$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups/fintech-01" -H "Content-Type: application/json" -H "Ocp-Apim-Subscription-Key: 000000000000000000000000000000000" 
+$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups/fintech-01" -H "Content-Type: application/json" -H "Ocp-Apim-Subscription-Key: 000000000000000000000000000000000"
 {"error":{"code":"PersonGroupNotFound","message":"Person group is not found.\r\nParameter name: personGroupId"}}
 $ face-management.py --train
 There is nothing to train
@@ -654,20 +897,20 @@ _Комментарий_:
 ```shell
 $ cat faceapi.json | python -mjson.tool | grep groupId
     "groupId": "fintech-01",
-$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups" -H "Content-Type: application/json" -H "OcApim-Subscription-Key: 000000000000000000000000000000000" 
+$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups" -H "Content-Type: application/json" -H "OcApim-Subscription-Key: 000000000000000000000000000000000"
 [{"personGroupId":"fintech-01","name":"fintech-01","userData":null}]
 $ face-management.py --train
 There is nothing to train
 ```
 _Комментарий_:
 
-Требуемый `personGroupId` существует в _Microsoft Face API_, но в группе нет ни одного добавленного пользователя. Тренировка сервиса не запускается. 
+Требуемый `personGroupId` существует в _Microsoft Face API_, но в группе нет ни одного добавленного пользователя. Тренировка сервиса не запускается.
 
 ##### Критерий оценивания AC-008-03
 ```shell
 $ cat faceapi.json | python -mjson.tool | grep groupId
     "groupId": "fintech-01",
-$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups" -H "Content-Type: application/json" -H "OcApim-Subscription-Key: 000000000000000000000000000000000" 
+$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups" -H "Content-Type: application/json" -H "OcApim-Subscription-Key: 000000000000000000000000000000000"
 [{"personGroupId":"fintech-01","name":"fintech-01","userData":null}]
 $ face-management.py --simple-add /path/to/video1.avi
 5 frames extracted
@@ -684,7 +927,7 @@ Training successfully started
 ```
 _Комментарий_:
 
-Требуемый `personGroupId` существует в _Microsoft Face API_. Поскольку запуску команды тренировки сервиса предшествует команда добавления пользователя, то обучение запускается. 
+Требуемый `personGroupId` существует в _Microsoft Face API_. Поскольку запуску команды тренировки сервиса предшествует команда добавления пользователя, то обучение запускается.
 
 ##### Критерий оценивания AC-008-04
 ```shell
@@ -716,7 +959,7 @@ Training successfully started
 ```
 _Комментарий_:
 
-Поскольку запуску команды тренировки сервиса предшествует команда добавления пользователя, то обучение запускается. 
+Поскольку запуску команды тренировки сервиса предшествует команда добавления пользователя, то обучение запускается.
 
 ##### Критерий оценивания AC-008-05
 ```shell
@@ -727,7 +970,7 @@ Training successfully started
 ```
 _Комментарий_:
 
-Поскольку запуску команды тренировки сервиса предшествует команда удаления пользователя, то обучение запускается. 
+Поскольку запуску команды тренировки сервиса предшествует команда удаления пользователя, то обучение запускается.
 
 ##### Критерий оценивания AC-008-06
 ```shell
@@ -740,17 +983,150 @@ Already trained
 ```
 _Комментарий_:
 
-Поскольку после предыдущего запуска команды тренировки сервиса изменений в списке пользователей не происходило, то обучение не запускается. 
+Поскольку после предыдущего запуска команды тренировки сервиса изменений в списке пользователей не происходило, то обучение не запускается.
 
-#### US-009 Обнаружение уже добавленного пользователя 
+#### US-009 Обнаружение уже добавленного пользователя
 
 Администратор сервиса не сможет добавить пользователя в сервис _Microsoft Face API_, если изображения лица данного пользователя уже были добавлены в систему, и эти изображения были использованы для обучения сервиса.
+
+##### Критерий оценивания AC-009-01
+```shell
+$ face-management.py --simple-add /path/to/video1.avi
+5 frames extracted
+PersonId: 37da04e7-f471-49c7-a54c-a08f05950fc5
+FaceIds
+=======
+1d499868-3d01-487c-8bab-626dc562e4e8
+27dadf08-bc60-4a29-82a7-7d21ea7f40af
+b8cf9c2f-a606-4f21-851d-26e0a0dc8a74
+bf4806de-8c4b-4a12-8495-002f43dba797
+ff79486f-15ac-43be-9c6c-b2840f8c8d22
+$ face-management.py --train
+Training successfully started
+$ face-management.py --simple-add /path/to/video21.avi
+The same person already exists.
+```
+_Комментарий_:
+
+Первое и второе видео содержат кадры лица одного и того же человека. Идентификация человека на втором видео происходит успешно, поскольку пять разных кадров из видео указывают на одного и того же человека с высокой степенью (не менее 50%) уверенности определения. Добавление пользователя в систему не происходит.
+
+##### Критерий оценивания AC-009-02
+```shell
+$ face-management.py --add /path/to/video1.avi /path/to/video2.avi /path/to/video3.avi /path/to/video4.avi /path/to/video6.avi
+18 frames extracted
+PersonId: 5d5d6e92-f8f0-47cf-8e9b-b4455092603e
+FaceIds
+=======
+0e5edd8e-7756-470e-a26c-f54ab70a5524
+73b4caea-c85c-4594-9153-198351937d94
+2ae3c850-190a-4cd0-afd2-8efa341767ba
+adb7744e-b2fb-4a58-b3a8-f22c3143a8cd
+7e0f87d6-14ad-4ec6-971f-e4c2771cc267
+47c8c307-1f90-473c-b48c-792d5b5a1241
+33e35a22-358a-4847-bcdd-4a5bdfd5eb69
+2c7b951b-126a-4eec-9e22-1d9d65ece9e3
+bcaf7f6a-1c44-476e-a51f-9dde2744ade0
+1c9c0134-ada0-47c2-848c-d4424b232f04
+b79945e1-de47-4011-98f2-e7e8f0d9f3ef
+f972b6ac-078b-4e3d-a779-4cde8ea28f36
+fbeb7aa1-f66e-4412-ad07-b61103e8af0b
+9c762e64-075b-4fa4-8e39-0d83df86428b
+9794e349-e4e4-44ad-951c-610b4890b16e
+2e93da04-8f31-4a27-bd9e-5768335447a5
+b9227512-dfa8-4a17-94e2-be520b8975a9
+b67c1f86-2e3d-45a2-a7fb-57bbbff9cd8c
+$ face-management.py --train
+Training successfully started
+$ face-management.py --add /path/to/video1.avi /path/to/video2.avi /path/to/video3.avi /path/to/video4.avi /path/to/video6.avi
+The same person already exists.
+```
+_Комментарий_:
+
+Поскольку для добавления пользователя использовалось одно и то же видео, то повторное добавление пользователя в систему не происходит.
+
+##### Критерий оценивания AC-009-03
+```shell
+$ face-management.py --simple-add /path/to/video1.avi
+5 frames extracted
+PersonId: 37da04e7-f471-49c7-a54c-a08f05950fc5
+FaceIds
+=======
+1d499868-3d01-487c-8bab-626dc562e4e8
+27dadf08-bc60-4a29-82a7-7d21ea7f40af
+b8cf9c2f-a606-4f21-851d-26e0a0dc8a74
+bf4806de-8c4b-4a12-8495-002f43dba797
+ff79486f-15ac-43be-9c6c-b2840f8c8d22
+$ face-management.py --train
+Training successfully started
+$ face-management.py --simple-add /path/to/video22.avi
+5 frames extracted
+PersonId: 31e1fc90-84ff-498a-833c-1730aa00a310
+FaceIds
+=======
+21a12afe-6aab-4593-ac77-d20d2bea7e8b
+e2f4e1d8-ba2d-4c13-80b7-791f10949143
+8c366814-3e8a-441e-86f2-c9edf967c04e
+8510de4b-9a70-4d62-823d-471107f838da
+c159bd2e-2f71-4c0d-8c85-179d76d96953
+```
+_Комментарий_:
+
+Первое и второе видео содержат кадры лица разных людей. Человек из второго видео не был добавлен до этого в сервис _Microsoft Face API_. Кадры лица человека из второго видео добавляются в сервис.
+
+##### Критерий оценивания AC-009-04
+```shell
+$ face-management.py --simple-add /path/to/video1.avi
+5 frames extracted
+PersonId: 52865cde-3af8-443d-b260-9319c2cb1788
+FaceIds
+=======
+cdb6227e-7453-4057-b4fa-79660914e597
+6976d3c2-dee5-4f24-8950-f38ff10c70ad
+fae15e55-6639-42a4-a954-731c33310e41
+15092567-5765-49ed-ac63-94bc5fa08d17
+a77f1f0a-aa95-4bd1-9826-6b453aec42b2
+$ face-management.py --simple-add /path/to/video31.avi
+5 frames extracted
+PersonId: 9fa0a99b-8e76-474d-8223-dea217c2c19b
+FaceIds
+=======
+b552ef11-a162-4a7d-9047-ccfc84a07043
+90c0815a-ecce-45c6-8107-ced7ef29a249
+fde35dba-505d-4a62-ac5a-c6ae4c89128e
+6c6910b4-0ab5-4eb4-9e53-95b1929f9867
+fdb9d352-65b0-41a2-a1be-03ea5b543160
+$ face-management.py --simple-add /path/to/video41.avi
+5 frames extracted
+PersonId: f290ecb9-bfab-46f7-b623-45140d730628
+FaceIds
+=======
+e5735ecd-ca09-4fd4-bfd3-8ace67702ab0
+9e1bbdee-5981-4f6b-aba5-03be57e5e910
+3120ef58-8d53-4558-8b84-784ba338f621
+8fceb9c7-f029-4326-9703-6749005674fa
+8ea02a3b-7dc0-455a-858c-67251b0ca3b4
+$ face-management.py --train
+Training successfully started
+$ face-management.py --simple-add /path/to/video22.avi
+5 frames extracted
+PersonId: 31e1fc90-84ff-498a-833c-1730aa00a310
+FaceIds
+=======
+21a12afe-6aab-4593-ac77-d20d2bea7e8b
+e2f4e1d8-ba2d-4c13-80b7-791f10949143
+8c366814-3e8a-441e-86f2-c9edf967c04e
+8510de4b-9a70-4d62-823d-471107f838da
+c159bd2e-2f71-4c0d-8c85-179d76d96953
+```
+_Комментарий_:
+
+Даже если обучение сервиса не происходило возможно добавлять несколько разных пользователей в сервис.
 
 ### Взаимодействие с пользователем
 
 #### US-010 Идентификация пользователя
 
-Для идентификации пользователя, компонента использует кадры с лицом из видео-потока и отправляет их в сервис _Microsoft Face API_. 
+Для идентификации пользователя, компонента использует кадры с лицом из видео-потока и отправляет их в сервис _Microsoft Face API_.
 
 ##### Использование скрипта
 ```shell
@@ -759,7 +1135,7 @@ $ faceid.py --find <path to video file>
 
 В случае, когда в текущей директории нет файла `actions.json`, то запускается простой (небезопасный) способ аутентификации. При этом из видео-потока извлекается 5 кадров с изображением лица человека. Подразумевается, что все кадры в видео приндалежат одному и тому же человеку. Идентификация человека происходит успешно, если кадры из видео указывают на одного и того же человека с высокой степенью (не менее 50%) уверенности определения.
 
-Если в видео-потоке недостаточно кадров с изображением человека или на изображении невозможно определить лицо, то обработка такого видео должно приводить к ошибке. 
+Если в видео-потоке недостаточно кадров с изображением человека или на изображении невозможно определить лицо, то обработка такого видео должно приводить к ошибке.
 
 После успешной идентификации в текущей директории создается (если файл уже существовал, то он пересоздается) файл `person.json`, в котором указывается идентификатор, возвращенный сервисом _Microsoft Face API_. Пример файла:
 ```json
@@ -830,7 +1206,7 @@ _Комментарий_:
 ```shell
 $ cat faceapi.json | python -mjson.tool | grep groupId
     "groupId": "fintech-01",
-$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups/fintech-01" -H "Content-Type: application/json" -H "Ocp-Apim-Subscription-Key: 000000000000000000000000000000000" 
+$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups/fintech-01" -H "Content-Type: application/json" -H "Ocp-Apim-Subscription-Key: 000000000000000000000000000000000"
 {"error":{"code":"PersonGroupNotFound","message":"Person group is not found.\r\nParameter name: personGroupId"}}
 $ faceid.py --find /path/to/video21.avi
 The service is not ready
@@ -881,7 +1257,7 @@ _Комментарий_:
 ```shell
 $ cat faceapi.json | python -mjson.tool | grep groupId
     "groupId": "fintech-01",
-$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups/fintech-01" -H "Content-Type: application/json" -H "Ocp-Apim-Subscription-Key: 000000000000000000000000000000000" 
+$ curl -X GET "https://westeurope.api.cognitive.microsoft.com/face/v1.0/persongroups/fintech-01" -H "Content-Type: application/json" -H "Ocp-Apim-Subscription-Key: 000000000000000000000000000000000"
 {"error":{"code":"PersonGroupNotFound","message":"Person group is not found.\r\nParameter name: personGroupId"}}
 $ faceid.py --find /path/to/video100.avi
 The video does not follow requirements
@@ -1126,7 +1502,7 @@ _Комментарий_:
 
 ##### Критерий оценивания AC-014-09
 ```shell
-$ cat network.json | python -mjson.tool | grep gasPriceUrl 
+$ cat network.json | python -mjson.tool | grep gasPriceUrl
     "gasPriceUrl": "https://gasprice.poa.network/",
 $ curl https://gasprice.poa.network/
 curl: (6) Could not resolve host: gasprice.poa.network
@@ -1264,7 +1640,7 @@ _Комментарий_:
 $ cat registrar.json
 {"registrar": {"address": "0x340Ec06460d9b2b7D23B40E5bCd0a81A09e06D81", "startBlock": 456123}, "payments": {"address": "0x81A09e06D81797AE2b7D23B40E5bCd0a1da01eb0F951x", "startBlock": 456125}}
 $ faceid.py --del 4590
-Seems that the contract address is not the registrar contract 
+Seems that the contract address is not the registrar contract
 ```
 _Комментарий_:
 
@@ -1287,7 +1663,7 @@ _Комментарий_:
 
 ##### Критерий оценивания AC-015-09
 ```shell
-$ cat network.json | python -mjson.tool | grep gasPriceUrl 
+$ cat network.json | python -mjson.tool | grep gasPriceUrl
     "gasPriceUrl": "https://gasprice.poa.network/",
 $ curl https://gasprice.poa.network/
 curl: (6) Could not resolve host: gasprice.poa.network
@@ -1489,7 +1865,7 @@ _Комментарий_:
 $ cat registrar.json
 {"registrar": {"address": "0x340Ec06460d9b2b7D23B40E5bCd0a81A09e06D81", "startBlock": 456123}, "payments": {"address": "0x81A09e06D81797AE2b7D23B40E5bCd0a1da01eb0F951x", "startBlock": 456125}}
 $ faceid.py --cancel 4590
-Seems that the contract address is not the registrar contract 
+Seems that the contract address is not the registrar contract
 ```
 _Комментарий_:
 
@@ -1497,7 +1873,7 @@ _Комментарий_:
 
 ##### Критерий оценивания AC-016-14
 ```shell
-$ cat network.json | python -mjson.tool | grep gasPriceUrl 
+$ cat network.json | python -mjson.tool | grep gasPriceUrl
     "gasPriceUrl": "https://gasprice.poa.network/",
 $ curl https://gasprice.poa.network/
 curl: (6) Could not resolve host: gasprice.poa.network
@@ -1508,7 +1884,7 @@ _Комментарий_:
 
 В блокчейн сеть отправляется транзакция c отменой запросом регистрации или удаления соответствия аккаунта. Транзакция успешно верифицирована и включена в блок. Для проведения транзакции выбрана цена из значения `defaultGasPrice` из файла `network.json`.
 
-#### US-017 Отправка средств 
+#### US-017 Отправка средств
 
 После идентификации пользователь может отправить часть средств, которые числятся на его балансе другому пользователю системы, указав его номер телефона.
 
@@ -1521,7 +1897,7 @@ $ faceid.py --send <pin code> <phone number> <value>
 
 ##### Критерий оценивания AC-017-01
 ```shell
-$ cat network.json | python -mjson.tool | grep gasPriceUrl 
+$ cat network.json | python -mjson.tool | grep gasPriceUrl
     "gasPriceUrl": "https://gasprice.poa.network/",
 $ cat person.json
 {"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
@@ -1591,8 +1967,153 @@ $ faceid.py --gift <pin code> <value> <expire date>
 ```
 Используя идентификатор, содержащийся в `person.json`, и PIN-код скрипт генерирует приватный ключ пользователя, в блокчейн сеть отправляется транзакция к контракту управления сертификатами на создание нового сертификата на указанную сумму в `wei`, действующий до указанной даты в формате `HH:MM DD.MM.YYYY`. В терминал выводится созданный цифровой сертификат.
 
+##### Критерий оценивания AC-018-01
+```shell
+$ cat network.json | python -mjson.tool | grep gasPriceUrl
+    "gasPriceUrl": "https://gasprice.poa.network/",
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --balance
+Your balance is 500 finney
+$ faceid.py --gift 4590 10000000000000000 "15:40 08.03.2019"
+aee79c36a8aff107f836a382d175b2e7cd86c34dae48a3288eb38b72da955d609e1c1f49aa566e305bf444120af2f65923315026b0a03bcde4b139571752c0421a368cc1dc7171c6e808ba1fcb4cd7f3c034c64853dbd9a91bfc12ef9eece1e21c
+$ faceid.py --balance
+Your balance is 489.860605 finney
+```
+_Комментарий_:
 
-#### US-019 Использование сертификата на получение средств 
+В блокчейн сеть отправляется транзакция на создание сертификата. При обработке запроса, контракт производит событие (`event`) `CertificateCreated` c указанием идентификатора сертификата внутри контракта:
+
+```solidity
+event CertificateCreated(bytes32 indexed id);
+```
+
+Для проведения транзакции выбрана цена из значения `fast`, возвращенного сервисом `https://gasprice.poa.network`. Баланс отправителя уменьшился на сумму указанную в сертификате.
+
+##### Критерий оценивания AC-018-02
+```shell
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --balance
+Your balance is 90 finney
+$ faceid.py --gift 4590 100000000000000000 "15:40 08.03.2019"
+No funds to create a certificate
+$ faceid.py --balance
+Your balance is 90 finney
+```
+_Комментарий_:
+
+На балансе пользователя недостаточно средств чтобы создать сертификат с указанной суммой. Транзакция в блокчейн сеть не отправляется. Баланс пользователя не уменьшается. В терминал выводится сообщение об ошибке.
+
+##### Критерий оценивания AC-018-03
+```shell
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ date
+Wed Oct  21 07:28:00 MSK 2015
+$ faceid.py --gift 4590 1000 "09:00 26.10.1985"
+Expiration date is invalid
+```
+_Комментарий_:
+
+Указанная дата годности сертификата уже истекла. Транзакция в блокчейн сеть не отправляется. Баланс пользователя не уменьшается. В терминал выводится сообщение об ошибке.
+
+##### Критерий оценивания AC-018-04
+```shell
+$ cat person.json
+cat: person.json: No such file or directory
+$ faceid.py --gift 1234 1000 "15:40 08.03.2019"
+ID is not found
+```
+_Комментарий_:
+
+Выдается ошибка, если в текущей директории не существует файл `person.json`. Транзакция в блокчейн сеть не отправляется.
+
+##### Критерий оценивания AC-018-05
+```shell
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --gift 1234 1000 "15:40 08.03.2019"
+No funds to create a certificate
+```
+_Комментарий_:
+
+Указан неверный пинкод. Поскольку ситуация, когда неправильный приватный ключ сформирован из-за некорретного PIN-кода, неотличима от ситуации, когда на аккаунте нет средств для оплаты транзакции, в терминал выводится сообщение об ошибке. Транзакция в блокчейн сеть не отправляется.
+
+##### Критерий оценивания AC-018-06
+```shell
+$ cat network.json | python -mjson.tool | grep gasPriceUrl
+    "gasPriceUrl": "https://gasprice.poa.network/",
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --balance
+Your balance is 485.992209 finney
+$ faceid.py --gift 4590 10000000000000000 "15:40 08.03.2019"
+e4473f3c3e3f3803f5c640a93b44b9a35968df4e7d4a907cab99926f4af694a7053ac2253149e7a5212f816cd367a471acc97c67cf38b7b3cf0d59ff8fbcf6d86a8d179e6e74d103f9e7e423630454b06ffe5dd2806e3bc0551971675619b31a1b
+$ faceid.py --balance
+Your balance is 475.852814 poa
+$ faceid.py --gift 4590 10000000000000000 "15:40 08.03.2019"
+73bd8c3b60a59a3ccb37764f87e62dafab374d3c4885edd21192f060b83a47e616dcc4fd22eac78fdc3e023fa60ac7863a4111f245556b3966b2d960b104c53f5d7a2c67b787abdd862826708737d425a5d0e774d055a996cc853591113afc881c
+$ faceid.py --balance
+Your balance is 465.713419 poa
+$ cat person.json
+{"id": "da04e377-47f1-c749-54ca-0fc5a08f0595"}
+$ faceid.py --balance
+Your balance is 1.5 poa
+$ faceid.py --gift 6104 10000000000000000 "15:40 08.03.2019"
+b6f4176f9fe77211717fb3f7f41995b29cc04bd888d24eaa8d398fd57b8fc2153c352e75adbbb101570a58056ae00a0c6fb4c176f7e91f3489ae4bc1104f857e551bd96f1f7223ad9e735f1544cc0eb89f2ed703dc4243cd1a2d96a47b91d0f41c
+$ faceid.py --balance
+Your balance is 1.48983 poa
+
+```
+_Комментарий_:
+
+В блокчейн сеть отправляется несколько транзакции на создание сертификатов c нескольких аккаунтов. Для проведения транзакции выбрана цена из значения `fast`, возвращенного сервисом `https://gasprice.poa.network`. Баланс отправителей уменьшился на суммы указанные в сертификатах.
+
+##### Критерий оценивания AC-018-07
+```shell
+$ cat network.json | python -mjson.tool | grep gasPriceUrl
+    "gasPriceUrl": "https://gasprice.poa.network/",
+$ curl https://gasprice.poa.network/
+curl: (6) Could not resolve host: gasprice.poa.network
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --balance
+Your balance is 500 finney
+$ faceid.py --gift 4590 10000000000000000 "15:40 08.03.2019"
+c265d15e7a89cab7a9e30a3287d0be6d8b2ab3e635ede29129514002b5bf4cdf7f880a32d623da84c78d89b7814d5a0d41fc249d55902c7835c0cd2fa978cd077b4483d7d828a63d1cbec57e5ebc65fb262c7d3c2fc3f3c7afc0b599fee1371b1c
+$ faceid.py --balance
+Your balance is 489.860605 finney
+```
+_Комментарий_:
+
+В блокчейн сеть отправляется транзакция на создание сертификата. Транзакция успешно верифицирована и включена в блок. Для проведения транзакции выбрана цена из значения `defaultGasPrice` из файла `network.json`.
+
+
+##### Критерий оценивания AC-018-08
+```shell
+$ cat registrar.json
+cat: registrar.json: No such file or directory
+$ faceid.py --gift 4590 10000000000000000 "15:40 08.03.2019"
+No contract address
+```
+_Комментарий_:
+
+Выдается сообщение об ошибке, если в текущей директории нет файла `registrar.json`, содержащего адрес контракта управления сертификатами. Транзакция в блокчейн сеть не отправляется.
+
+##### Критерий оценивания AC-018-09
+```shell
+$ cat registrar.json
+{"registrar": {"address": "0x340Ec06460d9b2b7D23B40E5bCd0a81A09e06D81", "startBlock": 456123}, "payments": {"address": "0x81A09e06D81797AE2b7D23B40E5bCd0a1da01eb0F951x", "startBlock": 456125}}
+$ faceid.py --gift 4590 10000000000000000 "15:40 08.03.2019"
+Seems that the contract address is not the certificates contract.
+```
+_Комментарий_:
+
+Выдается сообщение об ошибке, если в адрес контракта, указанного в файле `registrar.json`, не принадлежит контракту управления сертификатами.
+
+
+#### US-019 Использование сертификата на получение средств
 
 После идентификации пользователь может отправить запрос на получение средств с уже созданного сертификата. Сертификат может быть использован только один раз и только до истечения указанного при создании срока годности.
 
@@ -1602,10 +2123,162 @@ $ faceid.py --receive <pin code> <certificate>
 ```
 Используя идентификатор, содержащийся в `person.json`, и PIN-код скрипт генерирует приватный ключ пользователя. В блокчейн сеть отправляется транзакция к контракту управления сертификатами на получение средств c сертификата.
 
+##### Критерий оценивания AC-019-01
+```shell
+$ cat network.json | python -mjson.tool | grep gasPriceUrl
+    "gasPriceUrl": "https://gasprice.poa.network/",
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --balance
+Your balance is 500 finney
+$ faceid.py --receive 4590 aee79c36a8aff107f836a382d175b2e7cd86c34dae48a3288eb38b72da955d609e1c1f49aa566e305bf444120af2f65923315026b0a03bcde4b139571752c0421a368cc1dc7171c6e808ba1fcb4cd7f3c034c64853dbd9a91bfc12ef9eece1e21c
+Received funds from the certificate
+$ faceid.py --balance
+Your balance is 510 finney
+```
+_Комментарий_:
 
-#### US-020 Вернуть средства из неиспользованных сертификатов 
+В блокчейн сеть отправляется транзакция на получение средств. При обработке запроса, контракт производит событие (`event`) `CertificateUsed` с указанием идентификатора сертификата внутри контракта:
 
-После идентификации пользователь может отправить запрос на возврат средств с уже созданного сертификата после истечения срока годности. Возврат может быть осуществлен только один раз и только с аккаунта создателя сертификата. 
+```solidity
+event CertificateUsed(bytes32 indexed id);
+```
+
+Для проведения транзакции выбрана цена из значения `fast`, возвращенного сервисом `https://gasprice.poa.network`. Баланс отправителя увеличился на сумму указанную в сертификате.
+
+##### Критерий оценивания AC-019-02
+```shell
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --balance
+Your balance is 510 finney
+$ faceid.py --receive 4590 aee79c36a8aff107f836a382d175b2e7cd86c34dae48a3288eb38b72da955d609e1c1f49aa566e305bf444120af2f65923315026b0a03bcde4b139571752c0421a368cc1dc7171c6e808ba1fcb4cd7f3c034c64853dbd9a91bfc12ef9eece1e21c
+Cannot receive funds from the certificate
+$ faceid.py --balance
+Your balance is 510 finney
+```
+_Комментарий_:
+
+Нельзя использовать сертификат, так как он уже был использован ранее. Транзакция в блокчейн сеть не отправляется. Баланс пользователя не изменяется. В терминал выводится сообщение об ошибке.
+
+##### Критерий оценивания AC-019-03
+```shell
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --receive 4590 e4473f3c3e3f3803f5c640a93b44b9a35968df4e7d4a907cab99926f4af694a7053ac2253149e7a5212f816cd367a471acc97c67cf38b7b3cf0d59ff8fbcf6d86a8d179e6e74d103f9e7e423630454b06ffe5dd2806e3bc0551971675619b31a1b
+Cannot receive funds from the certificate
+```
+_Комментарий_:
+
+Нельзя использовать сертификат, так как указанная дата годности сертификата уже истекла. Транзакция в блокчейн сеть не отправляется. Баланс пользователя не изменяется. В терминал выводится сообщение об ошибке.
+
+##### Критерий оценивания AC-019-04
+```shell
+$ cat person.json
+cat: person.json: No such file or directory
+$ faceid.py --receive 1234 e4473f3c3e3f3803f5c640a93b44b9a35968df4e7d4a907cab99926f4af694a7053ac2253149e7a5212f816cd367a471acc97c67cf38b7b3cf0d59ff8fbcf6d86a8d179e6e74d103f9e7e423630454b06ffe5dd2806e3bc0551971675619b31a1b
+ID is not found
+```
+_Комментарий_:
+
+Выдается ошибка, если в текущей директории не существует файл `person.json`. Транзакция в блокчейн сеть не отправляется.
+
+##### Критерий оценивания AC-019-05
+```shell
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --receive 4590 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef01
+Cannot receive funds from the certificate
+```
+_Комментарий_:
+
+Указан несуществующий сертификат, который невозможно использовать. Транзакция в блокчейн сеть не отправляется. Баланс пользователя не изменяется. В терминал выводится сообщение об ошибке.
+
+##### Критерий оценивания AC-019-06
+```shell
+$ cat network.json | python -mjson.tool | grep gasPriceUrl
+    "gasPriceUrl": "https://gasprice.poa.network/",
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --gift 4590 1000000000000000 "15:40 08.03.2019"
+e4473f3c3e3f3803f5c640a93b44b9a35968df4e7d4a907cab99926f4af694a7053ac2253149e7a5212f816cd367a471acc97c67cf38b7b3cf0d59ff8fbcf6d86a8d179e6e74d103f9e7e423630454b06ffe5dd2806e3bc0551971675619b31a1b
+$ faceid.py --gift 4590 10000000000000000 "15:40 08.03.2019"
+73bd8c3b60a59a3ccb37764f87e62dafab374d3c4885edd21192f060b83a47e616dcc4fd22eac78fdc3e023fa60ac7863a4111f245556b3966b2d960b104c53f5d7a2c67b787abdd862826708737d425a5d0e774d055a996cc853591113afc881c
+$ faceid.py --balance
+Your balance is 465.713419 poa
+$ faceid.py --receive 4590 73bd8c3b60a59a3ccb37764f87e62dafab374d3c4885edd21192f060b83a47e616dcc4fd22eac78fdc3e023fa60ac7863a4111f245556b3966b2d960b104c53f5d7a2c67b787abdd862826708737d425a5d0e774d055a996cc853591113afc881c
+Received funds from the certificate
+$ faceid.py --balance
+Your balance is 475.713419 poa
+$ faceid.py --receive 4590 e4473f3c3e3f3803f5c640a93b44b9a35968df4e7d4a907cab99926f4af694a7053ac2253149e7a5212f816cd367a471acc97c67cf38b7b3cf0d59ff8fbcf6d86a8d179e6e74d103f9e7e423630454b06ffe5dd2806e3bc0551971675619b31a1b
+Received funds from the certificate
+$ faceid.py --balance
+Your balance is 476.713419 poa
+
+```
+_Комментарий_:
+
+В блокчейн сеть отправляется несколько транзакции на создание сертификатов c нескольких аккаунтов, а затем несколько транзакций на получение средств. Для проведения транзакций выбрана цена из значения `fast`, возвращенного сервисом `https://gasprice.poa.network`. Баланс отправителей корректно изменяется на суммы указанные в сертификатах.
+
+##### Критерий оценивания AC-019-07
+```shell
+$ cat network.json | python -mjson.tool | grep gasPriceUrl
+    "gasPriceUrl": "https://gasprice.poa.network/",
+$ curl https://gasprice.poa.network/
+curl: (6) Could not resolve host: gasprice.poa.network
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --balance
+Your balance is 489.860605 finney
+$ faceid.py --receive 4590 c265d15e7a89cab7a9e30a3287d0be6d8b2ab3e635ede29129514002b5bf4cdf7f880a32d623da84c78d89b7814d5a0d41fc249d55902c7835c0cd2fa978cd077b4483d7d828a63d1cbec57e5ebc65fb262c7d3c2fc3f3c7afc0b599fee1371b1c
+Received funds from the certificate
+$ faceid.py --balance
+Your balance is 499.860605 finney
+```
+_Комментарий_:
+
+В блокчейн сеть отправляется транзакция на получение средств с сертификата. Транзакция успешно верифицирована и включена в блок. Для проведения транзакции выбрана цена из значения `defaultGasPrice` из файла `network.json`.
+
+
+##### Критерий оценивания AC-019-08
+```shell
+$ cat registrar.json
+cat: registrar.json: No such file or directory
+$ faceid.py --receive 4590 c265d15e7a89cab7a9e30a3287d0be6d8b2ab3e635ede29129514002b5bf4cdf7f880a32d623da84c78d89b7814d5a0d41fc249d55902c7835c0cd2fa978cd077b4483d7d828a63d1cbec57e5ebc65fb262c7d3c2fc3f3c7afc0b599fee1371b1c
+No contract address
+```
+_Комментарий_:
+
+Выдается сообщение об ошибке, если в текущей директории нет файла `registrar.json`, содержащего адрес контракта управления контрактами. Транзакция в блокчейн сеть не отправляется.
+
+##### Критерий оценивания AC-019-09
+```shell
+$ cat registrar.json
+{"registrar": {"address": "0x340Ec06460d9b2b7D23B40E5bCd0a81A09e06D81", "startBlock": 456123}, "payments": {"address": "0x81A09e06D81797AE2b7D23B40E5bCd0a1da01eb0F951x", "startBlock": 456125}}
+$ faceid.py --receive 4590 c265d15e7a89cab7a9e30a3287d0be6d8b2ab3e635ede29129514002b5bf4cdf7f880a32d623da84c78d89b7814d5a0d41fc249d55902c7835c0cd2fa978cd077b4483d7d828a63d1cbec57e5ebc65fb262c7d3c2fc3f3c7afc0b599fee1371b1c
+Seems that the contract address is not the certificates contract.
+```
+_Комментарий_:
+
+Выдается сообщение об ошибке, если в адрес контракта, указанного в файле `registrar.json`, не принадлежит контракту управления сертификатами.
+
+##### Критерий оценивания AC-019-10
+```shell
+$ faceid.py --balance
+Your balance is 500 finney
+$ faceid.py --receive 4590 aee79c36a8aff107f836a382d175b2e7cd86c34dae48a3288eb38b72da955d609e1c1f49aa566e305bf444120af2f65923315026b0a03bcde4b139571752c0421a368cc1dc7171c6e808ba1fcb4cd7f3c034c64853dbd9a91bfc12ef9eece1e21c
+Received funds from the certificate
+$ faceid.py --balance
+Your balance is 510 finney
+```
+_Комментарий_:
+
+Если из транзакции, которая была отправлена в результате команды `faceid.py --receive`, извлечь поле input и отправить его в новой транзакции снова в поле input на адрес контракта управления сертификатами, то эта транзакция будет включена в блок, но статус ее исполнения будет - ошибка по причине того, что сертификат уже был использован ранее. Следовательно, повторно сертификат не должен быть использован.
+
+
+#### US-020 Вернуть средства из неиспользованных сертификатов
+
+После идентификации пользователь может отправить запрос на возврат средств с уже созданного сертификата после истечения срока годности. Возврат может быть осуществлен только один раз и только с аккаунта создателя сертификата.
 
 ##### Использование скрипта
 ```shell
@@ -1614,7 +2287,155 @@ $ faceid.py --withdraw <pin code>
 
 Используя идентификатор, содержащийся в `person.json`, и PIN-код скрипт генерирует приватный ключ пользователя. В блокчейн сеть отправляется транзакция к контракту управления сертификатами на возврат средств c сертификата.
 
-#### US-021 Получение истории платежей 
+##### Критерий оценивания AC-020-01
+```shell
+$ cat network.json | python -mjson.tool | grep gasPriceUrl
+    "gasPriceUrl": "https://gasprice.poa.network/",
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --balance
+Your balance is 500 finney
+$ faceid.py --withdraw 4590
+Withdrew funds from the certificate
+$ faceid.py --balance
+Your balance is 510 finney
+```
+_Комментарий_:
+
+В блокчейн сеть отправляется транзакция на возврат средств. При обработке запроса, контракт производит событие (`event`) `CertificateWithdrew` с указанием идентификатора сертификата внутри контракта:
+
+```solidity
+event CertificateWithdrew(bytes32 indexed id);
+```
+
+Для проведения транзакции выбрана цена из значения `fast`, возвращенного сервисом `https://gasprice.poa.network`. Баланс отправителя увеличился на сумму указанную в сертификате.
+
+##### Критерий оценивания AC-020-02
+```shell
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --balance
+Your balance is 510 finney
+$ faceid.py --withdraw 4590
+Cannot withdraw funds from the certificate
+$ faceid.py --balance
+Your balance is 510 finney
+```
+_Комментарий_:
+
+Нельзя вернуть средства, так как аналогичный запрос уже был выполнен. Транзакция в блокчейн сеть не отправляется. Баланс пользователя не изменяется. В терминал выводится сообщение об ошибке.
+
+##### Критерий оценивания AC-020-03
+```shell
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --withdraw 4590
+Cannot withdraw funds from the certificate
+```
+_Комментарий_:
+
+Нельзя вернуть средства, так как указанная дата годности сертификата еще не истекла. Транзакция в блокчейн сеть не отправляется. Баланс пользователя не изменяется. В терминал выводится сообщение об ошибке.
+
+##### Критерий оценивания AC-020-04
+```shell
+$ cat person.json
+cat: person.json: No such file or directory
+$ faceid.py --withdraw 1234
+ID is not found
+```
+_Комментарий_:
+
+Выдается ошибка, если в текущей директории не существует файл `person.json`. Транзакция в блокчейн сеть не отправляется.
+
+##### Критерий оценивания AC-020-05
+```shell
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --withdraw 4590
+Cannot withdraw funds from the certificate
+```
+_Комментарий_:
+
+Указан несуществующий сертификат, который невозможно использовать. Транзакция в блокчейн сеть не отправляется. Баланс пользователя не изменяется. В терминал выводится сообщение об ошибке.
+
+##### Критерий оценивания AC-020-06
+```shell
+$ cat network.json | python -mjson.tool | grep gasPriceUrl
+    "gasPriceUrl": "https://gasprice.poa.network/",
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --gift 4590 1000000000000000 "15:40 08.03.2019"
+e4473f3c3e3f3803f5c640a93b44b9a35968df4e7d4a907cab99926f4af694a7053ac2253149e7a5212f816cd367a471acc97c67cf38b7b3cf0d59ff8fbcf6d86a8d179e6e74d103f9e7e423630454b06ffe5dd2806e3bc0551971675619b31a1b
+$ faceid.py --gift 4590 10000000000000000 "15:40 08.03.2019"
+73bd8c3b60a59a3ccb37764f87e62dafab374d3c4885edd21192f060b83a47e616dcc4fd22eac78fdc3e023fa60ac7863a4111f245556b3966b2d960b104c53f5d7a2c67b787abdd862826708737d425a5d0e774d055a996cc853591113afc881c
+$ faceid.py --balance
+Your balance is 465.713419 poa
+$ faceid.py --withdraw 4590
+Withdrew funds from the certificate
+$ faceid.py --balance
+Your balance is 476.713419 poa
+
+```
+_Комментарий_:
+
+В блокчейн сеть отправляется несколько транзакции на создание сертификатов c нескольких аккаунтов, а затем транзакция на возврат средств. Для проведения транзакций выбрана цена из значения `fast`, возвращенного сервисом `https://gasprice.poa.network`. Баланс отправителей корректно изменяется на суммы указанные в сертификатах.
+
+##### Критерий оценивания AC-020-07
+```shell
+$ cat network.json | python -mjson.tool | grep gasPriceUrl
+    "gasPriceUrl": "https://gasprice.poa.network/",
+$ curl https://gasprice.poa.network/
+curl: (6) Could not resolve host: gasprice.poa.network
+$ cat person.json
+{"id": "37da04e7-f471-49c7-a54c-a08f05950fc5"}
+$ faceid.py --balance
+Your balance is 489.860605 finney
+$ faceid.py --withdraw 4590
+Withdrew funds from the certificate
+$ faceid.py --balance
+Your balance is 499.860605 finney
+```
+_Комментарий_:
+
+В блокчейн сеть отправляется транзакция на получение средств с сертификата. Транзакция успешно верифицирована и включена в блок. Для проведения транзакции выбрана цена из значения `defaultGasPrice` из файла `network.json`.
+
+
+##### Критерий оценивания AC-020-08
+```shell
+$ cat registrar.json
+cat: registrar.json: No such file or directory
+$ faceid.py --withdrew 4590
+No contract address
+```
+_Комментарий_:
+
+Выдается сообщение об ошибке, если в текущей директории нет файла `registrar.json`, содержащего адрес контракта управления контрактами. Транзакция в блокчейн сеть не отправляется.
+
+##### Критерий оценивания AC-020-09
+```shell
+$ cat registrar.json
+{"registrar": {"address": "0x340Ec06460d9b2b7D23B40E5bCd0a81A09e06D81", "startBlock": 456123}, "payments": {"address": "0x81A09e06D81797AE2b7D23B40E5bCd0a1da01eb0F951x", "startBlock": 456125}}
+$ faceid.py --withdrew 4590
+Seems that the contract address is not the certificates contract.
+```
+_Комментарий_:
+
+Выдается сообщение об ошибке, если в адрес контракта, указанного в файле `registrar.json`, не принадлежит контракту управления сертификатами.
+
+##### Критерий оценивания AC-020-10
+```shell
+$ faceid.py --balance
+Your balance is 500 finney
+$ faceid.py --withdrew 4590
+Withdrew funds from the certificate
+$ faceid.py --balance
+Your balance is 510 finney
+```
+_Комментарий_:
+
+Если из транзакции, которая была отправлена в результате команды `faceid.py --receive`, извлечь поле input и отправить его в новой транзакции снова в поле input на адрес контракта управления сертификатами, то эта транзакция будет включена в блок, но статус ее исполнения будет - ошибка по причине того, что возврат средств уже был осуществлен ранее. Следовательно, повторно возврат не должен быть произведен.
+
+#### US-021 Получение истории платежей
 
 После индентификации пользователь может получить список платежей, связанных с аккаунтом данного пользователя.
 
@@ -1625,7 +2446,7 @@ $ faceid.py --ops 1234
 
 Используя идентификатор, содержащийся в `person.json`, и PIN-код скрипт генерирует приватный ключ пользователя. В блокчейн сеть отправляется запрос на баланс аккаунта, полученного из приватного ключа.
 
-История платежей отображается с момента первого подтверждения регистрации соответствия аккаунта, для которого отображаются платежи. В истории 
+История платежей отображается с момента первого подтверждения регистрации соответствия аккаунта, для которого отображаются платежи. В истории
 
 Сумма в каждой строчке, обозначающей платеж, всегда отображается в poa c точностью до 6 знака.
 
@@ -1746,18 +2567,18 @@ No contract address
 ```
 _Комментарий_:
 
-Выдается сообщение об ошибке, если в текущей директории нет файла registrar.json, содержащего адрес контракта регистра соответствий. 
+Выдается сообщение об ошибке, если в текущей директории нет файла registrar.json, содержащего адрес контракта регистра соответствий.
 
 ##### Критерий оценивания AC-021-07
 ```shell
 $ cat registrar.json
 {"registrar": {"address": "0x340Ec06460d9b2b7D23B40E5bCd0a81A09e06D81", "startBlock": 456123}, "payments": {"address": "0x81A09e06D81797AE2b7D23B40E5bCd0a1da01eb0F951x", "startBlock": 456125}}
 $ faceid.py --ops 6801
-Seems that the contract address is not the registrar contract 
+Seems that the contract address is not the registrar contract
 ```
 _Комментарий_:
 
-Выдается сообщение об ошибке, если в адрес контракта, указанного в файле registrar.json, не принадлежит контракту регистра соответствий. 
+Выдается сообщение об ошибке, если в адрес контракта, указанного в файле registrar.json, не принадлежит контракту регистра соответствий.
 
 #### US-022 Получение истории платежей, включая использование сертификатов
 
@@ -1768,18 +2589,18 @@ $ faceid.py --opsall <pin code>
 
 ### Администрирование сервиса KYC
 
-Управление сервисом соответствий блокчейн аккаунтов и номеров телефонов происходить с использованием отдельной компоненты. Эта компонента позволяет администратору сервиса подтерждать запросы на регистрацию соответствий и запросы на удаление соответствий. 
+Управление сервисом соответствий блокчейн аккаунтов и номеров телефонов происходить с использованием отдельной компоненты. Эта компонента позволяет администратору сервиса подтерждать запросы на регистрацию соответствий и запросы на удаление соответствий.
 
 **Синтаксис**
 ```shell
 kyc.py <command> [options]
 ```
 
-В зависимости от команды, через RPC узел блокчейн сети будет отправляться либо запрос на информацию, либо транзакция к контракту регистра соответствий. 
+В зависимости от команды, через RPC узел блокчейн сети будет отправляться либо запрос на информацию, либо транзакция к контракту регистра соответствий.
 
 #### US-023 Получение всех запросов на регистрацию соответствий
 
-Любой пользователь сервиса,  может получить список всех запросов на регистрацию соответствий. 
+Любой пользователь сервиса,  может получить список всех запросов на регистрацию соответствий.
 
 ##### Использование скрипта
 ```shell
@@ -1959,7 +2780,7 @@ _Комментарий_:
 
 #### US-024 Получение всех запросов на удаление соответствий
 
-Любой пользователь сервиса,  может получить список всех запросов на удаление соответствий. 
+Любой пользователь сервиса,  может получить список всех запросов на удаление соответствий.
 
 ##### Использование скрипта
 ```shell
@@ -1976,7 +2797,7 @@ KYC Registrar: 0x00360d2b7D240Ec0643B6D819ba81A09e40E5bCd
 Payment Handler: 0x95426f2bC716022fCF1dEf006dbC4bB81f5B5164
 $ cat registrar.json
 {"registrar": {"address": "0x00360d2b7D240Ec0643B6D819ba81A09e40E5bCd", "startBlock": 123456}, "payments": {"address": "0x95426f2bC716022fCF1dEhttps://gasprice.poa.network/f006dbC4bB81f5B5164", "startBlock": 123457}}
-$ kyc.py --list add
+$ kyc.py --list del
 No KYC unregistration requests found
 ```
 _Комментарий_:
@@ -2115,7 +2936,7 @@ _Комментарий_:
 
 #### US-025 Подтверждение запросов на регистрацию или удаление соответствий
 
-Только администратор KYC сервиса имеет полномочия подтверждать запросы на регистрацию или удаление соответствий аккаунтов пользователей их телефонным номерам. 
+Только администратор KYC сервиса имеет полномочия подтверждать запросы на регистрацию или удаление соответствий аккаунтов пользователей их телефонным номерам.
 
 ##### Использование скрипта
 ```shell
@@ -2129,7 +2950,7 @@ $ kyc.py --confirm <address>
 ##### Критерий оценивания AC-025-01
 
 ```shell
-$ cat network.json | python -mjson.tool | grep privKey 
+$ cat network.json | python -mjson.tool | grep privKey
     "privKey": "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
 $ setup.py --owner registrar
 Admin account: 0x9cce34F7aB185c7ABA1b7C8140d620B4BDA941d6
@@ -2154,7 +2975,7 @@ event RegistrationConfirmed(address indexed sender);
 ##### Критерий оценивания AC-025-02
 
 ```shell
-$ cat network.json | python -mjson.tool | grep privKey 
+$ cat network.json | python -mjson.tool | grep privKey
     "privKey": "6fadbaf86d2aa9c9e34a85df385a2c9afa9509e09756634e72bbcf94a5ceb213",
 $ setup.py --owner registrar
 Admin account: 0x5e4d710a4995bFA3F6560effcad36C10ebac998C
@@ -2171,7 +2992,7 @@ $ kyc.py --list add
 ##### Критерий оценивания AC-025-03
 
 ```shell
-$ cat network.json | python -mjson.tool | grep privKey 
+$ cat network.json | python -mjson.tool | grep privKey
     "privKey": "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
 $ setup.py --owner registrar
 Admin account: 0x9cce34F7aB185c7ABA1b7C8140d620B4BDA941d6
@@ -2196,7 +3017,7 @@ event UnregistrationConfirmed(address indexed sender);
 ##### Критерий оценивания AC-025-04
 
 ```shell
-$ cat network.json | python -mjson.tool | grep privKey 
+$ cat network.json | python -mjson.tool | grep privKey
     "privKey": "6fadbaf86d2aa9c9e34a85df385a2c9afa9509e09756634e72bbcf94a5ceb213",
 $ setup.py --owner registrar
 Admin account: 0x5e4d710a4995bFA3F6560effcad36C10ebac998C
@@ -2449,7 +3270,7 @@ $ kyc.py --get +79991234567
 Registered correspondence: 0x5bAD5c60781111094C247F81792eDDE9bb38818A
 ```
 
-Для одно из зарегистированных соответствий выводится аккаунт, с которым связан указанных номер телефона. Транзакция в сеть не отправляется. 
+Для одно из зарегистированных соответствий выводится аккаунт, с которым связан указанных номер телефона. Транзакция в сеть не отправляется.
 
 ##### Критерий оценивания AC-026-03
 
@@ -2542,4 +3363,3 @@ Seems that the contract address is not the registrar contract
 _Комментарий_:
 
 Выдается сообщение об ошибке, если в адрес контракта, указанного в файле `registrar.json`, не принадлежит контракту регистра соответствий.
-

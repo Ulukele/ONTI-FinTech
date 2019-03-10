@@ -78,3 +78,7 @@ if args[0] == '--confirm':
         print("Failed but included in", TX['transactionHash'].hex())
     if TX['status'] == 1:
         print("Confirmed by", TX['transactionHash'].hex())
+
+if args[0] == '--get':
+    PhoneNum = args[1]
+    TX = AddresByNumber()
