@@ -191,7 +191,7 @@ def sendFunds(pinCode, phoneNum, value, GasURL, defGas):
         print("Incorrect phone number")
         return False
     address2 = GetAddressWithPhone(phoneNum)
-    if(len(address2) == 0):
+    if(len(address2) == 0 or address2 == "0x0000000000000000000000000000000000000000"):
         print("No account with the phone number", phoneNum)
         return False
     Transaction(keyFrom, phoneNum, address2, value, GasURL, defGas)
