@@ -57,6 +57,14 @@ def ApproveRequest(person, addres, URL, defGas):
     TX = web3.eth.waitForTransactionReceipt(txId)
     return TX
 
+def AddresByNumber(PhoneNum):
+    (Caddress, abiKYC, byteKYC) = GetContractInfo()
+    contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+    TX = {'status': 1, 'result': ''}
+    TX['result'] = contract_by_address.functions.GetAddress(PhoneNum).call()
+    if TX['result'] == '0x0000000000000000000000000000000000000000':
+        TX['status'] = -1
+    return TX
 
 args = (sys.argv)[1:]
 sizeM = len(args)
@@ -81,4 +89,9 @@ if args[0] == '--confirm':
 
 if args[0] == '--get':
     PhoneNum = args[1]
-    TX = AddresByNumber()
+    TX = AddresByNumber(PhoneNum)
+
+    if TX['status'] == -1:
+        print("Correspondence not found")
+    if TX['status'] == 1:
+        print("Registered correspondence:", TX['result'])

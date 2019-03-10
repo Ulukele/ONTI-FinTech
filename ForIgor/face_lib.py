@@ -1,4 +1,4 @@
-import cognitive_face as cf
+import cognitive_face as cf 
 import json
 from json import load
 import cv2
@@ -6,6 +6,18 @@ import datetime
 import sys
 import os
 
+def head_attrib(file_name):
+    face_return = cf.face.detect(file_name, face_id=False, attributes='headPose', landmarks=True)
+    upper_lip_top = face_return[0]['faceLandmarks']['upperLipTop']
+    upper_lip_bottom = face_return[0]['faceLandmarks']['upperLipBottom']
+    under_lip_top = face_return[0]['faceLandmarks']['underLipTop']
+    under_lip_bottom = face_return[0]['faceLandmarks']['underLipBottom']
+    pupil_left = face_return[0]['faceLandmarks']['pupilLeft']
+    pupil_right = face_return[0]['faceLandmarks']['pupilRight']
+    roll = face_return[0]['faceAttributes']['headPose']['roll']
+    yaw = face_return[0]['faceAttributes']['headPose']['yaw']
+    return pupil_left, pupil_right
+    
 def add_new_person(group, name):
     user_id = cf.person.create(group, name)
     return user_id
@@ -140,7 +152,7 @@ def list_of_users(group):
 
 def train(group):
     cf.person_group.train(group)
-
+    
 def update_user_data(group, message):
     cf.person_group.update(group, user_data=message)
 
@@ -193,7 +205,7 @@ def identification(file_name, group):
             faceIds.append(face[0]['faceId'])
             k += 1
             cap.release()
-    candidates_info = cf.face.identify(faceIds, person_group_id=group)
+    candidates_info = cf.face.identify(faceIds, person_group_id=group)  
 
     for i in range(5):
         candidates_person_id.append(candidates_info[i]['candidates'][0]['personId'])
@@ -204,6 +216,7 @@ def identification(file_name, group):
         with open("person.json","w") as f:
             json.dump(d, f)
             f.write('\n')
+        print("{} identified".format(candidate_id))
     else:
         print('The person was not found')
         try:
