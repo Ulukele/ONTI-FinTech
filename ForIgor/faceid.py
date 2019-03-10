@@ -7,6 +7,7 @@ import sha3
 import cognitive_face as cf
 import os
 import requests
+import datatime
 from face_lib import add_new_person, checker, recognize, delete_person, list_of_users, train, update_user_data, identification, checker_for_find
 
 def GetGas(URL, defGas):
@@ -32,6 +33,22 @@ def GetContractInfo():
         abiKYC = file.read()
         abiKYC = json.loads(abiKYC)
     return (Caddress, abiKYC, byteKYC)
+
+def GetContractInfo2():
+    try:
+        with open('registrar.json') as file:
+            infor = json.load(file)
+            Caddress = infor['registrar']['address']
+    except:
+        Caddress = None
+    with open('Payment_HandlerByte.txt') as file:
+        byteKYC = str(file.read())
+        if byteKYC[-1] == '\n':
+            byteKYC = byteKYC[:-1]
+    with open('Payment_HandlerABI.txt') as file:
+        abiKYC = file.read()
+        abiKYC = json.loads(abiKYC)
+    return (Caddress, abiPH, bytePH)
 
 def GetPerson():
     try:
@@ -197,6 +214,33 @@ def sendFunds(pinCode, phoneNum, value, GasURL, defGas):
         return False
     Transaction(keyFrom, phoneNum, address2, value, GasURL, defGas)
 
+def CreateGift(PINcode, value, time, GasURL, defGas):
+    (Caddress, abiPH, bytePH) = GetContractInfo2()
+    if Caddress == None:
+        return {'status': -2}
+    person = GetAdress(Key)
+    try:
+        contract_by_address =  web3.eth.contract(address = Caddress, abi = abiPH)
+    except:
+        return {'status': -3}
+
+    dataT = datatime.datatime.now()
+    print(dataT)
+    tx_wo_sign = contract_by_address.functions.GiftCreate(time).buildTransaction({
+        'from': person.address,
+        'nonce': web3.eth.getTransactionCount(person.address),
+        'gasPrice': GetGas(GasURL, defGas)
+    })
+
+    try:
+        signed_tx = person.signTransaction(tx_wo_sign)
+        txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    except:
+         {'status': -4}
+    TX = web3.eth.waitForTransactionReceipt(txId)
+    return TX
+
+
 args = (sys.argv)[1:]
 sizeM = len(args)
 
@@ -235,6 +279,7 @@ if args[0] == "--balance":
 if args[0] == '--gift':
     PINcode = args[1]
     value = args[2]
+    TX = CreateGift(PINcode, value, GasURL, defGas)
 
 
 if args[0] == '--add':

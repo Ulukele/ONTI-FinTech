@@ -66,7 +66,13 @@ def ApproveRequest(person, addres, URL, defGas):
 
 def AddresByNumber(PhoneNum):
     (Caddress, abiKYC, byteKYC) = GetContractInfo()
-    contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+    if Caddress == None:
+        return {'status': -2}
+    try:
+        contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+    except:
+        return {'status': -3}
+        
     TX = {'status': 1, 'result': ''}
     TX['result'] = contract_by_address.functions.GetAddress(PhoneNum).call()
     if TX['result'] == '0x0000000000000000000000000000000000000000':
@@ -103,6 +109,10 @@ if args[0] == '--get':
     PhoneNum = args[1]
     TX = AddresByNumber(PhoneNum)
 
+    if TX['status'] == -3:
+        print("Seems that the contract address is not the registrar contract")
+    if TX['status'] == -2:
+        print("No contract address")
     if TX['status'] == -1:
         print("Correspondence not found")
     if TX['status'] == 1:

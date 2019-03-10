@@ -3,18 +3,26 @@
 		"constant": false,
 		"inputs": [
 			{
-				"name": "_number",
-				"type": "uint256"
-			},
-			{
-				"name": "_person",
-				"type": "address"
+				"name": "_time",
+				"type": "string"
 			}
 		],
-		"name": "AddNumber",
+		"name": "GiftCreate",
 		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
+		"payable": true,
+		"stateMutability": "payable",
 		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "id",
+				"type": "bytes32"
+			}
+		],
+		"name": "CertificateCreated",
+		"type": "event"
 	}
 ]
