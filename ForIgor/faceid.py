@@ -206,7 +206,7 @@ def Transaction(privateKey, PhoneNum, adres2, val, GasURL, defGas):
 def sendFunds(pinCode, phoneNum, value, GasURL, defGas):
     keyFrom = (GenerateKey(pinCode))
     addressFrom = GetAdress(keyFrom)
-    if(web3.eth.getBalance(addressFrom.address) < value):
+    if(web3.eth.getBalance(addressFrom.address) < (value + 35000000000000000)):
         print("No funds to send the payment")
         return False
     if(not checkNumber(phoneNum)):
@@ -326,7 +326,7 @@ if args[0] == '--cancel':
 
     if Key == None:
         print("ID is not found")
-
+        sys.exit()
     (TX,res) = CancelRec(Key, GasURL, defGas)
     if TX['status'] == -4:
         print("No funds to send the request")
@@ -377,6 +377,7 @@ if args[0] == '--del':
         Key = GenerateKey(PINcode)
         if Key == None:
             print("ID is not found")
+            sys.exit()
         TX = DelNumberRequest(PINcode, Key, GasURL, defGas)
         if TX['status'] == -5:
             print("Account is not registered yet")
@@ -428,13 +429,17 @@ if args[0] == '--find':
 
 if args[0] == '--actions':
     actions = []
-    naklon = ['RollRight', 'RollLeft']
-    povorot = ['YawRight', 'YawLeft']
-    others = ['CloseRightEye', 'CloseLeftEye', 'OpenMouth']
+    naklon = ["RollRight", "RollLeft"]
+    povorot = ["YawRight", "YawLeft"]
+    others = ["CloseRightEye", "CloseLeftEye", "OpenMouth"]
     kolvo = random.randint(3, 4)
     kolvo_n = random.randint(0, 1)
-    kolvo_others = random.randint(1, 2)
-    kolvo_p = kolvo - kolvo_n - kolvo_others
+    if kolvo_n == 0:
+        kolvo_others = random.randint(3, 4)
+        kolvo_p = kolvo - kolvo_others
+    if kolvo_n == 1:
+        kolvo_others = random.randint(2, 3)
+        kolvo_p = kolvo - kolvo_n - kolvo_others
     try:
         for i in range(kolvo_n):
             num = random.randint(0, 1)

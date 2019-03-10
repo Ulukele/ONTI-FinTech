@@ -316,8 +316,12 @@ if args[0] == '--actions':
     others = ['CloseRightEye', 'CloseLeftEye', 'OpenMouth']
     kolvo = random.randint(3, 4)
     kolvo_n = random.randint(0, 1)
-    kolvo_others = random.randint(1, 2)
-    kolvo_p = kolvo - kolvo_n - kolvo_others
+    if kolvo_n == 0:
+        kolvo_others = random.randint(3, 4)
+        kolvo_p = kolvo - kolvo_others
+    if kolvo_n == 1:
+        kolvo_others = random.randint(2, 3)
+        kolvo_p = kolvo - kolvo_n - kolvo_others
     try:
         for i in range(kolvo_n):
             num = random.randint(0, 1)
