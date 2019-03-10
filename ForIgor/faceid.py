@@ -8,6 +8,7 @@ import cognitive_face as cf
 import os
 import requests
 from face_lib import add_new_person, checker, recognize, delete_person, list_of_users, train, update_user_data, identification, checker_for_find
+import random
 
 def GetGas(URL, defGas):
     try:
@@ -182,9 +183,9 @@ def DelNumberRequest(PINcode, Key, GasURL, defGas):
 
 
 def GetAddressWithPhone(phoneNum):
-        (Caddress, abiKYC, byteKYC) = GetContractInfo()
-        contract_by_address = web3.eth.contract(address = Caddress, abi = abiKYC)
-        return contract_by_address.functions.GetAddress(phoneNum).call()
+    (Caddress, abiKYC, byteKYC) = GetContractInfo()
+    contract_by_address = web3.eth.contract(address = Caddress, abi = abiKYC)
+    return contract_by_address.functions.GetAddress(phoneNum).call()
 
 def Transaction(privateKey, PhoneNum, adres2, val, GasURL, defGas):
 
@@ -322,10 +323,11 @@ if args[0] == '--gift':
 if args[0] == '--cancel':
     PINcode = args[1]
     Key = GenerateKey(PINcode)
-    (TX,res) = CancelRec(Key, GasURL, defGas)
 
     if Key == None:
         print("ID is not found")
+        
+    (TX,res) = CancelRec(Key, GasURL, defGas)
     if TX['status'] == -4:
         print("No funds to send the request")
     if TX['status'] == -3:

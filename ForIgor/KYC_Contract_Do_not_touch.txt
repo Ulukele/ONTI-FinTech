@@ -91,13 +91,13 @@ contract Account_Numbers{
             est[_person] = true;
             person[RequestedNum[_person]] = _person;
             RequestedA[_person] = false;
-            emit RegistrationConfirmed(msg.sender);
+            emit RegistrationConfirmed(_person);
         }
         if(RequestedR[_person]){
             est[_person] = false;
             person[RequestedNum[_person]] = 0x0000000000000000000000000000000000000000;
             RequestedR[_person] = false;
-            emit UnregistrationConfirmed(msg.sender);
+            emit UnregistrationConfirmed(_person);
         }
     }
 
