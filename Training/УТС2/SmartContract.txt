@@ -1,0 +1,36 @@
+pragma solidity ^0.5.4;
+
+contract Registrate{
+
+    mapping (address => string) public name;
+    mapping (address => bool) invalid;
+    mapping (address => uint) Id;
+    uint SizeOfList;
+    address[] List;
+
+    function AddName(string memory _name) public {
+        require(!invalid[msg.sender]);
+        name[msg.sender] = _name;
+        invalid[msg.sender] = true;
+        if(Id[msg.sender] == 0){
+            SizeOfList++;
+            Id[msg.sender] = SizeOfList;
+            List.push(msg.sender);
+        }
+
+    }
+
+    function RemoveName() public {
+        require(invalid[msg.sender]);
+        invalid[msg.sender] = false;
+        name[msg.sender] = "";
+    }
+
+    function GetName(address _person) public returns(string memory){
+        return(name[_person]);
+    }
+
+    function GetAll() public returns(address[] memory){
+        return List;
+    }
+}
