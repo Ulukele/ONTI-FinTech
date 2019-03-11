@@ -7,20 +7,9 @@ import sys
 import os
 from face_lib import add_new_person, checker, recognize, delete_person, list_of_users, train, update_user_data, identification, head_attrib, identification_for_simple_add, recognize_for_add2
 import math
-from facial_landmarks import eye_aspect_ratio, eye_close, get_landmarks, place_landmarks, upper_lip, low_lip, decision, mouth_open, yaw_and_roll
 from imutils.video import VideoStream, FileVideoStream
 from imutils import face_utils
-import argparse
 import imutils
-import time
-import cv2
-import dlib
-import numpy as np
-from threading import Thread
-from scipy.spatial import distance as dist
-import sys
-import cognitive_face as cf
-import json
 
 with open('faceapi.json') as file:
     json2 = json.load(file)

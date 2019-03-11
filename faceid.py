@@ -177,7 +177,7 @@ def DelNumberRequest(PINcode, Key, GasURL, defGas):
         signed_tx = person.signTransaction(tx_wo_sign)
         txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
     except:
-         {'status': -4}
+        return {'status': -4}
     TX = web3.eth.waitForTransactionReceipt(txId)
     return TX
 
@@ -195,7 +195,7 @@ def Transaction(privateKey, PhoneNum, adres2, val, GasURL, defGas):
     nonce = 0
     nonce = web3.eth.getTransactionCount(adres1.address)
 
-    transaction = {'to': adres2, 'value': val, 'gas': 8000000, 'gasPrice': GetGas(GasURL, defGas), 'nonce': nonce}
+    transaction = {'to': adres2, 'value': val, 'gasPrice': GetGas(GasURL, defGas), 'nonce': nonce}
     signed = web3.eth.account.signTransaction(transaction, "0x"+privateKey)
 
     TransactionHex = web3.eth.sendRawTransaction(signed.rawTransaction).hex()
@@ -206,7 +206,7 @@ def Transaction(privateKey, PhoneNum, adres2, val, GasURL, defGas):
 def sendFunds(pinCode, phoneNum, value, GasURL, defGas):
     keyFrom = (GenerateKey(pinCode))
     addressFrom = GetAdress(keyFrom)
-    if(web3.eth.getBalance(addressFrom.address) < (value + 33600000000000000)):
+    if(web3.eth.getBalance(addressFrom.address) < value):
         print("No funds to send the payment")
         return False
     if(not checkNumber(phoneNum)):
