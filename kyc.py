@@ -5,6 +5,7 @@ from eth_account import Account
 from web3 import Web3, HTTPProvider
 import sha3
 import requests
+import DI_Transactions.py
 
 def GetAdress(privateKey):
     adress = Account.privateKeyToAccount("0x"+privateKey)
@@ -135,3 +136,5 @@ if args[0] == '--list':
     if args[1] == 'add':
         adds = GetListAdds()
         print(adds)
+
+if args[0] == '--blyad':
