@@ -36,6 +36,7 @@ def contract_info(file_name):
     with open(file_name+'ABI.txt') as file:
         abi = file.read()
         abi = json.loads(abi)
+    return (abi, byte)
 
 def get_gas_price(url='', def_gas=1000000000):
     try:
@@ -45,7 +46,7 @@ def get_gas_price(url='', def_gas=1000000000):
         return def_gas
     return int(gasinfo * 1000000000)
 
-def deploy_contract(person, to, value, file_name="KYC_Registrar", gas_price=get_gas_price()):
+def deploy_contract(person, value=0, file_name="KYC_Registrar", gas_price=get_gas_price()):
     #contract preparation
     (abi, byte) = contract_info(file_name)
     contract = web3.eth.contract(abi=abi, bytecode=byte)
@@ -62,16 +63,13 @@ def deploy_contract(person, to, value, file_name="KYC_Registrar", gas_price=get_
 
     return TX
 
-def call_contract():
-    print("Do it later")
-
 def send_to(person, to, value, print_info=False):
     #check balance
-    if web3.eth.getBalance(person.address) < val:
+    if web3.eth.getBalance(person.address) < value:
         print("No enough funds for payment")
         return {'status': -1}
     #sign
-    signed_tx = {'to': to, 'value': value, 'gasPrice': get_gas_price(), 'nonce': web3.eth.getTransactionCount(person.address)}
+    signed_tx = {'to': to, 'value': value, 'gas': 21000, 'gasPrice': get_gas_price(), 'nonce': web3.eth.getTransactionCount(person.address) }
     signed_tx = person.signTransaction(signed_tx)
     #sending transaction
     raw_tx = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
@@ -83,3 +81,5 @@ def send_to(person, to, value, print_info=False):
         print("Payment of {0} {1} from {2} to {3} scheduled".format(balance[0], balance[1], person.address, '"'+web3.toChecksumAddress(to)[2:]+'"'))
         print("Transaction Hash: {0}".format(TX['transactionHash'].hex()))
     return TX
+
+print(deploy_contract(get_adress("c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470")))
