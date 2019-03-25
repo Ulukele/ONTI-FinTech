@@ -4,7 +4,7 @@ import json
 import sys
 import requests
 from eth_account import Account
-
+import DI_Transactions as dit
 
 def GetAdres(privateKey):
     adress = Account.privateKeyToAccount("0x"+privateKey)
@@ -17,19 +17,6 @@ def GetGas(URL, defGas):
     except:
         return defGas
     return int(gasinfo * 1000000000)
-
-def DeployContract(abi, byte, person, GasURL):
-    contract = web3.eth.contract(abi=abi, bytecode=byte)
-    SignedTX = contract.constructor().buildTransaction({
-    'from': person.address,
-    'nonce': web3.eth.getTransactionCount(person.address),
-    'gasPrice': GetGas(GasURL,defGas)
-    })
-    SignedTX = person.signTransaction(SignedTX)
-    RawTX = web3.eth.sendRawTransaction(SignedTX.rawTransaction)
-    TX = web3.eth.waitForTransactionReceipt(RawTX)
-
-    return TX
 
 args = (sys.argv)[1:]
 
@@ -55,7 +42,7 @@ with open('network.json') as file:
     GasURL = infor["gasPriceUrl"]
     defGas = infor["defaultGasPrice"]
 
-adres = GetAdres(privateKey)
+adres = dit.get_adress(privateKey)
 
 web3 = Web3(HTTPProvider(RecURL))
 
@@ -69,8 +56,8 @@ def GetOwner():
     return contract_by_address.functions.GetOwner().call()
 
 if args[0] == '--deploy':
-    TX1 = DeployContract(abiKYC, byteKYC, adres, GasURL)
-    TX2 = DeployContract(abiPayH, bytePayH, adres, GasURL)
+    TX1 = dit.deploy_contract(person=adres, file_name="KYC_Registrar")
+    TX2 = dit.deploy_contract(person=adres, file_name="Payment_Handler")
     print("KYC Registrar:", TX1['contractAddress'])
     print("Payment Handler:", TX2['contractAddress'])
     with open('registrar.json', 'w') as file:

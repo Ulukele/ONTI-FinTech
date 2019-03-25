@@ -6,9 +6,12 @@ import urllib
 from eth_account import Account
 
 #connecting
+
 with open("network.json") as file:
     rpc_url = json.loads(file.read())['rpcUrl']
+    file.close()
 web3 = Web3(HTTPProvider(rpc_url))
+
 
 def get_adress(private_key):
     adress = Account.privateKeyToAccount("0x"+private_key)
@@ -38,9 +41,14 @@ def contract_info(file_name):
         abi = json.loads(abi)
     return (abi, byte)
 
-def get_gas_price(url='', def_gas=1000000000):
+def get_gas_price():
+    with open("network.json") as file:
+        info = json.loads(file.read())
+        def_gas = info['defaultGasPrice']
+        url = info['gasPriceUrl']
+        file.close()
     try:
-        response = requests.get(URL).text
+        response = requests.get(url).text
         gasinfo = json.loads(response)['fast']
     except:
         return def_gas
@@ -81,5 +89,3 @@ def send_to(person, to, value, print_info=False):
         print("Payment of {0} {1} from {2} to {3} scheduled".format(balance[0], balance[1], person.address, '"'+web3.toChecksumAddress(to)[2:]+'"'))
         print("Transaction Hash: {0}".format(TX['transactionHash'].hex()))
     return TX
-
-print(deploy_contract(get_adress("c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470")))
