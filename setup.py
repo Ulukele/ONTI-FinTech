@@ -6,34 +6,7 @@ import requests
 from eth_account import Account
 import DI_Transactions as dit
 
-def GetAdres(privateKey):
-    adress = Account.privateKeyToAccount("0x"+privateKey)
-    return adress
-
-def GetGas(URL, defGas):
-    try:
-        response = requests.get(URL).text
-        gasinfo = json.loads(response)['fast']
-    except:
-        return defGas
-    return int(gasinfo * 1000000000)
-
 args = (sys.argv)[1:]
-
-with open('KYC_RegistrarByte.txt') as file:
-    byteKYC = str(file.read())
-    if byteKYC[-1] == '\n':
-        byteKYC = byteKYC[:-1]
-with open('KYC_RegistrarABI.txt') as file:
-    abiKYC = file.read()
-    abiKYC = json.loads(abiKYC)
-with open('Payment_HandlerByte.txt') as file:
-    bytePayH = str(file.read())
-    if bytePayH[-1] == '\n':
-        bytePayH = bytePayH[:-1]
-with open('Payment_HandlerABI.txt') as file:
-    abiPayH = file.read()
-    abiPayH = json.loads(abiPayH)
 
 with open('network.json') as file:
     infor = json.load(file)
@@ -70,7 +43,7 @@ if args[0] == '--chown' and args[1] == 'registrar' and len(args) == 3:
     newOwner = args[2]
     contract_by_address = web3.eth.contract(address = GetContractAddress(), abi = abiKYC)
     newAddress = web3.toChecksumAddress(newOwner[2:])
-    senderAddress = GetAdres(privateKey)
+    senderAddress = dit.get_adress(privateKey)
     if(GetOwner() != senderAddress.address):
         print("Request cannot be executed")
 
@@ -79,13 +52,10 @@ if args[0] == '--chown' and args[1] == 'registrar' and len(args) == 3:
     		'from': senderAddress.address,
     		'nonce': web3.eth.getTransactionCount(senderAddress.address),
     		'gas': 8000000,
-    		'gasPrice': GetGas(GasURL, defGas)
+    		'gasPrice': dit.get_gas_price(GasURL, defGas)
         })
         signed_tx = senderAddress.signTransaction(tx_wo_sign)
 
         txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
         TX = web3.eth.waitForTransactionReceipt(txId)
         print("New admin account:", newOwner)
-
-### Put your code below this comment ###
-#print("Show must go on")

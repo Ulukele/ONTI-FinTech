@@ -5,19 +5,7 @@ from eth_account import Account
 from web3 import Web3, HTTPProvider
 import sha3
 import requests
-import DI_Transactions.py
-
-def GetAdress(privateKey):
-    adress = Account.privateKeyToAccount("0x"+privateKey)
-    return adress
-
-def GetGas(URL, defGas):
-    try:
-        response = requests.get(URL).text
-        gasinfo = json.loads(response)['fast']
-    except:
-        return defGas
-    return int(gasinfo * 1000000000)
+import DI_Transactions as dit
 
 def GetContractInfo():
     try:
@@ -48,15 +36,12 @@ def ApproveRequest(person, addres, URL, defGas):
 
     statusA = contract_by_address.functions.GetPersonInfoAR(addres).call()
     statusD = contract_by_address.functions.GetPersonInfoDR(addres).call()
-    """
-    if(not (statusA or statusD)):
-        return {'status': -1}
-    """
+
     tx_wo_sign = contract_by_address.functions.Confirm(addres).buildTransaction({
         'from': person.address,
         'nonce': web3.eth.getTransactionCount(person.address),
         'gas': 8000000,
-        'gasPrice': GetGas(GasURL, defGas)
+        'gasPrice': dit.get_gas_price(GasURL, defGas)
     })
 
     signed_tx = person.signTransaction(tx_wo_sign)
@@ -104,7 +89,7 @@ with open('network.json') as file:
     defGas = infor["defaultGasPrice"]
 
 web3 = Web3(HTTPProvider(RecURL))
-person = GetAdress(privateKey)
+person = dit.get_adress(privateKey)
 
 if args[0] == '--confirm':
     addres = args[1]
@@ -136,5 +121,3 @@ if args[0] == '--list':
     if args[1] == 'add':
         adds = GetListAdds()
         print(adds)
-
-if args[0] == '--blyad':

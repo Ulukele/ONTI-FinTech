@@ -9,14 +9,7 @@ import os
 import requests
 from face_lib import add_new_person, checker, recognize, delete_person, list_of_users, train, update_user_data, identification, checker_for_find
 import random
-
-def GetGas(URL, defGas):
-    try:
-        response = requests.get(URL).text
-        gasinfo = json.loads(response)['fast']
-    except:
-        return defGas
-    return int(gasinfo * 1000000000)
+import DI_Transactions as dit
 
 def GetContractInfo():
     try:
@@ -81,30 +74,10 @@ def GenerateKey(PINcode):
     key = KeyCreate(personInfo, PINcode)
     return key
 
-def BalanceAll(balance):
-    currency = ["wei", "kwei", "mwei", "gwei", "szabo", "finney", "poa"]
-    ind = 0
-    while (balance > 10):
-        balance /= 1000
-        ind += 1
-    if balance < 1:
-        balance *= 1000
-        ind -= 1
-    balance = str(round(balance, 6))
-    if balance[-1] == '0':
-        balance = balance[:-2]
-    if balance == 0:
-        return (0, "poa")
-    return (balance, currency[ind])
-
-def GetAdress(privateKey):
-    adress = Account.privateKeyToAccount("0x"+privateKey)
-    return adress
-
 def PrintBalance(privateKey):
     adress = GetAdress(privateKey)
     balance = [0, 0]
-    balance[0], balance[1] = BalanceAll(web3.eth.getBalance(adress.address))
+    balance[0], balance[1] = dit.balance_all(web3.eth.getBalance(adress.address))
     if balance[0] == '':
         balance[0] = 0
     print("Your balance is {} {}".format(balance[0], balance[1]))
@@ -187,36 +160,20 @@ def GetAddressWithPhone(phoneNum):
     contract_by_address = web3.eth.contract(address = Caddress, abi = abiKYC)
     return contract_by_address.functions.GetAddress(phoneNum).call()
 
-def Transaction(privateKey, PhoneNum, adres2, val, GasURL, defGas):
-
-    adres1 = GetAdress(privateKey)
-    adres2 = web3.toChecksumAddress(adres2)
-
-    nonce = 0
-    nonce = web3.eth.getTransactionCount(adres1.address)
-
-    transaction = {'to': adres2, 'value': val, 'gasPrice': GetGas(GasURL, defGas), 'nonce': nonce}
-    signed = web3.eth.account.signTransaction(transaction, "0x"+privateKey)
-
-    TransactionHex = web3.eth.sendRawTransaction(signed.rawTransaction).hex()
-    balance = BalanceAll(val)
-    print("Payment of {0} {1} to {2} scheduled".format(balance[0], balance[1], PhoneNum))
-    print("Transaction Hash: {0}".format(TransactionHex))
-
 def sendFunds(pinCode, phoneNum, value, GasURL, defGas):
     keyFrom = (GenerateKey(pinCode))
-    addressFrom = GetAdress(keyFrom)
-    if(web3.eth.getBalance(addressFrom.address) < value):
+    person = dit.get_adress(keyFrom)
+    if(web3.eth.getBalance(person.address) < value):
         print("No funds to send the payment")
         return False
     if(not checkNumber(phoneNum)):
         print("Incorrect phone number")
         return False
-    address2 = GetAddressWithPhone(phoneNum)
-    if(len(address2) == 0 or address2 == "0x0000000000000000000000000000000000000000"):
+    to = GetAddressWithPhone(phoneNum)
+    if(len(to) == 0 or to == "0x0000000000000000000000000000000000000000"):
         print("No account with the phone number", phoneNum)
         return False
-    Transaction(keyFrom, phoneNum, address2, value, GasURL, defGas)
+    dit.send_to(person, to, value, print_info=True)
 
 def CreateGift(PINcode, value, time, GasURL, defGas):
     (Caddress, abiPH, bytePH) = GetContractInfo2()
@@ -231,7 +188,7 @@ def CreateGift(PINcode, value, time, GasURL, defGas):
     tx_wo_sign = contract_by_address.functions.GiftCreate(time).buildTransaction({
         'from': person.address,
         'nonce': web3.eth.getTransactionCount(person.address),
-        'gasPrice': GetGas(GasURL, defGas)
+        'gasPrice': dit.get_gas_price()
     })
 
     try:
@@ -266,7 +223,7 @@ def CancelRec(Key, GasURL, defGas):
     tx_wo_sign = contract_by_address.functions.Cancel().buildTransaction({
         'from': person.address,
         'nonce': web3.eth.getTransactionCount(person.address),
-        'gasPrice': GetGas(GasURL, defGas)
+        'gasPrice': dit.get_gas_price()
     })
     try:
         signed_tx = person.signTransaction(tx_wo_sign)
@@ -312,13 +269,6 @@ if args[0] == "--balance":
             print("ID is not found")
         else:
             PrintBalance(Key)
-
-"""
-if args[0] == '--gift':
-    PINcode = args[1]
-    value = args[2]
-    TX = CreateGift(PINcode, value, GasURL, defGas)
-"""
 
 if args[0] == '--cancel':
     PINcode = args[1]
