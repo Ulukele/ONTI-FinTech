@@ -95,7 +95,7 @@ def checkNumber(phoneNum):
     else:
         return False
 
-def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
+def AddNumberRequest(PINcode, Key, PhoneNum):
     (Caddress, abiKYC, byteKYC) = GetContractInfo()
     if Caddress == None:
         return {'status': -2}
@@ -123,7 +123,7 @@ def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
     TX = web3.eth.waitForTransactionReceipt(txId)
     return TX
 
-def DelNumberRequest(PINcode, Key, GasURL, defGas):
+def DelNumberRequest(PINcode, Key):
     (Caddress, abiKYC, byteKYC) = GetContractInfo()
     if Caddress == None:
         return {'status': -2}
@@ -160,7 +160,7 @@ def GetAddressWithPhone(phoneNum):
     contract_by_address = web3.eth.contract(address = Caddress, abi = abiKYC)
     return contract_by_address.functions.GetAddress(phoneNum).call()
 
-def sendFunds(pinCode, phoneNum, value, GasURL, defGas):
+def sendFunds(pinCode, phoneNum, value):
     keyFrom = (GenerateKey(pinCode))
     person = dit.get_adress(keyFrom)
     if(web3.eth.getBalance(person.address) < value):
@@ -175,7 +175,7 @@ def sendFunds(pinCode, phoneNum, value, GasURL, defGas):
         return False
     dit.send_to(person, to, value, print_info=True)
 
-def CreateGift(PINcode, value, time, GasURL, defGas):
+def CreateGift(PINcode, value, time):
     (Caddress, abiPH, bytePH) = GetContractInfo2()
     if Caddress == None:
         return {'status': -2}
@@ -199,7 +199,7 @@ def CreateGift(PINcode, value, time, GasURL, defGas):
     TX = web3.eth.waitForTransactionReceipt(txId)
     return TX
 
-def CancelRec(Key, GasURL, defGas):
+def CancelRec(Key):
     res = ""
     (Caddress, abiKYC, byteKYC) = GetContractInfo()
     if Caddress == None:
@@ -255,11 +255,9 @@ except:
 with open('network.json') as file:
     infor = json.load(file)
     privateKey = infor["privKey"]
-    RecURL = infor["rpcUrl"]
-    GasURL = infor["gasPriceUrl"]
-    defGas = infor["defaultGasPrice"]
+    rpc_url = infor["rpcUrl"]
 
-web3 = Web3(HTTPProvider(RecURL))
+web3 = Web3(HTTPProvider(rpc_url))
 
 if args[0] == "--balance":
     if sizeM == 2:
@@ -277,7 +275,7 @@ if args[0] == '--cancel':
     if Key == None:
         print("ID is not found")
         sys.exit()
-    (TX,res) = CancelRec(Key, GasURL, defGas)
+    (TX,res) = CancelRec(Key)
     if TX['status'] == -4:
         print("No funds to send the request")
     if TX['status'] == -3:
@@ -306,7 +304,7 @@ if args[0] == '--add':
         if Key == None:
             print("ID is not found")
             sys.exit()
-        TX = AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas)
+        TX = AddNumberRequest(PINcode, Key, PhoneNum)
 
         if TX['status'] == -4:
             print("No funds to send the request")
@@ -328,7 +326,7 @@ if args[0] == '--del':
         if Key == None:
             print("ID is not found")
             sys.exit()
-        TX = DelNumberRequest(PINcode, Key, GasURL, defGas)
+        TX = DelNumberRequest(PINcode, Key)
         if TX['status'] == -5:
             print("Account is not registered yet")
         if TX['status'] == -4:
@@ -346,7 +344,7 @@ if args[0] == "--send" and len(args) == 4:
     pinCode = str(args[1])
     phoneNum = str(args[2])
     value = int(args[3])
-    sendFunds(pinCode, phoneNum, value, GasURL, defGas)
+    sendFunds(pinCode, phoneNum, value)
 
 if args[0] == '--find':
     file_name = args[1]

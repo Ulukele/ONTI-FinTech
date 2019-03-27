@@ -23,7 +23,7 @@ def GetContractInfo():
         abiKYC = json.loads(abiKYC)
     return (Caddress, abiKYC, byteKYC)
 
-def ApproveRequest(person, addres, URL, defGas):
+def ApproveRequest(person, addres):
     (Caddress, abiKYC, byteKYC) = GetContractInfo()
 
     if Caddress == None:
@@ -84,16 +84,14 @@ sizeM = len(args)
 with open('network.json') as file:
     infor = json.load(file)
     privateKey = infor["privKey"]
-    RecURL = infor["rpcUrl"]
-    GasURL = infor["gasPriceUrl"]
-    defGas = infor["defaultGasPrice"]
+    rpc_url = infor["rpcUrl"]
 
-web3 = Web3(HTTPProvider(RecURL))
+web3 = Web3(HTTPProvider(rpc_url))
 person = dit.get_adress(privateKey)
 
 if args[0] == '--confirm':
     addres = args[1]
-    TX = ApproveRequest(person, addres, GasURL, defGas)
+    TX = ApproveRequest(person, addres)
 
     if TX['status'] == -3:
         print("Seems that the contract address is not the registrar contract")

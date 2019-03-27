@@ -11,13 +11,11 @@ args = (sys.argv)[1:]
 with open('network.json') as file:
     infor = json.load(file)
     privateKey = infor["privKey"]
-    RecURL = infor["rpcUrl"]
-    GasURL = infor["gasPriceUrl"]
-    defGas = infor["defaultGasPrice"]
+    rpc_url = infor["rpcUrl"]
 
 adres = dit.get_adress(privateKey)
 
-web3 = Web3(HTTPProvider(RecURL))
+web3 = Web3(HTTPProvider(rpc_url))
 
 def GetContractAddress():
     with open('registrar.json') as file:

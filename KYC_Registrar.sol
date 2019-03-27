@@ -18,10 +18,6 @@ contract Account_Numbers{
     mapping (address => bool) RequestedR;
     mapping (address => string) RequestedNum;
 
-    //maxim's:
-    //mapping (address => string[]) TransactionsInfo;
-    //maxim end
-
     address public owner;
 
     constructor () public {
@@ -100,13 +96,6 @@ contract Account_Numbers{
             emit UnregistrationConfirmed(_person);
         }
     }
-
-    //maxim's:
-    //function SaveTransaction(address _from, address _to, string memory _TransactionInfoFrom, string memory _TransactionInfoTo) public {
-    //    TransactionsInfo[_from].push(_TransactionInfoFrom);
-    //    TransactionsInfo[_to].push(_TransactionInfoTo);
-    //}
-    //maxim end
 
 
 }
