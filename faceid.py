@@ -75,7 +75,7 @@ def GenerateKey(PINcode):
     return key
 
 def PrintBalance(privateKey):
-    adress = GetAdress(privateKey)
+    adress = dit.get_adress(privateKey)
     balance = [0, 0]
     balance[0], balance[1] = dit.balance_all(web3.eth.getBalance(adress.address))
     if balance[0] == '':
@@ -99,7 +99,7 @@ def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
     (Caddress, abiKYC, byteKYC) = GetContractInfo()
     if Caddress == None:
         return {'status': -2}
-    person = GetAdress(Key)
+    person = dit.get_adress(Key)
     try:
         contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
         status = contract_by_address.functions.GetPersonInfoAR(person.address).call()
@@ -113,7 +113,7 @@ def AddNumberRequest(PINcode, Key, PhoneNum, GasURL, defGas):
     tx_wo_sign = contract_by_address.functions.RequestAddNumber(PhoneNum).buildTransaction({
         'from': person.address,
         'nonce': web3.eth.getTransactionCount(person.address),
-        'gasPrice': GetGas(GasURL, defGas)
+        'gasPrice': dit.get_gas_price()
     })
     try:
         signed_tx = person.signTransaction(tx_wo_sign)
@@ -127,7 +127,7 @@ def DelNumberRequest(PINcode, Key, GasURL, defGas):
     (Caddress, abiKYC, byteKYC) = GetContractInfo()
     if Caddress == None:
         return {'status': -2}
-    person = GetAdress(Key)
+    person = dit.get_adress(Key)
     try:
         contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
         status = contract_by_address.functions.GetPersonInfoEST(person.address).call()
@@ -143,7 +143,7 @@ def DelNumberRequest(PINcode, Key, GasURL, defGas):
     tx_wo_sign = contract_by_address.functions.RequestDelNumber().buildTransaction({
         'from': person.address,
         'nonce': web3.eth.getTransactionCount(person.address),
-        'gasPrice': GetGas(GasURL, defGas)
+        'gasPrice': dit.get_gas_price()
     })
 
     try:
@@ -179,7 +179,7 @@ def CreateGift(PINcode, value, time, GasURL, defGas):
     (Caddress, abiPH, bytePH) = GetContractInfo2()
     if Caddress == None:
         return {'status': -2}
-    person = GetAdress(Key)
+    person = dit.get_adress(Key)
     try:
         contract_by_address =  web3.eth.contract(address = Caddress, abi = abiPH)
     except:

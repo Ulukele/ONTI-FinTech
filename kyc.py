@@ -41,7 +41,7 @@ def ApproveRequest(person, addres, URL, defGas):
         'from': person.address,
         'nonce': web3.eth.getTransactionCount(person.address),
         'gas': 8000000,
-        'gasPrice': dit.get_gas_price(GasURL, defGas)
+        'gasPrice': dit.get_gas_price()
     })
 
     signed_tx = person.signTransaction(tx_wo_sign)
