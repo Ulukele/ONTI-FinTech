@@ -9,7 +9,6 @@ from eth_account import Account
 
 with open("network.json") as file:
     rpc_url = json.loads(file.read())['rpcUrl']
-    file.close()
 web3 = Web3(HTTPProvider(rpc_url))
 
 
@@ -39,7 +38,17 @@ def contract_info(file_name):
     with open(file_name+'ABI.txt') as file:
         abi = file.read()
         abi = json.loads(abi)
-    return (abi, byte)
+    try:
+        if file_name[0] == 'K':
+            key_word = 'registrar'
+        else:
+            key_word = 'payments'
+        with open('registrar.json') as file:
+            infor = json.load(file)
+            Caddress = infor[key_word]['address']
+    except:
+        Caddress = None
+    return (Caddress, abi, byte)
 
 def get_gas_price():
     with open("network.json") as file:
@@ -56,7 +65,7 @@ def get_gas_price():
 
 def deploy_contract(person, value=0, file_name="KYC_Registrar", gas_price=get_gas_price()):
     #contract preparation
-    (abi, byte) = contract_info(file_name)
+    (Caddress, abi, byte) = contract_info(file_name)
     contract = web3.eth.contract(abi=abi, bytecode=byte)
     #sign
     signed_tx = contract.constructor().buildTransaction({

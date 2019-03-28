@@ -17,14 +17,30 @@ adres = dit.get_adress(privateKey)
 
 web3 = Web3(HTTPProvider(rpc_url))
 
-def GetContractAddress():
-    with open('registrar.json') as file:
-        infor = json.load(file)
-        return infor["registrar"]["address"]
-
 def GetOwner():
-    contract_by_address = web3.eth.contract(address = GetContractAddress(), abi = abiKYC)
+    (Caddress, abi, byte) = dit.contract_info("KYC_Registrar")
+    contract_by_address = web3.eth.contract(address = Caddress, abi=abi, bytecode=byte)
     return contract_by_address.functions.GetOwner().call()
+
+def ChangeOwner(person, new_owner):
+    (Caddress, abi, byte) = dit.contract_info("KYC_Registrar")
+    contract_by_address = web3.eth.contract(address = Caddress, abi=abi, bytecode=byte)
+    new_address = web3.toChecksumAddress(new_owner[2:])
+    if(GetOwner() != person.address):
+        return {'status': -1}
+
+    else:
+        tx_wo_sign = contract_by_address.functions.RedactOwner(new_address).buildTransaction({
+    		'from': person.address,
+    		'nonce': web3.eth.getTransactionCount(person.address),
+    		'gas': 8000000,
+    		'gasPrice': dit.get_gas_price()
+        })
+        signed_tx = senderAddress.signTransaction(tx_wo_sign)
+
+        txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
+        TX = web3.eth.waitForTransactionReceipt(txId)
+        return TX
 
 if args[0] == '--deploy':
     TX1 = dit.deploy_contract(person=adres, file_name="KYC_Registrar")
@@ -38,22 +54,9 @@ if args[0] == '--owner' and args[1] == 'registrar':
     print("Admin account:", GetOwner())
 
 if args[0] == '--chown' and args[1] == 'registrar' and len(args) == 3:
-    newOwner = args[2]
-    contract_by_address = web3.eth.contract(address = GetContractAddress(), abi = abiKYC)
-    newAddress = web3.toChecksumAddress(newOwner[2:])
-    senderAddress = dit.get_adress(privateKey)
-    if(GetOwner() != senderAddress.address):
+    new_owner = args[2]
+    TX = ChangeOwner(addres, new_owner)
+    if TX['status'] == -1:
         print("Request cannot be executed")
-
-    else:
-        tx_wo_sign = contract_by_address.functions.RedactOwner(newAddress).buildTransaction({
-    		'from': senderAddress.address,
-    		'nonce': web3.eth.getTransactionCount(senderAddress.address),
-    		'gas': 8000000,
-    		'gasPrice': dit.get_gas_price(GasURL, defGas)
-        })
-        signed_tx = senderAddress.signTransaction(tx_wo_sign)
-
-        txId = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
-        TX = web3.eth.waitForTransactionReceipt(txId)
-        print("New admin account:", newOwner)
+    if TX['status'] == 1:
+        print("New admin account:", new_owner)

@@ -11,38 +11,6 @@ from face_lib import add_new_person, checker, recognize, delete_person, list_of_
 import random
 import DI_Transactions as dit
 
-def GetContractInfo():
-    try:
-        with open('registrar.json') as file:
-            infor = json.load(file)
-            Caddress = infor['registrar']['address']
-    except:
-        Caddress = None
-    with open('KYC_RegistrarByte.txt') as file:
-        byteKYC = str(file.read())
-        if byteKYC[-1] == '\n':
-            byteKYC = byteKYC[:-1]
-    with open('KYC_RegistrarABI.txt') as file:
-        abiKYC = file.read()
-        abiKYC = json.loads(abiKYC)
-    return (Caddress, abiKYC, byteKYC)
-
-def GetContractInfo2():
-    try:
-        with open('registrar.json') as file:
-            infor = json.load(file)
-            Caddress = infor['registrar']['address']
-    except:
-        Caddress = None
-    with open('Payment_HandlerByte.txt') as file:
-        byteKYC = str(file.read())
-        if byteKYC[-1] == '\n':
-            byteKYC = byteKYC[:-1]
-    with open('Payment_HandlerABI.txt') as file:
-        abiKYC = file.read()
-        abiKYC = json.loads(abiKYC)
-    return (Caddress, abiPH, bytePH)
-
 def GetPerson():
     try:
         with open('person.json') as file:
@@ -71,6 +39,9 @@ def GenerateKey(PINcode):
     personInfo = GetPerson()
     if personInfo == None:
         return None
+    if len(str(PINcode)) != 4:
+        print("invalid key!")
+        sys.exit()
     key = KeyCreate(personInfo, PINcode)
     return key
 
@@ -96,12 +67,12 @@ def checkNumber(phoneNum):
         return False
 
 def AddNumberRequest(PINcode, Key, PhoneNum):
-    (Caddress, abiKYC, byteKYC) = GetContractInfo()
+    (Caddress, abiKYC, byteKYC) = dit.contract_info("KYC_Registrar")
     if Caddress == None:
         return {'status': -2}
     person = dit.get_adress(Key)
     try:
-        contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+        contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC, bytecode=byteKYC)
         status = contract_by_address.functions.GetPersonInfoAR(person.address).call()
     except:
         return {'status': -3}
@@ -124,12 +95,12 @@ def AddNumberRequest(PINcode, Key, PhoneNum):
     return TX
 
 def DelNumberRequest(PINcode, Key):
-    (Caddress, abiKYC, byteKYC) = GetContractInfo()
+    (Caddress, abiKYC, byteKYC) = dit.contract_info("KYC_Registrar")
     if Caddress == None:
         return {'status': -2}
     person = dit.get_adress(Key)
     try:
-        contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+        contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC, bytecode=byteKYC)
         status = contract_by_address.functions.GetPersonInfoEST(person.address).call()
     except:
         return {'status': -3}
@@ -156,8 +127,8 @@ def DelNumberRequest(PINcode, Key):
 
 
 def GetAddressWithPhone(phoneNum):
-    (Caddress, abiKYC, byteKYC) = GetContractInfo()
-    contract_by_address = web3.eth.contract(address = Caddress, abi = abiKYC)
+    (Caddress, abiKYC, byteKYC) = dit.contract_info("KYC_Registrar")
+    contract_by_address = web3.eth.contract(address = Caddress, abi = abiKYC, bytecode=byteKYC)
     return contract_by_address.functions.GetAddress(phoneNum).call()
 
 def sendFunds(pinCode, phoneNum, value):
@@ -176,17 +147,18 @@ def sendFunds(pinCode, phoneNum, value):
     dit.send_to(person, to, value, print_info=True)
 
 def CreateGift(PINcode, value, time):
-    (Caddress, abiPH, bytePH) = GetContractInfo2()
+    (Caddress, abiPH, bytePH) = dit.contract_info("Payment_Handler")
     if Caddress == None:
         return {'status': -2}
     person = dit.get_adress(Key)
     try:
-        contract_by_address =  web3.eth.contract(address = Caddress, abi = abiPH)
+        contract_by_address =  web3.eth.contract(address=Caddress, abi=abiPH, bytecode=bytePH)
     except:
         return {'status': -3}
 
     tx_wo_sign = contract_by_address.functions.GiftCreate(time).buildTransaction({
         'from': person.address,
+        'value': value,
         'nonce': web3.eth.getTransactionCount(person.address),
         'gasPrice': dit.get_gas_price()
     })
@@ -201,12 +173,12 @@ def CreateGift(PINcode, value, time):
 
 def CancelRec(Key):
     res = ""
-    (Caddress, abiKYC, byteKYC) = GetContractInfo()
+    (Caddress, abiKYC, byteKYC) = dit.contract_info("KYC_Registrar")
     if Caddress == None:
         return ({'status': -2}, res)
     person = GetAdress(Key)
     try:
-        contract_by_address =  web3.eth.contract(address = Caddress, abi = abiKYC)
+        contract_by_address =  web3.eth.contract(address=Caddress, abi=abiKYC, bytecode=byteKYC)
         status1 = contract_by_address.functions.GetPersonInfoAR(person.address).call()
         status2 = contract_by_address.functions.GetPersonInfoDR(person.address).call()
     except:
