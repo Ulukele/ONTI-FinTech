@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import sys
 import json
 from eth_account import Account
